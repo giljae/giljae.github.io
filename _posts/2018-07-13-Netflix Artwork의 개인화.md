@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix Artwork의 개인화"
-comments: true
 tags: Netflix, Artwork, Personalization
 ---
 본글은 [“Artwork Personalization at Netflix”](https://medium.com/netflix-techblog/artwork-personalization-c589f074ad76)의 글의 내용중 일부를 발췌해서 작성했습니다.
