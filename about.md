@@ -28,41 +28,50 @@ key: page-about
 # About Me
 Hi, My name is Giljae Joo. I'm interested in software architecture, design and distributed systems. I came to be programmer, architect, and a father in that order. I love photography, walking around strange new places, hiking and musics. Lately I've been more focused on art and community than on being patient with expensive hardware and software. If you want to contact to [me](mailto:giljae@gmail.com).
 
-## Features
+# Sites
+* [Blog](https://giljae.com)
+* [Medium](https://giljae.medium.com)
+* [Facebook](https://facebook.com/giljae)
+* [Twitter](https://twitter.com/giljae)
+* [Github](https://github.com/giljae)
+* [LinkedIn](https://www.linkedin.com/in/giljae)
+* [Instagram](https://instagram.com/giljae)
 
-- Responsive
-- Semantic HTML
-- Skins
-- Highlight Theme
-- Internationalization
-- Search
-- Table of contents
-- Authors
-- Additional styles (alert, tag, image, icon, button, grid, etc)
-- Extensions (audios, videos, slides, demos)
-- Markdown enhancements ([MathJax](https://www.mathjax.org/), [mermaid](https://mermaidjs.github.io/), [chartjs](http://www.chartjs.org/))
-- Sharing ([AddToAny](https://www.addtoany.com/), [AddThis](https://www.addthis.com/))
-- Comments ([Disqus](https://disqus.com/), [Gitalk](https://gitalk.github.io/), [Valine](https://valine.js.org/en/))
-- Pageview ([LeanCloud](https://leancloud.cn/))
-- Analytics ([Google Analytics](https://analytics.google.com/analytics/web/))
-- RSS ([jekyll-feed](https://github.com/jekyll/jekyll-feed))
+# Books
+* [도커(Docker)를 익히다.](https://docker.books.giljae.com/)
 
-## Skins
+# Side Projects
+* [Cre8ism.org](https://cre8ism.org)
 
-TeXt has 6 built-in skins, you can also set up your own skin.
+# Travels
+<iframe id="travels" class="center" src="https://www.google.com/maps/d/embed?mid=1T6WlE-nzPg7dQbnXANVCBzNOUgHRLzcl&z=2&ll=35,12&maptype=roadmap" frameborder="0" style="border:0" width="1000" height="520"></iframe>
 
-| `default` | `dark` | `forest` |
-| --- |  --- | --- |
-| ![Default](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_default.jpg) | ![Dark](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_dark.jpg) | ![Forest](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_forest.jpg) |
+<script>
+            (function() {
+                var itinerary = [
+                    '01/19', 'Seoul, ROK'
+                ];
+                var today = new Date();
+                var location;
+                for(var i = 0; i < itinerary.length; i += 2)
+                {
+                    itinerary[i] += '/17';
+                    var date = new Date(itinerary[i]);
+                    if(today < date)
+                        break;
+                    location = itinerary[i + 1];
+                }
+                document.getElementById('locationText').textContent = location;
+            })();
+        </script>
+        <script>
+            (function () {
+                var t = document.getElementById('travelsWrapper');
 
-| `ocean` | `chocolate` | `orange` |
-| --- |  --- | --- |
-| ![Ocean](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_ocean.jpg) | ![Chocolate](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_chocolate.jpg) | ![Orange](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_orange.jpg) |
-
-### Highlight Theme
-
-TeXt use [Tomorrow](https://github.com/chriskempson/tomorrow-theme) as the highlight theme.
-
-| `tomorrow` | `tomorrow-night` | `tomorrow-night-eighties` | `tomorrow-night-blue` | `tomorrow-night-bright` |
-| --- |  --- | --- | --- |  --- |
-| ![Tomorrow](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow.png) | ![Tomorrow Night](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night.png) | ![Tomorrow Night Eighties](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-eighties.png) | ![Tomorrow Night Blue](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-blue.png) | ![Tomorrow Night Bright](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-bright.png) |
+                t.onmousedown = function ()
+                {
+                    t.onmousedown = undefined;
+                    document.getElementById('travels').style['pointer-events'] = 'auto';
+                }
+            })();
+        </script>
