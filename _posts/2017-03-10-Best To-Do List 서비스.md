@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Best To-Do List 서비스"
-comments: true
 tags: todo
 ---
 
