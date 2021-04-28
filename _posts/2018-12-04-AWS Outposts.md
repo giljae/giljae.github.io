@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "AWS Outposts"
-comments: true
 tags: AWS, Outpost
 ---
 AWS는 지난 수년간 Amazon VPC(Virtual Private Computing), AWS Direct Connect와 Amazon Storage Gateway와 같은 서비스를 제공하여 AWS와 함께 사내 구축형 데이터 센터를 손쉽게 실행할 수 있도록 지원해왔다. 2017년에는 VMware와 공동 작업을 통해 AWS에 VMware Cloud를 도입하여 VMware 가상화 기업의 대다수가 AWS에 쉽게 인프라를 관리 할 수 있도록 VMware 도구도 지원하고 있다.
