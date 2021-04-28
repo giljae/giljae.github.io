@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Serverless의 시대"
-comments: true
 tags: serverless
 ---
 
