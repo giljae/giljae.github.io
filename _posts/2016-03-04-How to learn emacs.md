@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "How to learn emacs"
 tags: [emacs]
 ---
