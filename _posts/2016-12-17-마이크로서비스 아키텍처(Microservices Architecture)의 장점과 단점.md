@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "마이크로서비스 아키텍처(Microservices Architecture)의 장점과 단점"
-comments: true
 tags: MSA, Microservice
 ---
 ![image](https://user-images.githubusercontent.com/111643/115682303-4bf68f80-a390-11eb-8974-197e5d2cc938.png)
