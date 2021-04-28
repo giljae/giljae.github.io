@@ -1,6 +1,7 @@
 ---
 title:  "Serverless vs. Container 선택 가이드"
 tags: Serverless, Container
+comment: true
 ---
 이번 글에서는 서버리스와 컨테이너에 대해서 설명하고자 한다.
 
