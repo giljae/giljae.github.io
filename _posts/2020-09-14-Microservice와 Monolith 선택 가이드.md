@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Microservice와 Monolith 선택 가이드"
-comments: true
 tags: Microservice, Monolith
 ---
 우선 이 글을 읽기전에 이전에 작성했던 글을 먼저 읽어 보길 바랍니다.
