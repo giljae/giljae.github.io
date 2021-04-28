@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "oneM2M release 2 overview"
-comments: true
 tags: oneM2M
 ---
 
