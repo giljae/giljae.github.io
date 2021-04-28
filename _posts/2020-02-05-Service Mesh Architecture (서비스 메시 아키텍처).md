@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Service Mesh Architecture (서비스 메시 아키텍처)"
-comments: true
 tags: Service Mesh
 ---
 마이크로 서비스는 소프트웨어 산업에 많은 영향을 주었습니다. Monolithic에서 마이크로 서비스 아키텍처로 전환하면 독립적으로 더 자주 애플리케이션을 배포 할 수 있습니다.
