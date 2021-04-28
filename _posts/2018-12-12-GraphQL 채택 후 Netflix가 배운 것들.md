@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "GraphQL 채택 후 Netflix가 배운 것들"
-comments: true
 tags: GraphQL, Netflix
 ---
 Netflix에서는 콘텐츠 인기도 파악과 같은 다양한 데이터 및 집계 데이터를 활용하여 관련성이 높은 광고를 제공한다. Netflix의 목표는 모든 외부 채널에 대해 광고가 사용자와 잘 어우러지게 만드는 것이다. Netflix는 보다 효율적으로 하기 위해 끊임없는 실험을 하고 있다.
