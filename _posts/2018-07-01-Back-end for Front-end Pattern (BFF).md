@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Back-end for Front-end Pattern (BFF)"
-comments: true
 tags: MSA, BFF
 ---
 
