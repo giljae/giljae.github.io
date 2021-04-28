@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Industrial Internet of Things"
-comments: true
 tags: IIoT
 ---
 IoT(Internet of Things)가 B2C영역의 일반 소비자 중심이라면 IIoT(Industrial Internet of Things)는 B2B영역에 속하는 산업용 IoT라고 할 수 있다.
