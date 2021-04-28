@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Snowflake, BigQuery, Redshift 비교"
-comments: true
 tags: Snowflake, BigQuery, Redshift
 ---
 빅데이터와 분석은 오늘날 업계의 비즈니스를 발전시키는 근본적인 힘으로 작용되었습니다. 수년 동안 매초 생성되는 데이터의 양은 기하급수적으로 증가했으며, 이로 인해 데이터를 처리하는데 효율적인 클라우드 데이터웨어 하우스 기술이 등장했습니다.
