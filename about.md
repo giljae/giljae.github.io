@@ -25,7 +25,6 @@ titles:
   # @end locale config
 key: page-about
 ---
-# About Me
 Hi, My name is Giljae Joo. I'm interested in software architecture, design and distributed systems. I came to be programmer, architect, and a father in that order. I love photography, walking around strange new places, hiking and musics. Lately I've been more focused on art and community than on being patient with expensive hardware and software. If you want to contact to [me](mailto:giljae@gmail.com).
 
 # Sites
