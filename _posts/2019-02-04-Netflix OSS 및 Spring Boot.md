@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix OSS 및 Spring Boot"
-comments: true
 tags: Netflix, Spring boot
 ---
 Netflix의 Backend 및 Mid-tier 어플리케이션의 대부분은 Java를 사용하여 구축되었고, Micro Service를 위해 필요한 Ribbon, Eureka, Hystrix등 클라우드 인프라 라이브러리 및 시스템을 구축했다.
