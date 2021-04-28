@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Simple Work., 단순하게 일하기"
-comments: true
 tags: Work, Simple
 ---
 ![image](https://user-images.githubusercontent.com/111643/116032311-671c1480-a69a-11eb-88b9-de087397bafa.png)
