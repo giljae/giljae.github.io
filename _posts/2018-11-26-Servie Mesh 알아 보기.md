@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Servie Mesh 알아 보기"
-comments: true
 tags: Service Mesh
 ---
 지난 몇년간 Micro Service Architecture는 많이 발전되어 왔습니다. 그리고 현 시점에 몇 가지 새로운 개념과 패턴이 등장하고 있습니다. 이 중 “Service Mesh” 개념은 많은 인기를 얻고 있습니다. 본 글에서는 Service Mesh와 관련된 주요 개념에 대해서 설명합니다.
