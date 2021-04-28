@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix Vizceral"
-comments: true
 tags: Netflix, Vizceral
 ---
 Vizceral은 Netflix Control Plain으로 유입되는 트래픽 상태에 대한 정보를 이해하는 방식을 변화 시켰다고 합니다. Netflix의 경우 전체 시스템의 상태에 기반한 의사결정을 내리기를 원했고 이를 위해서 전체 시스템의 상태에 대해 직관적으로 이해할 수 있는 도구가 필요했습니다. Netflix의 경우 데이터 구문 분석에 의존하는 대신 직관적인 방법을 적용하기로 했습니다. 장애로 인해 수백만명이 영향을 받는 시간을 최소화 하는 방안을 고려했고 이를 Intuition Engineering이라고 부르며 Vizceral이 그 대표적인 예입니다.
