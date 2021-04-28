@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "MQTT Borker 선정 고려사항"
-comments: true
 tags: mqtt, broker
 ---
 
