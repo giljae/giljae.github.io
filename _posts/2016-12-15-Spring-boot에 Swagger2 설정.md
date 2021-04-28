@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Spring-boot에 Swagger2 설정"
-comments: true
 tags: Spring boot, Swagger
 ---
 
