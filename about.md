@@ -25,14 +25,8 @@ titles:
   # @end locale config
 key: page-about
 ---
-
-![TeXt Theme](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/TeXt-home.jpg)
-
-TeXt is a super customizable Jekyll theme for personal site, team site, blog, project, documentation, etc. Similar to iOS 11 style, it has large and prominent titles, round buttons and cards.
-
-```javascript
-(() => console.log('Hello, World!'))();
-```
+# About Me
+Hi, My name is Giljae Joo. I'm interested in software architecture, design and distributed systems. I came to be programmer, architect, and a father in that order. I love photography, walking around strange new places, hiking and musics. Lately I've been more focused on art and community than on being patient with expensive hardware and software. If you want to contact to [me](mailto:giljae@gmail.com).
 
 ## Features
 
