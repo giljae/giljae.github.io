@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Kubernetes vs. Mesos: 어느 Container Orchestrator를 사용해야 할까? (사업 관점)"
-comments: true
 tags: Kubernetes, Mesos
 ---
 
