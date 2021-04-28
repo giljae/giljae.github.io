@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Microservice의 ROI를 측정을 위한 매개변수"
-comments: true
 tags: MSA, Microservice, ROI
 ---
 ![image](https://user-images.githubusercontent.com/111643/116036441-adc13d00-a6a1-11eb-9454-11765eb7c29b.png)
