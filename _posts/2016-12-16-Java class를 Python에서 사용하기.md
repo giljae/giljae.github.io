@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Java class를 Python에서 사용하기"
-comments: true
 tags: Python, Java
 ---
 
