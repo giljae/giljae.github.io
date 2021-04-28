@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "GraphQL로 BFF 대체하기"
-comments: true
 tags: GraphQL, BFF
 ---
 ![image](https://user-images.githubusercontent.com/111643/116032404-95015900-a69a-11eb-9299-6d29885c6ef8.png)
