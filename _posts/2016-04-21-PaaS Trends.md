@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "PaaS Trends"
-comments: true
 tags: PaaS
 ---
 
