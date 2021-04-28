@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix Open Connect에서 인기 콘텐츠 관리 방법"
-comments: true
 tags: Netflix, OCA, Open Connect
 ---
 
