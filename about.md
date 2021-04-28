@@ -43,34 +43,3 @@ Hi, My name is Giljae Joo. I'm interested in software architecture, design and d
 * [Cre8ism.org](https://cre8ism.org)
 
 # Travels
-<iframe id="travels" class="center" src="https://www.google.com/maps/d/embed?mid=1T6WlE-nzPg7dQbnXANVCBzNOUgHRLzcl&z=2&ll=35,12&maptype=roadmap" frameborder="0" style="border:0" width="1000" height="520"></iframe>
-
-<script>
-            (function() {
-                var itinerary = [
-                    '01/19', 'Seoul, ROK'
-                ];
-                var today = new Date();
-                var location;
-                for(var i = 0; i < itinerary.length; i += 2)
-                {
-                    itinerary[i] += '/17';
-                    var date = new Date(itinerary[i]);
-                    if(today < date)
-                        break;
-                    location = itinerary[i + 1];
-                }
-                document.getElementById('locationText').textContent = location;
-            })();
-        </script>
-        <script>
-            (function () {
-                var t = document.getElementById('travelsWrapper');
-
-                t.onmousedown = function ()
-                {
-                    t.onmousedown = undefined;
-                    document.getElementById('travels').style['pointer-events'] = 'auto';
-                }
-            })();
-        </script>
