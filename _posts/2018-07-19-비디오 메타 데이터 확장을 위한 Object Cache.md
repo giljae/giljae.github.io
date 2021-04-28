@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "비디오 메타 데이터 확장을 위한 Object Cache"
-comments: true
 tags: Video, Meta data, Object Cache
 ---
 본 글은 Netflix의 Tech 블로그의 [글](https://medium.com/netflix-techblog/object-cache-for-scaling-video-metadata-management-c3c17830983e)을 기반으로 작성되었습니다.
