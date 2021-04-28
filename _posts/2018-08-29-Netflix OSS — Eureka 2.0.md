@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix OSS — Eureka 2.0"
-comments: true
 tags: Netflix, Eureka
 ---
 # What is Eureka?
