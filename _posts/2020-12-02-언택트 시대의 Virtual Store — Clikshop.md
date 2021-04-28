@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "언택트 시대의 Virtual Store — Clikshop"
-comments: true
 tags: Virtual Store
 ---
 코로나 시대에 사람이 붐비는 쇼핑몰을 피하고자 하는 마음은 누구에게나 있을 것이다. 그래서 오프라인 상점들이 직격탄을 맞고 있고 대부분 온라인에서 쇼핑을 하고 있을 것이다.
