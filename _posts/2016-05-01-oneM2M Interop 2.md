@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "oneM2M Interop 2"
-comments: true
 tags: oneM2M
 ---
 
