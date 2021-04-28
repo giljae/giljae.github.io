@@ -22,12 +22,18 @@ type: article
     {%- include article-section-navigator.html -%}
   </div>
 
+  <!-- disqus -->
+  <div id="post-disqus" class="container">
+    {% include disqus.html %}
+  </div>
+  
 </div>
 
 <script>
   {%- include scripts/article.js -%}
 </script>
 
+<!-- Google Adsense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5785786521440668"
      crossorigin="anonymous"></script>
 <ins class="adsbygoogle"
