@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "DPDK (Data Plane Development Kit) 란?"
-comments: true
 tags: DPDK
 ---
 
