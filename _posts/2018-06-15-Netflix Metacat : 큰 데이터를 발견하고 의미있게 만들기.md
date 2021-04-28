@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix Metacat : 큰 데이터를 발견하고 의미있게 만들기"
-comments: true
 tags: Netflix, Metacat
 ---
 
