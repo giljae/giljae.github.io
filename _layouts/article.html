@@ -23,7 +23,9 @@ type: article
   </div>
 
   <!-- disqus -->
-  {% include comments.html %}
+  {%- if _comment != false -%}
+    <section class="page__comments d-print-none">{%- include comments.html -%}</section>
+  {%- endif -%}
   
 </div>
 
