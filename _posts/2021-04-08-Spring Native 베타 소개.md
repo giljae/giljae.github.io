@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Spring Native 베타 소개"
-comments: true
 tags: Spring Native
 ---
 3/11일에 Spring Native 베타가 릴리즈되었다. GraalVM을 활용하여 Spring Java 및 Kotlin 애플리케이션을 네이티브 이미지로 컴파일하여 JVM에 구동되는 애플리케이션에 비해 시작 시간과 메모리 오버 헤드를 줄인다.
