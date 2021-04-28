@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Redis Java client -lettuce 소개"
-comments: true
 tags: Redis, Java client, lettuce
 ---
 
