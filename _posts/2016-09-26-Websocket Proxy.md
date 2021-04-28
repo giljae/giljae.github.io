@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Websocket Proxy"
-comments: true
 tags: Websocket, Proxy
 ---
 
