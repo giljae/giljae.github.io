@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "IoT Applications"
-comments: true
 tags: IoT
 ---
 
