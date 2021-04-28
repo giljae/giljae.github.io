@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Istio & Envoy에서 OpenTracing 사용 하기"
-comments: true
 tags: Istio, Envoy, Service Mesh, OpenTracing
 ---
 Sidecar Proxy는 코드 삽입없이 모니터링 데이터를 얻는 매우 간단한 방법을 제공한다. Tracing은 대규모 분산 시스템에서 가장 어려운 부분이기 때문에 Sidecar Pattern은 큰 이점으로 작용한다.
