@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Kubernetes란 무엇인가?"
-comments: true
 tags: kubernetes, k8s
 ---
 
