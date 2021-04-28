@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "GraphQL과 RESTful"
-comments: true
 tags: GraphQL, RESTful
 ---
 ![image](https://user-images.githubusercontent.com/111643/116030509-a9435700-a696-11eb-883a-573b22aa402e.png)
