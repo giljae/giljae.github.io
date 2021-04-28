@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Command pattern (커맨드 패턴)"
-comments: true
 tags: 커맨드패턴
 ---
 
