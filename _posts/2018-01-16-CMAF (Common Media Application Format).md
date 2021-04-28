@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "CMAF (Common Media Application Format)"
-comments: true
 tags: CMAF
 ---
 
