@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Kubernetes vs Mesos with Marathon (기술적 관점)"
-comments: true
 tags: Kubernetes, Mesos, Marathon
 ---
 
