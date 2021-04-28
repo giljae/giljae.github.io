@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Service Mesh 아키텍처 스타일 비교"
-comments: true
 tags: Service Mesh
 ---
 이전 글에서 서비스 메시에 대해서 간략히 언급했었습니다. 서비스 메시가 무엇인지 아직 모르시는 분은 링크 를 통해 읽어보세요.
