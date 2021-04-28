@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "HashiCorp사의 Consul, Consul Template 소개"
-comments: true
 tags: Hashicorp, Consul
 ---
 
