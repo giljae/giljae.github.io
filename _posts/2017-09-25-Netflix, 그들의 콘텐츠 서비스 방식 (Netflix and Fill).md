@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix, 그들의 콘텐츠 서비스 방식 (Netflix and Fill)"
-comments: true
 tags: netflix, cdn, oca
 ---
 
