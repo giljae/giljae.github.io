@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "NetflixOSS Hollow"
-comments: true
 tags: Netflix, Hollow
 ---
 > “모든 것을 효율적으로 Cache 할 수 있다면 게임 체인저가 될 수 있다.”
