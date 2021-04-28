@@ -1,8 +1,6 @@
 ---
-layout: post
 title:  "MongoDB Schema Design — Part #1"
 tags: [mongodb]
-comments: true
 ---
 
 이제까지 MongoDB를 로그 분석용으로 주로 활용했었고 다른 용도로 사용 할 경우에 스키마를 어떻게 구성해야 하는지에 대해서 검색한 결과를 정리한다. RDBMS의 스키마 디자인과는 다른 전략으로 접근해야 하고 아래 사항을 고려해야 한다.
