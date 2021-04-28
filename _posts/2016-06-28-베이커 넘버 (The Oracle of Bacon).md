@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "베이커 넘버 (The Oracle of Bacon)"
-comments: true
 tags: 베이커넘버
 ---
 
