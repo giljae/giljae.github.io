@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "OCA(Open Connect Appliance)에서 100Gbps 서비스"
-comments: true
 tags: Netflix, OCA, CDN
 ---
 
