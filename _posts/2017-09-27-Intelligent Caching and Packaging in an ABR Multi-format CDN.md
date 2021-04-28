@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Intelligent Caching and Packaging in an ABR Multi-format CDN"
-comments: true
 tags: Netflix, CDN
 ---
 
