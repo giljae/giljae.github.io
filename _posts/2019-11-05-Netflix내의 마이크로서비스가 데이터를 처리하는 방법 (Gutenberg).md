@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Netflix내의 마이크로서비스가 데이터를 처리하는 방법 (Gutenberg)"
-comments: true
 tags: Netflix, Microservice
 ---
 마이크로서비스 아키텍처에서는 단일 서비스에서 여러 목적지로 데이터 세트를 전파하는 것이 어려울 수 있다.
