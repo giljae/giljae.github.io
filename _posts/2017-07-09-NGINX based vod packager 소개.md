@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "NGINX based vod packager 소개"
-comments: true
 tags: Nginx, vod packager
 ---
 
