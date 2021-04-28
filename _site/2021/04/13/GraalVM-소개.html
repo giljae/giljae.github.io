@@ -1,0 +1,72 @@
+<p><img src="https://user-images.githubusercontent.com/111643/116084932-41623000-a6d9-11eb-8676-e388116461f6.png" alt="image" /></p>
+
+<p>“Graal”이라는 단어는 “Grail”을 의미하는 고대 프랑스어에서 유래되었다. GraalVM의 “VM”은 “JVM”내부에서 실행된다는 사실에서 비롯되었다.</p>
+
+<p>GraalVM은 Java 코드를 작성하고 실행할 수 있는 도구이다. Oracle에서 만든 JVM(Java Virtual Machine) 및 JDK(Java Development Kit)이고 애플리케이션의 성능과 효율성을 개선하는 목적으로 나온 고성능 런타임이다.</p>
+
+<p>GraalVM의 목표는 더 빠르고 유지하기 쉬운 컴파일러 작성, JVM에서 실행되는 언어의 성능 향상, 애플리케이션 시작 시간 단축, Java 에코 시스테에 다국어 지원 통합이다.</p>
+
+<p>GraalVM은 JDK에 최적화 컴파일러를 추가하여 성능 최적화와 다중 언어 애플리케이션에 대한 상호 운용성을 제공한다. Java코드 지원 외에도 Scala, Kotlin, Groovy, Clojure, R, Python, Javascript, Ruby등을 추가로 지원한다. 기본적으로 GraalVM을 사용하면 개발자가 단일 애플리케이션에서 여러 언어 및 라이브러리를 효율적으로 실행할 수 있다.</p>
+
+<p>GraalVM은 많은 것을 제공한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116084960-4a530180-a6d9-11eb-969d-3954f11996bd.png" alt="image" /></p>
+
+<h1 id="graal">Graal?</h1>
+<p><img src="https://user-images.githubusercontent.com/111643/116084990-517a0f80-a6d9-11eb-9739-6ca97b97b296.png" alt="image" /></p>
+
+<p>Graal은 오라클 연구소에서 진행하는 프로젝트이다. 2012년부터 개발팀은 GraalVM에 대한 60개 이상의 논문을 발표했다. 이 프로젝트는 매우 오래 지속된 프로젝트이고 성공적으로 보고 있다.</p>
+
+<p>위의 그림에서 Truffle은 GraalVM의 다국어를 전담한다. Javascript, Ruby, R 및 모든 LLVM 언어의 영역이다. LLVM 컴파일러는 C코드를 LLVM 비트 코드로 변환하여 GraalVM에서 실행되게 만든다.</p>
+
+<h1 id="graalvm의-구성-요소">GraalVM의 구성 요소</h1>
+<p>GraalVM을 구성하는 세 가지 구성 요소는 고성능 최적화 Just-In-TIme 컴파일러, 네이티브 실행 파일을 빌드하기 위한 Ahead-of-Time 컴파일러, 다국어 지원이다.</p>
+
+<p>GraalVM 컴파일러 (Just-In-Time 컴파일러)</p>
+<ul>
+  <li>Ahead-of-Time 컴파일러</li>
+  <li>JVM기반 애플리케이션을 기본적으로 실행 가능한 바이너리로 컴파일하는데 사용</li>
+</ul>
+
+<p>다국어 프로그래밍 언어 지원</p>
+<ul>
+  <li>프로그래밍 언어 인터프린터를 제공한다. 이를 통해 GraalVM을 확장하여 Java 에코 시스템에 언어를 추가할 수 있다. 또한 언어에 구애받지 않는 디버거, 프로파일러 및 힙 뷰어와 같은 도구를 지원한다.</li>
+</ul>
+
+<h1 id="jvm-대체제로써의-graalvm">JVM 대체제로써의 GraalVM</h1>
+<p>GraalVM은 Java, Scala, Kotlin 및 Java 바이트 코드에서 실행되는 모든 언어를 실행하는 JVM을 대체하려고 한다. 2019년 부터 GraalVM은 Linux상에서 프로덕션 준비가 완료되었다. 그리고 20.1.0 버전에서 Windows도 지원한다고 밝혔다.</p>
+
+<p>여러 언어를 지원한다는 장점이 있지만, 아직까지 성능은 빠른 언어쪽도 있지만, 개별 컴파일러에 미치지는 못한다. 그럼에도 불구하고 GraalVM에 주목을 하는 이유는 무엇일까?</p>
+
+<h2 id="유지-보수">유지 보수</h2>
+<p>HotSpot컴파일러는 C/C++로 작성되어 있지만, Java로 JVM 컴파일러를 다시 작성하면 새로운 기회가 열린다. 수많은 자바 프로그래머가 GraalVM에 시간을 할애하고 개선에 기여할 것이기 때문이다. V8엔진과 HotSpot 컴파일러는 모두 수십년간 최적화의 어려움을 겪고있다. 개선을 하려면 큰 틀을 깨뜨려야 하는 문제점도 안고 있다. GraalVM은 새로운 아이디어를 바탕으로 이 문제에 대한 새로운 해석을 가지고 있다. 최적화 및 확장성을 염두해두고 만들어졌기 때문이다.</p>
+
+<p>이런 부분들이 트위터가 GraalVM을 채택한 이유중에 하나일 것이다. 트위터는 Scala를 이용해 서비스를 만들고 있고, Scala는 JVM 바이트 코드로 컴파일되는 언어이다.</p>
+
+<h2 id="truffle">Truffle</h2>
+<p>Truffle는 컴파일러는 만드는 영리한 접근 방식이다. 최적화 Just-In-Time 컴파일러를 사용하면 모든 것을 컴파일하고 최적화한다는 아이디어이다. 인터프리터를 작성하면 인터프리터도 Just-In-Time 컴파일러에 의해 컴파일되고 최적화된다. 이 방식의 장점은 인터프리터이자 Compiler라고 불린다. Graal은 Ruby를 수동으로 최적화된 어셈블리 코드와 거의 비슷한 네이티브 코드로 컴파일한다.</p>
+
+<p>Truffle을 사용하면 새로운 프로그래밍 언어를 작성할 수 있다. 각 언어마다 특징이 존재하는데 예를 들어서 동적 타이핑은 Groovy와 Ruby에 의해 유명해졌다. Scala와 Groovy의 출현으로 스트림과 함수형 프로그래밍이 현실화되었다. 향후 Kotlin이 이 아이디어를 채택한 후 마침내 Java8에 적용되었다.</p>
+
+<p>Truffle로 프로그래밍 언어를 쉽게 구현할 수 있기 때문에 위와 같은 새로운 개념을 쉽게 사용할 수 있다. Truffle은 괜찮은 프로그래밍 언어를 사용하는데 걸리는 시간을 절반으로 줄여준다. 이는 결국 개발자가 프로그래밍 언어를 잘 선택하도록 도울 수 있다.</p>
+
+<h2 id="클라우드">클라우드</h2>
+<p>GraalVM의 가장 큰 핵심은 AOT 컴파일러이다. 20년이 지난 후 Java가 어셈블리 코드로 컴파일 할 수 있게 되었다. 더 중요한 점은 네이티브 코드가 필요한 상황이 존재한다는 것이고 이는 AWS Lambda로 표현되었다.</p>
+
+<p>Lambda의 흥미로운 점은 사용량에 따라 비용을 지불한다는 것이다. 코드가 실행되는 경우에만 비용을 지불한다는 의미다. 만약 이를 VM기반으로 구현한다고 가정하면 사용하지 않을 때 VM을 반복해서 종료해야 할 것이다. 그리고 요청이 왔을때 구동을 해야 할 것이다. 이 경우 대략 3초의 시간이 필요하다.</p>
+
+<p>이런 문제를 AOT 컴파일러가 해결 할 수 있다. 일반적으로 Java는 수천 개의 클래스를 로드해야 하기 때문에 느리게 시작한다. 그러나 간단한 CRUD 애플리케이션은 로드된 클래스의 극히 일부만 사용한다. GET 요청에 응답하기 위해 Spring Boot의 모든 기능이 필요하진 않다.</p>
+
+<p>AOT 컴파일러는 코드를 최적화하고 컴파일 후 네이티브 코드로 제공된다. Quarkus, Helidon과 같은 클라우드 네이티브 프레임워크를 이용하면 0.005초에 응답하는 Lambda 함수를 만들 수 있다.</p>
+
+<h1 id="graalvm의-가격">GraalVM의 가격</h1>
+<p>GraalVM의 가격은 버전에 따라 달라진다. Community Edition은 오픈 소스이다. Enterprise는 Oracle GraalVM OTN 라이센스 계약 및 Oracle 마스터 라이센스 계약에 따라 사용할 수 있다. 엔터프라이즈 에디션의 가격은 라이센스에 따라 달라진다.</p>
+
+<p>Oracle Master License Agreement에 따라 GraalVM Enterprise는 프로덕션 용도로 구입해야 한다.</p>
+
+<h1 id="결론">결론</h1>
+<p>https://jaxenter.com/graalvm-chris-thalinger-interview-163074.html 에서는 트위터가 GraalVM을 사용하는 이유에 대해서 설명하고 있다.</p>
+
+<p>GraalVM은 새로운 마이크로서비스 프레임워크를 촉진하는 것처럼 보인다. 예를 들어, Quarkus는 업계 표준 프레임워크의 모음이며 네이티브 바이너리를 생성할 수 있도록 확장해준다.</p>
+
+<p>앞으로 GraalVM이 클라우드 네이티브 영역과 R, Python 및 Ruby와 같은 프로그래밍 언어에 상당한 영향을 미칠 것으로 기대한다.</p>

@@ -1,0 +1,50 @@
+<p>Netflix에서는 콘텐츠 인기도 파악과 같은 다양한 데이터 및 집계 데이터를 활용하여 관련성이 높은 광고를 제공한다. Netflix의 목표는 모든 외부 채널에 대해 광고가 사용자와 잘 어우러지게 만드는 것이다. Netflix는 보다 효율적으로 하기 위해 끊임없는 실험을 하고 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116035264-a862f300-a69f-11eb-9d98-f84fc200f323.png" alt="image" /></p>
+
+<p>Monet의 React UI는 Apache Tomcat에 의해 구동되고 REST API에 Access를 했다. 시간이 지나고 어플리케이션이 발전함에 따라서 사용 사례가 복잡해지기 시작했다. Simple page는 다양한 소스의 데이터를 가져와야 한다. 이 데이터를 클라이언트에서 효과적으로 로드하기 위해서 Backend 데이터를 비정규화 하는 노력을 시도했다. 그 이유는 모든 페이지가 모든 데이터를 필요로 하지 않기 때문에 유지하기가 어려워지기 때문이다. Network 병목 현상에 발생했다.</p>
+
+<p>Backend에서 클라이언트에게 보내는 field의 수를 줄이는 방법은 모든 페이지에 대해서 endpoint를 만드는 것이었지만, 효율적이지 못했다. 대신 GraphQL을 Middleware로 선택했다. 이미 개발되어 사용중이던 Falcor도 훌륭한 솔루션이었지만 GraphQL의 Eco시스템을 이용하기 위해 Falcor가 아닌 GraphQL을 사용했다. 데이터 구조가 점차 그래프 지향적으로 변경됨에 따라 Network 병목도 해결했고, 기능을 더 빨리 추가 할 수 있게 되었다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116035290-b44eb500-a69f-11eb-9351-7d580e300d36.png" alt="image" /></p>
+
+<h1 id="장점">장점</h1>
+<p>NodeJS에서 GraphQL을 약 6개월 정도 사용하였고 개발 속도 및 페이지 로드 성능을 크게 향상시키는 것을 입증했다.</p>
+
+<h2 id="redistributing-load-and-payload-optimization">Redistributing load and payload optimization</h2>
+<p>GraphQL을 Middleware로 추가 할 때 GraphQL 서버는 Client가 직접 호출했을 때와 같이 동일한 서비스 및 REST API를 호출해야 했다. 대부분의 데이터가 동일한 DC내의 서버사이로 전달 되기에 이러한 Server to Server 호출은 대기 시간이 낮고 대역폭이 높기 때문에 브라우저에서 직접 네트워크를 호출하는 것에 비해서 약 8배의 성능이 향상되었다. GraphQL 서버에서 Client Browser의 데이터 전송 구간은 여전히 느린 속도지만, 단일 네트워크 호출로 축소시켰다. GraphQL을 사용하면 Client가 필요한 데이터만 취할 수 있기 때문에 REST API 에 비해 상당히 작은 Payload를 가져온다. Netflix의 Application에서 이전에는 10MB의 데이터를 가져온 페이지는 약 200KB를 받는다. Page load는 데이터가 제한된 모바일 네트워크에서 훨씬 빨라졌고 훨씬 적은 메모리를 사용한다.</p>
+
+<h2 id="reusable-abstractions">Reusable abstractions</h2>
+<p>개발자는 일반적으로 단일 목적으로 하는 코딩보다 재사용이 가능한 추상 방식을 사용하기를 원한다. GraphQL을 사용하면 각 데이터를 한번 정의하고 시스템의 다른 데이터와의 연관성을 정의한다.</p>
+
+<p>아래의 예제를 보면, GraphQL의 Entitiy를 Catalog, 주석과 같이 한번만 정의한다. 이 정의에서 여러 페이지에 대한 View를 정할 수 있다. Client App의 한 페이지는 다른 Client Page에 광고가 속한 Catalog를 모든 댓글과 함께 보기를 원한다고 하면 동일한 그래프 모델을 사용하면 Backend 서버의 코드를 변경하지 않고도 두가지 View를 수용할 수 있게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116035323-c3cdfe00-a69f-11eb-8fc4-cdb4100b0df0.png" alt="image" /></p>
+
+<h2 id="chaining-type-systems">Chaining Type Systems</h2>
+<p>GraphQL에서 Entitiy를 정의하고 나면 자동 코드 Generater 도구를 사용하여 Client 어플리케이션의 TypeScript 유형을 생성한다. 이러한 유형과 Query는 서버 Schema에 대해서도 유효성이 검사 되기에 서버에서 발생한 모든 변경 사항은 데이터를 사용하는 Client가 알게 된다. GraphQL과 함께 여러 서비스를 묶고 이러한 검사를 Build Process에 연결하면 잘못된 코드를 배포하기 전에 더 많은 문제를 파악할 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116035348-ccbecf80-a69f-11eb-8f16-695b7d4cb7a1.png" alt="image" /></p>
+
+<h2 id="개발-단순화">개발 단순화</h2>
+<p>Client 어플리케이션을 만들 때 공통적으로 고려해야 하는 사항은 UI/UX 이지만, 개발자 인터페이스와 개발자 경험은 유지 관리 가능한 어플리케이션을 빌드하는 것만큼 중요하다. GraphQL을 사용하기 전에는 새로운 React 컨테이너 구성 요소를 작성하기 위해 복잡한 로직을 관리하여 필요 데이터에 대해 요청을 해야했다. 개발자는 하나의 데이터가 다른 데이터와 어떻게 관련되는지, 데이터를 Cache하는 방법, 병렬 또는 순차적으로 호출할 지 여부, Redux에서 데이터를 저장할 위치 등을 고려해야 한다. GraphQL Query Mapper를 사용하게 되면 각 React 구성 요소는 필요한 데이터를 설명하기만 하면 되고 Wrapper는 이러한 것들을 처리하게 된다.</p>
+
+<h2 id="다른-장점">다른 장점</h2>
+<p>몇 가지 다른 이점이 있다. 첫째 GraphQL Query의 Resolver가 실패하면 성공한 Resolver는 가능한 많은 페이지를 Rendering하기 위해 Client에 데이터를 반환하게 된다. 둘째, Backend 데이터 모델은 CRUD 인터페이스를 제공하기 때문에 매우 간단하다. 마지막으로 GraphQL Query가 테스트를 위해 stub으로 자동 변환될 수 있고 React 구성 요소와 분리되어 Resolver를 테스트 할 수 있기에 구성 요소를 테스트하는 것이 더 쉬워진다.</p>
+
+<h1 id="진화">진화</h1>
+<p>GraphQL로 마이그레이션은 단순한 경험이었고, 네트워크 요구 사항을 정의하고 데이터를 변환하기 위해 구축한 대부분의 인프라는 코드 변경없이 React 어플리케이션에서 NodeJS 서버로 쉽게 이전 할 수 있었다. 하지만 몇가지 장애물이 존재했다.</p>
+
+<p>GraphQL의 Resolver는 다른 Resolver와 관련없이 독자적으로 실행되기 때문에 동일하거나 유사한 데이터에 대해 중복적으로 네트워크 요청을 하는 것으로 나타났다. 모든 Resolver가 끝날 때 까지 네트워크 응답을 메모리에 저장하는 간단한 Caching Layer를 Wrapping하여 복제를 해결했다. Caching Layer를 사용하여 단일 서비스에 대한 여러 요청을 모든 데이터 대한 대량 요청으로 할 수 있게 되었다. Resolver는 Fetch 프로세스를 최적하는 방법에 대해 고민하지 않고도 필요한 모든 데이터를 요청 할 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116035380-dea07280-a69f-11eb-9652-cda8c9a6caa7.png" alt="image" /></p>
+
+<p>GraphQL은 다른 서비스에 대한 네트워크 호출을 자동으로 조정하여 복잡성을 숨긴다. 디버그 flag가 활성화되면 디버깅을 쉽게 하기 위해 GraphQL Response Payload에 로그가 나타난다. Netflix는 Debug Flag를 활용하여 브라우저의 네트워크 탭을 통한 자연스러운 디버깅 방법을 고안했다.</p>
+
+<p>Netflix의 경우 GraphQL 사용의 초기 단계에 있지만, 현재까지 진행한 사항으로는 긍정적인 경험이었다고 한다. Netflix가 GraphQL을 사용하는 핵심 목표는 시스템이 점차 정교해짐에 따라 개발 속도를 높이는데 도움이 될 것으로 보고 있고 복잡한 데이터 구조로 어려움을 겪지 않고 Graph Data Model에 투자하여 시간이 지남에 따라 팀의 생산성이 향상되는 것이라고 한다.</p>
+
+<p>지난 기간 동안, 만들어 놓은 Graph Model이 강력하기에 일부 기능을 구현하기 위해 Graph를 변경하는 일은 없었다고 했고, 확실히 더 생산적이었다고 한다. 그리고 Schema stitching과 같은 개념을 사용하여 다른 서비스와의 통합을 수월하게 하고 개발 시간을 절약되길 기대한다고 한다.</p>
+
+<p>현재 진행중인 프로젝트에서도 GraphQL에 대해서 테스트중이고, Netflix와 같은 효과가 생기길 기대한다.</p>
+
+<p>References: https://medium.com/netflix-techblog/our-learnings-from-adopting-graphql-f099de39ae5f</p>

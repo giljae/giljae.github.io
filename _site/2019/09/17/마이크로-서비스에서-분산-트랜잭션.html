@@ -1,0 +1,87 @@
+<h1 id="분산-트랜잭션은-무엇인가">분산 트랜잭션은 무엇인가?</h1>
+<p>아래는 트랜잭션을 사용한 Monolithic 커머스 시스템이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038027-dcd8ae00-a6a3-11eb-83b0-f74586abca72.png" alt="image" /></p>
+
+<p>위의 경우는 체크 아웃 요청에 대해 데이터베이스에서 트랜잭션이 생성된다. 각 비즈니스 단계에 대해서 데이터베이스에서 보장한다. ACID(Atomicity, Consistency, Isolation, Durability)로 알려져 있다.</p>
+
+<p>아래는 마이크로 서비스에서의 커머스 시스템이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038052-e3ffbc00-a6a3-11eb-90d4-e2e0d9695030.png" alt="image" /></p>
+
+<p>모놀리틱은 데이터베이스에 의존하여 트랜잭션을 처리하지만, 마이크로 서비스의 경우 데이터베이스에 의존할 수가 없다. 그 이유는 각 서비스마다 별도의 데이터베이스를 가지고 있기 때문이다.</p>
+
+<h1 id="마이크로-서비스에서-트랜잭션에-대한-문제">마이크로 서비스에서 트랜잭션에 대한 문제</h1>
+<p>마이크로 서비스 아키텍처가 나온 후, 데이터베이스의 ACID 특성을 사용할 수 가 없다. 특정 로직을 처리하기 위해서는 여러 마이크로 서비스(여러 데이터베이스)에 걸쳐 있게 된다.</p>
+
+<h1 id="atomic-트랜잭션을-어떻게-유지-할-것인가">Atomic 트랜잭션을 어떻게 유지 할 것인가?</h1>
+<p>Atomic 트랜잭션은 모든 단계 중에 하나를 완료하는 것을 의미한다. 완료 되지 않은 작업(Inventory Microservice)에 대해서는 어떻게 롤백을 해야 하는지 고민이 되는 부분이다.</p>
+
+<h1 id="동시-요청에-대한-처리">동시 요청에 대한 처리</h1>
+<p>Order 서비스가 완료된 후 Inventory 서비스의 정보를 보여줘야 하는데, Order가 완료 된 후 Inventory에 업데이트를 해야 하는지? 이렇게 되면 개발하는 개발자는 본인이 개발해야 할 부분외에 많은 것을 고민해야 하는 상황에 직면하게 된다.</p>
+
+<h1 id="가능한-해결책들">가능한 해결책들</h1>
+<h2 id="two-phase-commit">Two-Phase Commit</h2>
+<p>처리 방법을 준비 단계와 커밋 단계를 가지고 처리하는 기법이다.</p>
+
+<p>연관된 모든 마이크로서비스에서 커밋을 준비하고 트랜잭션을 처리할 준비가 되었다고 코디네이터에게 통지를 해야 한다.</p>
+
+<p>커밋 또는 롤백을 코디네이터에 의해 모든 마이크로 서비스에 전달된다.</p>
+
+<p>아래는 성공 시나리오이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038161-0bef1f80-a6a4-11eb-9d00-2b8208a09082.png" alt="image" /></p>
+
+<p>Transaction Coordinator는 글로벌 트랜잭션을 시작한다.</p>
+
+<p>Order 서비스를 호출하고 OK를 받으면 Invventory 서비스를 호출한다.</p>
+
+<p>즉, 모든 트랜잭션에 대한 부분을 Transaction Coordinator가 관여하게 된다.</p>
+
+<p>아래는 실패 시나리오이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038190-17424b00-a6a4-11eb-941b-34b3055cabfb.png" alt="image" /></p>
+
+<p>트랜잭션이 엮여 있는 서비스중에 하나라도 실패가 발생하게 되면, Transaction Coordinator는 롤백 프로세스를 수행한다.</p>
+
+<p>Two-Phase commit의 장점은 아래와 같다.</p>
+<ul>
+  <li>두 단계 커밋이기에 속도가 느리다.</li>
+  <li>Transaction Coordinator에 대한 의존성이 증가한다.</li>
+  <li>교착 생태가 발생 할 수 있다.</li>
+</ul>
+
+<h2 id="saga-pattern">SAGA pattern</h2>
+<p>각 마이크로 서비스는 데이터를 업데이트 할 때마다 이벤트를 개시한다. 다른 서비스는 이벤트를 구독하고, 이벤트가 수신되면 데이터를 업데이트 하는 방식이다.</p>
+
+<p>각 마이크로 서비스는 이벤트 버스를 통해 상호 통신하게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038254-2aedb180-a6a4-11eb-833b-c7a2fcf20aa1.png" alt="image" /></p>
+
+<p>Choreographer에 의해 트랜잭션 이벤트를 생성하고 각 서비스에서는 이벤트를 수신하여 업무를 처리하는 방식이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/116038269-317c2900-a6a4-11eb-8a0b-82b5a3cb45e4.png" alt="image" /></p>
+
+<p>Inventory 서비스가 실패하게 되면, Choreographer에 실패 이벤트를 전달하고 Choreographer는 Order서비스에 삭제 이벤트를 생성한다.</p>
+
+<p>이 방식의 장점은 아래와 같다.</p>
+<ul>
+  <li>순서가 보장되지 않는다. (비동기 방식)</li>
+  <li>마이크로 서비스가 많을 수록 디버깅 및 유지 보수가 어려워진다.</li>
+</ul>
+
+<h1 id="결론">결론</h1>
+<p>가장 좋은 대안은 분산 트랜잭션을 없애는 것이다.</p>
+
+<p>위의 대안이 불가하다면, 아래의 마틴파울러가 얘기한 내용을 고려해 볼 수 있다.</p>
+
+<p>단일체로 시작하고 점차 마이크로서비스로 분리하는 것.</p>
+
+<p>하나의 결과에 대해 두개 이상의 시스템에 데이터를 갱신할 필요가 있을 때, Two-Phase commit 보다는 SAGA pattern이 조금더 바람직한 방법이다.</p>
+
+<p>그 이유는 Two-phase commit은 확장이 어렵기 때문이다.</p>
+
+<p>References:</p>
+<ul>
+  <li>https://medium.com/@sohan_ganapathy/handling-transactions-in-the-microservice-world-c77b275813e0</li>
+</ul>

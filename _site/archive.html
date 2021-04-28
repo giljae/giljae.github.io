@@ -1,0 +1,1591 @@
+<!DOCTYPE html><html lang="ko# the language of your site, default as "en"">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Archive - Giljae Joo (주길재)</title>
+
+<meta name="description" content="내일을 사랑하오, 사람들에게 도움이 되자!
+">
+<link rel="canonical" href="https://giljae.com/blog/archive.html"><link rel="alternate" type="application/rss+xml" title="Giljae Joo (주길재)" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.6',
+      sources: {
+        font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script>
+</head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <div class="header__brand"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#515151;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg>
+<a title="내일을 사랑하오, 사람들에게 도움이 되자!
+" href="/">Giljae Joo (주길재)</a></div><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></div><nav class="navigation">
+        <ul><li class="navigation__item navigation__item--active"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
+      </nav></div>
+  </header>
+</div><div class="page__content"><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet -->
+<article itemscope itemtype="http://schema.org/WebPage"><div class="article__header"><header><h1>Archive</h1></header></div><meta itemprop="headline" content="Archive"><meta itemprop="author" content="Giljae Joo (주길재)"/><div class="js-article-content"><div class="layout--archive js-all"><div class="site-tags js-tags">
+  <ul class="menu">
+    <li>
+      <button type="button" class="button button--secondary button--pill tag-button tag-button--all" data-encode="">
+        Show All<div class="tag-button__count">94</div>
+      </button>
+    </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="AI%2C">
+          <span>AI,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="AWS%2C">
+          <span>AWS,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Ant">
+          <span>Ant</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Artwork%2C">
+          <span>Artwork,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="BFF">
+          <span>BFF</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="BigQuery%2C">
+          <span>BigQuery,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Blockchain%2C">
+          <span>Blockchain,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Business">
+          <span>Business</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="C3.ai">
+          <span>C3.ai</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="CDN">
+          <span>CDN</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="CMAF">
+          <span>CMAF</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="CaaS">
+          <span>CaaS</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Cache">
+          <span>Cache</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Connect">
+          <span>Connect</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Consul">
+          <span>Consul</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Container">
+          <span>Container</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Cord">
+          <span>Cord</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Curation">
+          <span>Curation</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="DPDK">
+          <span>DPDK</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Database">
+          <span>Database</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Envoy%2C">
+          <span>Envoy,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Eureka">
+          <span>Eureka</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="GE">
+          <span>GE</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="GTD">
+          <span>GTD</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Gartner">
+          <span>Gartner</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="GraalVM%2C">
+          <span>GraalVM,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="GraphQL%2C">
+          <span>GraphQL,</span><div class="tag-button__count">3</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Hashicorp%2C">
+          <span>Hashicorp,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Hollow">
+          <span>Hollow</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="IIoT">
+          <span>IIoT</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="IoT">
+          <span>IoT</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Istio%2C">
+          <span>Istio,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Java">
+          <span>Java</span><div class="tag-button__count">3</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Jmeter%2C">
+          <span>Jmeter,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Kubernetes%2C">
+          <span>Kubernetes,</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Load">
+          <span>Load</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Locust">
+          <span>Locust</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="MSA">
+          <span>MSA</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-2" data-encode="MSA%2C">
+          <span>MSA,</span><div class="tag-button__count">4</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Mantis%2C">
+          <span>Mantis,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Marathon">
+          <span>Marathon</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Maven%2C">
+          <span>Maven,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Media%2C">
+          <span>Media,</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Mesh">
+          <span>Mesh</span><div class="tag-button__count">3</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Mesh%2C">
+          <span>Mesh,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Mesos">
+          <span>Mesos</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Mesos%2C">
+          <span>Mesos,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Meta">
+          <span>Meta</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Metacat">
+          <span>Metacat</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-2" data-encode="Microservice">
+          <span>Microservice</span><div class="tag-button__count">4</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-3" data-encode="Microservice%2C">
+          <span>Microservice,</span><div class="tag-button__count">7</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Monolith">
+          <span>Monolith</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Movie%2C">
+          <span>Movie,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Music%2C">
+          <span>Music,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Native">
+          <span>Native</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Netflix">
+          <span>Netflix</span><div class="tag-button__count">3</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-4" data-encode="Netflix%2C">
+          <span>Netflix,</span><div class="tag-button__count">12</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Nginx%2C">
+          <span>Nginx,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="OCA%2C">
+          <span>OCA,</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="OTT">
+          <span>OTT</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Object">
+          <span>Object</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Open">
+          <span>Open</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="OpenTracing">
+          <span>OpenTracing</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Outpost">
+          <span>Outpost</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="PaaS">
+          <span>PaaS</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="PaaS%2C">
+          <span>PaaS,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Personalization">
+          <span>Personalization</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Pricing">
+          <span>Pricing</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Proxy">
+          <span>Proxy</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Python%2C">
+          <span>Python,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="REST">
+          <span>REST</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="RESTful">
+          <span>RESTful</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="ROI">
+          <span>ROI</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Redis%2C">
+          <span>Redis,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Redshift">
+          <span>Redshift</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Robot">
+          <span>Robot</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Serverless%2C">
+          <span>Serverless,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-2" data-encode="Service">
+          <span>Service</span><div class="tag-button__count">4</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Simple">
+          <span>Simple</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Snowflake%2C">
+          <span>Snowflake,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Spring">
+          <span>Spring</span><div class="tag-button__count">3</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Store">
+          <span>Store</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Swagger">
+          <span>Swagger</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Tool">
+          <span>Tool</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Uber%2C">
+          <span>Uber,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Video%2C">
+          <span>Video,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Virtual">
+          <span>Virtual</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Vizceral">
+          <span>Vizceral</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Websocket%2C">
+          <span>Websocket,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="Work%2C">
+          <span>Work,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="balancer">
+          <span>balancer</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="book">
+          <span>book</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="boot">
+          <span>boot</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="boot%2C">
+          <span>boot,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="broker">
+          <span>broker</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="cdn%2C">
+          <span>cdn,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="client%2C">
+          <span>client,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="cutting%2C">
+          <span>cutting,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="data%2C">
+          <span>data,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="emacs">
+          <span>emacs</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="k8s">
+          <span>k8s</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="kubernetes%2C">
+          <span>kubernetes,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="lettuce">
+          <span>lettuce</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="mongodb">
+          <span>mongodb</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="mqtt%2C">
+          <span>mqtt,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="netflix%2C">
+          <span>netflix,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="oca">
+          <span>oca</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="oneM2M">
+          <span>oneM2M</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="packager">
+          <span>packager</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="predix">
+          <span>predix</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="serverless">
+          <span>serverless</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="todo">
+          <span>todo</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="vod">
+          <span>vod</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="work">
+          <span>work</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EA%B0%9C%EB%B0%9C">
+          <span>개발</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D">
+          <span>데이터분석</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%2C">
+          <span>데이터분석,</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%A7%A8%EB%A8%BC%EC%8A%A4">
+          <span>맨먼스</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%B0%A9%EB%B2%95%EB%A1%A0">
+          <span>방법론</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%84%98%EB%B2%84">
+          <span>베이커넘버</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%B6%84%EC%82%B0">
+          <span>분산</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D">
+          <span>브레인스토밍</span><div class="tag-button__count">2</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-3" data-encode="%EC%83%9D%EA%B0%81">
+          <span>생각</span><div class="tag-button__count">8</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EC%8A%A4%EB%AA%B0%EC%9B%94%EB%93%9C">
+          <span>스몰월드</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89">
+          <span>자율주행</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EC%A0%9C%ED%92%88+%EA%B0%9C%EB%B0%9C">
+          <span>제품 개발</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%EC%BB%A4%EB%A7%A8%EB%93%9C%ED%8C%A8%ED%84%B4">
+          <span>커맨드패턴</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1" data-encode="%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98">
+          <span>트랜잭션</span><div class="tag-button__count">1</div>
+        </button>
+      </li></ul>
+</div>
+<div class="js-result layout--archive__result d-none"><div class="article-list items"><section><h2 class="article-list__group-header">2021</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Serverless%2C,Container">
+        <div class="item__content"><span class="item__meta">Apr 15</span><a itemprop="headline" class="item__header" href="/2021/04/15/Serverless-vs.-Container-%EC%84%A0%ED%83%9D-%EA%B0%80%EC%9D%B4%EB%93%9C.html">Serverless vs. Container 선택 가이드</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GraalVM%2C,Java">
+        <div class="item__content"><span class="item__meta">Apr 13</span><a itemprop="headline" class="item__header" href="/2021/04/13/GraalVM-%EC%86%8C%EA%B0%9C.html">GraalVM 소개</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Spring,Native">
+        <div class="item__content"><span class="item__meta">Apr 08</span><a itemprop="headline" class="item__header" href="/2021/04/08/Spring-Native-%EB%B2%A0%ED%83%80-%EC%86%8C%EA%B0%9C.html">Spring Native 베타 소개</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Business">
+        <div class="item__content"><span class="item__meta">Mar 21</span><a itemprop="headline" class="item__header" href="/2021/03/21/%EA%B5%AC%EB%8F%85-%EA%B8%B0%EB%B0%98-%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4-%EB%AA%A8%EB%8D%B8.html">구독 기반 비즈니스 모델</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix">
+        <div class="item__content"><span class="item__meta">Feb 27</span><a itemprop="headline" class="item__header" href="/2021/02/27/%EB%84%B7%ED%94%8C%EB%A6%AD%EC%8A%A4%EC%9D%98-%ED%99%95%EC%9E%A5-%EA%B0%80%EB%8A%A5%ED%95%9C-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%A7%8C%EB%93%A4%EA%B8%B0.html">넷플릭스의 확장 가능한 플랫폼 만들기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="C3.ai">
+        <div class="item__content"><span class="item__meta">Jan 31</span><a itemprop="headline" class="item__header" href="/2021/01/31/C3.ai-%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4-%EB%AA%A8%EB%8D%B8.html">C3.ai 비즈니스 모델</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2020</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Mantis%2C,Netflix">
+        <div class="item__content"><span class="item__meta">Dec 15</span><a itemprop="headline" class="item__header" href="/2020/12/15/Mantis-%EB%B9%84%EC%9A%A9-%ED%9A%A8%EC%9C%A8%EC%A0%81,-%EC%8B%A4%EC%8B%9C%EA%B0%84,-%EC%9A%B4%EC%98%81-%EC%A4%91%EC%8B%AC%EC%9D%98-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EA%B5%AC%EC%B6%95%EC%9D%84-%EC%9C%84%ED%95%9C-%ED%94%8C%EB%9E%AB%ED%8F%BC.html">Mantis- 비용 효율적, 실시간, 운영 중심의 애플리케이션 구축을 위한 플랫폼</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Cord,cutting%2C,Media%2C,OTT">
+        <div class="item__content"><span class="item__meta">Dec 13</span><a itemprop="headline" class="item__header" href="/2020/12/13/%EC%BD%94%EB%A1%9C%EB%82%98(COVID-19)%EB%A1%9C-%EC%9D%B8%ED%95%B4-%EB%8D%94-%EA%B0%80%EC%86%8D%ED%99%94%EB%90%98%EB%8A%94-%EC%BD%94%EB%93%9C-%EC%BB%A4%ED%8C%85.html">코로나(COVID-19)로 인해 더 가속화되는 코드 커팅</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Gartner">
+        <div class="item__content"><span class="item__meta">Dec 07</span><a itemprop="headline" class="item__header" href="/2020/12/07/2021-Gartner-%EA%B8%B0%EC%88%A0-%ED%8A%B8%EB%A0%8C%EB%93%9C.html">2021 Gartner 기술 트렌드</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Virtual,Store">
+        <div class="item__content"><span class="item__meta">Dec 02</span><a itemprop="headline" class="item__header" href="/2020/12/02/%EC%96%B8%ED%83%9D%ED%8A%B8-%EC%8B%9C%EB%8C%80%EC%9D%98-Virtual-Store-Clikshop.html">언택트 시대의 Virtual Store — Clikshop</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Dec 02</span><a itemprop="headline" class="item__header" href="/2020/12/02/%EC%82%AC%EC%97%85-%EA%B8%B0%ED%9A%8D%EA%B3%BC-%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B8%B0%ED%9A%8D%EC%9D%98-%EC%B0%A8%EC%9D%B4.html">사업 기획과 서비스 기획의 차이</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Dec 01</span><a itemprop="headline" class="item__header" href="/2020/12/01/%EC%97%B0%ED%95%84.html">연필</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Nov 30</span><a itemprop="headline" class="item__header" href="/2020/11/30/%EC%84%9C%EB%A1%9C-%EB%8B%A4%EB%A5%B4%EA%B2%8C-%EB%B3%B4%EB%8A%94-%EA%B2%83.html">서로 다르게 보는 것</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Snowflake%2C,BigQuery%2C,Redshift">
+        <div class="item__content"><span class="item__meta">Nov 27</span><a itemprop="headline" class="item__header" href="/2020/11/27/Snowflake,-BigQuery,-Redshift-%EB%B9%84%EA%B5%90.html">Snowflake, BigQuery, Redshift 비교</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice%2C,Monolith">
+        <div class="item__content"><span class="item__meta">Sep 14</span><a itemprop="headline" class="item__header" href="/2020/09/14/Microservice%EC%99%80-Monolith-%EC%84%A0%ED%83%9D-%EA%B0%80%EC%9D%B4%EB%93%9C.html">Microservice와 Monolith 선택 가이드</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Service,Mesh">
+        <div class="item__content"><span class="item__meta">Feb 09</span><a itemprop="headline" class="item__header" href="/2020/02/09/Service-Mesh-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%8A%A4%ED%83%80%EC%9D%BC-%EB%B9%84%EA%B5%90.html">Service Mesh 아키텍처 스타일 비교</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Service,Mesh">
+        <div class="item__content"><span class="item__meta">Feb 05</span><a itemprop="headline" class="item__header" href="/2020/02/05/Service-Mesh-Architecture-(%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%A9%94%EC%8B%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98).html">Service Mesh Architecture (서비스 메시 아키텍처)</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2019</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice%2C,Tool">
+        <div class="item__content"><span class="item__meta">Nov 18</span><a itemprop="headline" class="item__header" href="/2019/11/18/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B4%80%EB%A0%A8-Tool.html">마이크로 서비스 관련 Tool</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Microservice">
+        <div class="item__content"><span class="item__meta">Nov 05</span><a itemprop="headline" class="item__header" href="/2019/11/05/Netflix%EB%82%B4%EC%9D%98-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-(Gutenberg).html">Netflix내의 마이크로서비스가 데이터를 처리하는 방법 (Gutenberg)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice%2C,MSA">
+        <div class="item__content"><span class="item__meta">Oct 09</span><a itemprop="headline" class="item__header" href="/2019/10/09/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%A0%84%ED%99%98%EC%8B%9C-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EA%B2%83.html">마이크로 서비스 전환시 알아야 할 것</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice%2C,%EB%B6%84%EC%82%B0,%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98">
+        <div class="item__content"><span class="item__meta">Sep 17</span><a itemprop="headline" class="item__header" href="/2019/09/17/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EC%97%90%EC%84%9C-%EB%B6%84%EC%82%B0-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98.html">마이크로 서비스에서 분산 트랜잭션</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice">
+        <div class="item__content"><span class="item__meta">Sep 07</span><a itemprop="headline" class="item__header" href="/2019/09/07/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B2%BD%EC%9A%B0.html">마이크로 서비스를 사용하지 않는 경우</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice">
+        <div class="item__content"><span class="item__meta">Sep 06</span><a itemprop="headline" class="item__header" href="/2019/09/06/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EC%9D%98-%EA%B2%BD%EA%B3%84.html">마이크로 서비스의 경계</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Media%2C,Database">
+        <div class="item__content"><span class="item__meta">Feb 12</span><a itemprop="headline" class="item__header" href="/2019/02/12/Netflix-%EB%AF%B8%EB%94%94%EC%96%B4-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.html">Netflix 미디어 데이터베이스</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Spring,boot">
+        <div class="item__content"><span class="item__meta">Feb 04</span><a itemprop="headline" class="item__header" href="/2019/02/04/Netflix-OSS-%EB%B0%8F-Spring-Boot.html">Netflix OSS 및 Spring Boot</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Microservice%2C,MSA">
+        <div class="item__content"><span class="item__meta">Jan 21</span><a itemprop="headline" class="item__header" href="/2019/01/21/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%83%9D%EA%B0%81%ED%95%B4%EB%B3%B4%EA%B8%B0.html">마이크로 서비스에 대해서 생각해보기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="MSA%2C,Microservice%2C,ROI">
+        <div class="item__content"><span class="item__meta">Jan 04</span><a itemprop="headline" class="item__header" href="/2019/01/04/Microservice%EC%9D%98-ROI%EB%A5%BC-%EC%B8%A1%EC%A0%95%EC%9D%84-%EC%9C%84%ED%95%9C-%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98.html">Microservice의 ROI를 측정을 위한 매개변수</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2018</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Blockchain%2C,%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Dec 31</span><a itemprop="headline" class="item__header" href="/2018/12/31/%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8-%EA%B8%B0%EC%88%A0%EC%9D%84-%EB%B0%94%EB%9D%BC%EB%B3%B4%EB%8A%94-%EA%B0%9C%EC%9D%B8%EC%A0%81-%EC%8B%9C%EA%B0%81.html">블록체인 기술을 바라보는 개인적 시각</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Dec 25</span><a itemprop="headline" class="item__header" href="/2018/12/25/%EB%8F%85%EC%84%9C-%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94%EB%8B%A4%EB%8A%94-%EB%A7%90.html">[독서] 지지 않는다는 말</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GraphQL%2C,Netflix">
+        <div class="item__content"><span class="item__meta">Dec 12</span><a itemprop="headline" class="item__header" href="/2018/12/12/GraphQL-%EC%B1%84%ED%83%9D-%ED%9B%84-Netflix%EA%B0%80-%EB%B0%B0%EC%9A%B4-%EA%B2%83%EB%93%A4.html">GraphQL 채택 후 Netflix가 배운 것들</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Hollow">
+        <div class="item__content"><span class="item__meta">Dec 10</span><a itemprop="headline" class="item__header" href="/2018/12/10/NetflixOSS-Hollow.html">NetflixOSS Hollow</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Dec 09</span><a itemprop="headline" class="item__header" href="/2018/12/09/%EC%8A%A4%EB%A7%88%ED%8A%B8-%EC%8B%9C%EB%8C%80%EC%97%90-%ED%97%8C%EC%B1%85%EB%B0%A9%EC%9D%B4-%EA%B3%B5%EC%A1%B4%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%B4%EC%9C%A0.html">스마트 시대에 헌책방이 공존할 수 있는 이유</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="PaaS%2C,CaaS">
+        <div class="item__content"><span class="item__meta">Dec 06</span><a itemprop="headline" class="item__header" href="/2018/12/06/PaaS-vs.-CaaS.html">PaaS vs. CaaS</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="AWS%2C,Outpost">
+        <div class="item__content"><span class="item__meta">Dec 04</span><a itemprop="headline" class="item__header" href="/2018/12/04/AWS-Outposts.html">AWS Outposts</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Uber%2C,Pricing">
+        <div class="item__content"><span class="item__meta">Dec 01</span><a itemprop="headline" class="item__header" href="/2018/12/01/%EC%9A%B0%EB%B2%84%EC%9D%98-%EC%9A%94%EA%B8%88-%EC%A0%95%EC%B1%85.html">우버의 요금 정책</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Istio%2C,Envoy%2C,Service,Mesh%2C,OpenTracing">
+        <div class="item__content"><span class="item__meta">Nov 28</span><a itemprop="headline" class="item__header" href="/2018/11/28/Istio-&-Envoy%EC%97%90%EC%84%9C-OpenTracing-%EC%82%AC%EC%9A%A9-%ED%95%98%EA%B8%B0.html">Istio & Envoy에서 OpenTracing 사용 하기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Service,Mesh">
+        <div class="item__content"><span class="item__meta">Nov 26</span><a itemprop="headline" class="item__header" href="/2018/11/26/Servie-Mesh-%EC%95%8C%EC%95%84-%EB%B3%B4%EA%B8%B0.html">Servie Mesh 알아 보기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GraphQL%2C,BFF">
+        <div class="item__content"><span class="item__meta">Nov 07</span><a itemprop="headline" class="item__header" href="/2018/11/07/GraphQL%EB%A1%9C-BFF-%EB%8C%80%EC%B2%B4%ED%95%98%EA%B8%B0.html">GraphQL로 BFF 대체하기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Work%2C,Simple">
+        <div class="item__content"><span class="item__meta">Nov 04</span><a itemprop="headline" class="item__header" href="/2018/11/04/Simple-Work.,-%EB%8B%A8%EC%88%9C%ED%95%98%EA%B2%8C-%EC%9D%BC%ED%95%98%EA%B8%B0.html">Simple Work., 단순하게 일하기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Vizceral">
+        <div class="item__content"><span class="item__meta">Oct 30</span><a itemprop="headline" class="item__header" href="/2018/10/30/Netflix-Vizceral.html">Netflix Vizceral</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="MSA%2C,Microservice%2C,Database">
+        <div class="item__content"><span class="item__meta">Sep 17</span><a itemprop="headline" class="item__header" href="/2018/09/17/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98%EC%97%90%EC%84%9C-%EB%8B%A8%EC%9D%BC-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EB%B6%84%EB%A6%AC%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0.html">마이크로 서비스 아키텍처에서 단일 데이터베이스를 분리해야 하는 이유</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Eureka">
+        <div class="item__content"><span class="item__meta">Aug 29</span><a itemprop="headline" class="item__header" href="/2018/08/29/Netflix-OSS-Eureka-2.0.html">Netflix OSS — Eureka 2.0</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Video%2C,Meta,data%2C,Object,Cache">
+        <div class="item__content"><span class="item__meta">Jul 19</span><a itemprop="headline" class="item__header" href="/2018/07/19/%EB%B9%84%EB%94%94%EC%98%A4-%EB%A9%94%ED%83%80-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%99%95%EC%9E%A5%EC%9D%84-%EC%9C%84%ED%95%9C-Object-Cache.html">비디오 메타 데이터 확장을 위한 Object Cache</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Music%2C,Movie%2C,Curation">
+        <div class="item__content"><span class="item__meta">Jul 13</span><a itemprop="headline" class="item__header" href="/2018/07/13/%EC%9D%8C%EC%95%85%EA%B3%BC-%EC%98%81%ED%99%94%EC%9D%98-%EC%9E%A5%EB%A5%B4-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%ED%81%90%EB%A0%88%EC%9D%B4%EC%85%98.html">음악과 영화의 장르 그리고 큐레이션</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Artwork%2C,Personalization">
+        <div class="item__content"><span class="item__meta">Jul 13</span><a itemprop="headline" class="item__header" href="/2018/07/13/Netflix-Artwork%EC%9D%98-%EA%B0%9C%EC%9D%B8%ED%99%94.html">Netflix Artwork의 개인화</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Robot">
+        <div class="item__content"><span class="item__meta">Jul 09</span><a itemprop="headline" class="item__header" href="/2018/07/09/Robot%EC%9D%B4-%EB%B6%88%EB%9F%AC%EC%98%A4%EB%8A%94-%EB%B3%80%ED%99%94%EB%93%A4.html">Robot이 불러오는 변화들</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GraphQL%2C,RESTful">
+        <div class="item__content"><span class="item__meta">Jul 08</span><a itemprop="headline" class="item__header" href="/2018/07/08/GraphQL%EA%B3%BC-RESTful.html">GraphQL과 RESTful</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="MSA%2C,BFF">
+        <div class="item__content"><span class="item__meta">Jul 01</span><a itemprop="headline" class="item__header" href="/2018/07/01/Back-end-for-Front-end-Pattern-(BFF).html">Back-end for Front-end Pattern (BFF)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,Metacat">
+        <div class="item__content"><span class="item__meta">Jun 15</span><a itemprop="headline" class="item__header" href="/2018/06/15/Netflix-Metacat-%ED%81%B0-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EB%B0%9C%EA%B2%AC%ED%95%98%EA%B3%A0-%EC%9D%98%EB%AF%B8%EC%9E%88%EA%B2%8C-%EB%A7%8C%EB%93%A4%EA%B8%B0.html">Netflix Metacat : 큰 데이터를 발견하고 의미있게 만들기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Jun 06</span><a itemprop="headline" class="item__header" href="/2018/06/06/%EB%8C%80%EC%B2%B4-%EC%BD%94%EB%93%9C.html">대체 코드?</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,REST">
+        <div class="item__content"><span class="item__meta">May 03</span><a itemprop="headline" class="item__header" href="/2018/05/03/%EB%8B%A4%EC%96%91%ED%95%9C-%EC%9E%A5%EC%B9%98%EB%A5%BC-%EC%A7%80%EC%9B%90%ED%95%98%EB%8A%94-REST-API%EC%97%90-%EB%8C%80%ED%95%B4-%EA%B3%A0%EC%B0%B0.html">다양한 장치를 지원하는 REST API에 대해 고찰</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,OCA%2C,Open,Connect">
+        <div class="item__content"><span class="item__meta">Apr 06</span><a itemprop="headline" class="item__header" href="/2018/04/06/Netflix-Open-Connect%EC%97%90%EC%84%9C-%EC%9D%B8%EA%B8%B0-%EC%BD%98%ED%85%90%EC%B8%A0-%EA%B4%80%EB%A6%AC-%EB%B0%A9%EB%B2%95.html">Netflix Open Connect에서 인기 콘텐츠 관리 방법</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Kubernetes%2C,Mesos%2C,Marathon">
+        <div class="item__content"><span class="item__meta">Jan 30</span><a itemprop="headline" class="item__header" href="/2018/01/30/Kubernetes-vs-Mesos-with-Marathon-(%EA%B8%B0%EC%88%A0%EC%A0%81-%EA%B4%80%EC%A0%90).html">Kubernetes vs Mesos with Marathon (기술적 관점)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,OCA%2C,CDN">
+        <div class="item__content"><span class="item__meta">Jan 21</span><a itemprop="headline" class="item__header" href="/2018/01/21/OCA(Open-Connect-Appliance)%EC%97%90%EC%84%9C-100Gbps-%EC%84%9C%EB%B9%84%EC%8A%A4.html">OCA(Open Connect Appliance)에서 100Gbps 서비스</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Load,balancer">
+        <div class="item__content"><span class="item__meta">Jan 19</span><a itemprop="headline" class="item__header" href="/2018/01/19/Load-Balancer-%EB%B9%84%EA%B5%90.html">Load Balancer 비교</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Kubernetes%2C,Mesos">
+        <div class="item__content"><span class="item__meta">Jan 18</span><a itemprop="headline" class="item__header" href="/2018/01/18/Kubernetes-vs.-Mesos-%EC%96%B4%EB%8A%90-Container-Orchestrator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C-(%EC%82%AC%EC%97%85-%EA%B4%80%EC%A0%90).html">Kubernetes vs. Mesos: 어느 Container Orchestrator를 사용해야 할까? (사업 관점)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="CMAF">
+        <div class="item__content"><span class="item__meta">Jan 16</span><a itemprop="headline" class="item__header" href="/2018/01/16/CMAF-(Common-Media-Application-Format).html">CMAF (Common Media Application Format)</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2017</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Jmeter%2C,Locust">
+        <div class="item__content"><span class="item__meta">Nov 02</span><a itemprop="headline" class="item__header" href="/2017/11/02/Jmeter-vs.-Locust-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%8D%A8%EC%95%BC-%ED%95%A0%EA%B9%8C.html">Jmeter vs. Locust 무엇을 써야 할까?</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Netflix%2C,CDN">
+        <div class="item__content"><span class="item__meta">Sep 27</span><a itemprop="headline" class="item__header" href="/2017/09/27/Intelligent-Caching-and-Packaging-in-an-ABR-Multi-format-CDN.html">Intelligent Caching and Packaging in an ABR Multi-format CDN</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="netflix%2C,cdn%2C,oca">
+        <div class="item__content"><span class="item__meta">Sep 25</span><a itemprop="headline" class="item__header" href="/2017/09/25/Netflix,-%EA%B7%B8%EB%93%A4%EC%9D%98-%EC%BD%98%ED%85%90%EC%B8%A0-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%B0%A9%EC%8B%9D-(Netflix-and-Fill).html">Netflix, 그들의 콘텐츠 서비스 방식 (Netflix and Fill)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Nginx%2C,vod,packager">
+        <div class="item__content"><span class="item__meta">Jul 09</span><a itemprop="headline" class="item__header" href="/2017/07/09/NGINX-based-vod-packager-%EC%86%8C%EA%B0%9C.html">NGINX based vod packager 소개</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Hashicorp%2C,Consul">
+        <div class="item__content"><span class="item__meta">Jul 04</span><a itemprop="headline" class="item__header" href="/2017/07/04/HashiCorp%EC%82%AC%EC%9D%98-Consul,-Consul-Template-%EC%86%8C%EA%B0%9C.html">HashiCorp사의 Consul, Consul Template 소개</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%83%9D%EA%B0%81">
+        <div class="item__content"><span class="item__meta">Mar 24</span><a itemprop="headline" class="item__header" href="/2017/03/24/%EC%99%B8%EC%A0%81-%EB%8F%99%EA%B8%B0%EC%99%80-%EB%82%B4%EC%A0%81-%EB%8F%99%EA%B8%B0.html">외적 동기와 내적 동기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="todo">
+        <div class="item__content"><span class="item__meta">Mar 10</span><a itemprop="headline" class="item__header" href="/2017/03/10/Best-To-Do-List-%EC%84%9C%EB%B9%84%EC%8A%A4.html">Best To-Do List 서비스</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2016</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="MSA%2C,Microservice">
+        <div class="item__content"><span class="item__meta">Dec 17</span><a itemprop="headline" class="item__header" href="/2016/12/17/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98(Microservices-Architecture)%EC%9D%98-%EC%9E%A5%EC%A0%90%EA%B3%BC-%EB%8B%A8%EC%A0%90.html">마이크로서비스 아키텍처(Microservices Architecture)의 장점과 단점</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Python%2C,Java">
+        <div class="item__content"><span class="item__meta">Dec 16</span><a itemprop="headline" class="item__header" href="/2016/12/16/Java-class%EB%A5%BC-Python%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0.html">Java class를 Python에서 사용하기</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Spring,boot%2C,Swagger">
+        <div class="item__content"><span class="item__meta">Dec 15</span><a itemprop="headline" class="item__header" href="/2016/12/15/Spring-boot%EC%97%90-Swagger2-%EC%84%A4%EC%A0%95.html">Spring-boot에 Swagger2 설정</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Redis%2C,Java,client%2C,lettuce">
+        <div class="item__content"><span class="item__meta">Dec 14</span><a itemprop="headline" class="item__header" href="/2016/12/14/Redis-Java-client-lettuce-%EC%86%8C%EA%B0%9C.html">Redis Java client -lettuce 소개</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EA%B0%9C%EB%B0%9C,%EB%B0%A9%EB%B2%95%EB%A1%A0">
+        <div class="item__content"><span class="item__meta">Dec 13</span><a itemprop="headline" class="item__header" href="/2016/12/13/%EA%B0%9C%EB%B0%9C-%EB%B0%A9%EB%B2%95%EB%A1%A0-%EA%B3%A0%EC%B0%B0.html">개발 방법론 고찰</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="oneM2M">
+        <div class="item__content"><span class="item__meta">Oct 05</span><a itemprop="headline" class="item__header" href="/2016/10/05/oneM2M-release-2-overview.html">oneM2M release 2 overview</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Websocket%2C,Proxy">
+        <div class="item__content"><span class="item__meta">Sep 26</span><a itemprop="headline" class="item__header" href="/2016/09/26/Websocket-Proxy.html">Websocket Proxy</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="serverless">
+        <div class="item__content"><span class="item__meta">Sep 26</span><a itemprop="headline" class="item__header" href="/2016/09/26/Serverless%EC%9D%98-%EC%8B%9C%EB%8C%80.html">Serverless의 시대</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="mqtt%2C,broker">
+        <div class="item__content"><span class="item__meta">Sep 12</span><a itemprop="headline" class="item__header" href="/2016/09/12/MQTT-Borker-%EC%84%A0%EC%A0%95-%EA%B3%A0%EB%A0%A4%EC%82%AC%ED%95%AD.html">MQTT Borker 선정 고려사항</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="Maven%2C,Ant">
+        <div class="item__content"><span class="item__meta">Jul 05</span><a itemprop="headline" class="item__header" href="/2016/07/05/Maven%EA%B3%BC-Ant.html">Maven과 Ant</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="DPDK">
+        <div class="item__content"><span class="item__meta">Jun 29</span><a itemprop="headline" class="item__header" href="/2016/06/29/DPDK-(Data-Plane-Development-Kit)-%EB%9E%80.html">DPDK (Data Plane Development Kit) 란?</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%BB%A4%EB%A7%A8%EB%93%9C%ED%8C%A8%ED%84%B4">
+        <div class="item__content"><span class="item__meta">Jun 29</span><a itemprop="headline" class="item__header" href="/2016/06/29/Command-pattern-(%EC%BB%A4%EB%A7%A8%EB%93%9C-%ED%8C%A8%ED%84%B4).html">Command pattern (커맨드 패턴)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%2C,%EC%8A%A4%EB%AA%B0%EC%9B%94%EB%93%9C">
+        <div class="item__content"><span class="item__meta">Jun 28</span><a itemprop="headline" class="item__header" href="/2016/06/28/%EC%8A%A4%EB%AA%B0%EC%9B%94%EB%93%9C-%ED%9A%A8%EA%B3%BC.html">스몰월드 효과</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D">
+        <div class="item__content"><span class="item__meta">Jun 28</span><a itemprop="headline" class="item__header" href="/2016/06/28/%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC-%EA%B7%B8%EB%9E%98%ED%94%84.html">나이팅게일 그래프</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%84%98%EB%B2%84">
+        <div class="item__content"><span class="item__meta">Jun 28</span><a itemprop="headline" class="item__header" href="/2016/06/28/%EB%B2%A0%EC%9D%B4%EC%BB%A4-%EB%84%98%EB%B2%84-(The-Oracle-of-Bacon).html">베이커 넘버 (The Oracle of Bacon)</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="IoT">
+        <div class="item__content"><span class="item__meta">Jun 27</span><a itemprop="headline" class="item__header" href="/2016/06/27/IoT-Applications.html">IoT Applications</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="AI%2C,%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89">
+        <div class="item__content"><span class="item__meta">Jun 23</span><a itemprop="headline" class="item__header" href="/2016/06/23/%EB%AC%B4%EC%9D%B8-%EC%9E%90%EB%8F%99%EC%B0%A8%EC%9D%98-%EA%B3%A0%EB%AF%BC.html">무인 자동차의 고민</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="kubernetes%2C,k8s">
+        <div class="item__content"><span class="item__meta">Jun 13</span><a itemprop="headline" class="item__header" href="/2016/06/13/Kubernetes%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80.html">Kubernetes란 무엇인가?</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="oneM2M">
+        <div class="item__content"><span class="item__meta">May 01</span><a itemprop="headline" class="item__header" href="/2016/05/01/oneM2M-Interop-2.html">oneM2M Interop 2</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="PaaS">
+        <div class="item__content"><span class="item__meta">Apr 21</span><a itemprop="headline" class="item__header" href="/2016/04/21/PaaS-Trends.html">PaaS Trends</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="IIoT">
+        <div class="item__content"><span class="item__meta">Apr 04</span><a itemprop="headline" class="item__header" href="/2016/04/04/Industrial-Internet-of-Things.html">Industrial Internet of Things</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GE,predix">
+        <div class="item__content"><span class="item__meta">Mar 06</span><a itemprop="headline" class="item__header" href="/2016/03/06/GE-Predix-%EC%B6%94%EC%A7%84-%EC%A0%84%EB%9E%B5.html">GE Predix 추진 전략</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="emacs">
+        <div class="item__content"><span class="item__meta">Mar 04</span><a itemprop="headline" class="item__header" href="/2016/03/04/How-to-learn-emacs.html">How to learn emacs</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D">
+        <div class="item__content"><span class="item__meta">Mar 02</span><a itemprop="headline" class="item__header" href="/2016/03/02/%EB%B6%88%EC%BE%8C%ED%95%9C-%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D%EC%9D%98-6%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95.html">불쾌한 브레인스토밍의 6가지 방법</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D">
+        <div class="item__content"><span class="item__meta">Feb 28</span><a itemprop="headline" class="item__header" href="/2016/02/28/%EC%9C%A0%EC%BE%8C%ED%95%9C-%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D%EC%9D%98-7%EA%B0%80%EC%A7%80-%EB%B9%84%EB%B0%80.html">유쾌한 브레인스토밍의 7가지 비밀</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="%EC%A0%9C%ED%92%88+%EA%B0%9C%EB%B0%9C,%EB%A7%A8%EB%A8%BC%EC%8A%A4">
+        <div class="item__content"><span class="item__meta">Feb 27</span><a itemprop="headline" class="item__header" href="/2016/02/27/%EC%96%B4%EB%96%A4%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%95%BC-%ED%95%A0%EA%B9%8C.html">어떤식으로 시스템을 만들어야 할까?</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="mongodb">
+        <div class="item__content"><span class="item__meta">Feb 16</span><a itemprop="headline" class="item__header" href="/2016/02/16/MongoDB-Schema-Design-Part-1.html">MongoDB Schema Design — Part #1</a></div>
+      </li><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="work">
+        <div class="item__content"><span class="item__meta">Jan 01</span><a itemprop="headline" class="item__header" href="/2016/01/01/2015,-Virtual-Team-%ED%9A%8C%EA%B3%A0.html">2015, Virtual Team 회고</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2015</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="book">
+        <div class="item__content"><span class="item__meta">Feb 14</span><a itemprop="headline" class="item__header" href="/2015/02/14/%EC%A7%81%EA%B4%80%EC%9D%98-%EC%A2%85%EB%A7%90%EA%B3%BC-%EC%8A%88%ED%8D%BC%ED%81%AC%EB%9F%B0%EC%B2%98.html">직관의 종말과 슈퍼크런처</a></div>
+      </li></ul></section><section><h2 class="article-list__group-header">2014</h2><ul class="items"><li class="item" itemscope itemtype="http://schema.org/BlogPosting" data-tags="GTD">
+        <div class="item__content"><span class="item__meta">Jun 26</span><a itemprop="headline" class="item__header" href="/2014/06/26/%EC%97%85%EB%AC%B4%EC%97%90-GTD%EB%A5%BC-%EC%A0%81%EC%9A%A9%ED%95%B4%EB%B3%B4%EC%9E%90.html">업무에 GTD를 적용해보자!</a></div>
+      </li></div>
+</div>
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  function queryString() {
+    // This function is anonymous, is executed immediately and
+    // the return value is assigned to QueryString!
+    var i = 0, queryObj = {}, pair;
+    var queryStr = window.location.search.substring(1);
+    var queryArr = queryStr.split('&');
+    for (i = 0; i < queryArr.length; i++) {
+      pair = queryArr[i].split('=');
+      // If first entry with this name
+      if (typeof queryObj[pair[0]] === 'undefined') {
+        queryObj[pair[0]] = pair[1];
+        // If second entry with this name
+      } else if (typeof queryObj[pair[0]] === 'string') {
+        queryObj[pair[0]] = [queryObj[pair[0]], pair[1]];
+        // If third or later entry with this name
+      } else {
+        queryObj[pair[0]].push(pair[1]);
+      }
+    }
+    return queryObj;
+  }
+
+  var setUrlQuery = (function() {
+    var baseUrl =  window.location.href.split('?')[0];
+    return function(query) {
+      if (typeof query === 'string') {
+        window.history.replaceState(null, '', baseUrl + query);
+      } else {
+        window.history.replaceState(null, '', baseUrl);
+      }
+    };
+  })();
+
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $tags = $('.js-tags');
+    var $articleTags = $tags.find('button');
+    var $tagShowAll = $tags.find('.tag-button--all');
+    var $result = $('.js-result');
+    var $sections = $result.find('section');
+    var sectionArticles = [];
+    var $lastFocusButton = null;
+    var sectionTopArticleIndex = [];
+    var hasInit = false;
+
+    $sections.each(function() {
+      sectionArticles.push($(this).find('.item'));
+    });
+
+    function init() {
+      var i, index = 0;
+      for (i = 0; i < $sections.length; i++) {
+        sectionTopArticleIndex.push(index);
+        index += $sections.eq(i).find('.item').length;
+      }
+      sectionTopArticleIndex.push(index);
+    }
+
+    function searchButtonsByTag(_tag/*raw tag*/) {
+      if (!_tag) {
+        return $tagShowAll;
+      }
+      var _buttons = $articleTags.filter('[data-encode="' + _tag + '"]');
+      if (_buttons.length === 0) {
+        return $tagShowAll;
+      }
+      return _buttons;
+    }
+    function buttonFocus(target) {
+      if (target) {
+        target.addClass('focus');
+        $lastFocusButton && !$lastFocusButton.is(target) && $lastFocusButton.removeClass('focus');
+        $lastFocusButton = target;
+      }
+    }
+
+    function tagSelect (tag/*raw tag*/, target) {
+      var result = {}, $articles;
+      var i, j, k, _tag;
+
+      for (i = 0; i < sectionArticles.length; i++) {
+        $articles = sectionArticles[i];
+        for (j = 0; j < $articles.length; j++) {
+          if (tag === '' || tag === undefined) {
+            result[i] || (result[i] = {});
+            result[i][j] = true;
+          } else {
+            var tags = $articles.eq(j).data('tags').split(',');
+            for (k = 0; k < tags.length; k++) {
+              if (tags[k] === tag) {
+                result[i] || (result[i] = {});
+                result[i][j] = true; break;
+              }
+            }
+          }
+        }
+      }
+
+      for (i = 0; i < sectionArticles.length; i++) {
+        result[i] && $sections.eq(i).removeClass('d-none');
+        result[i] || $sections.eq(i).addClass('d-none');
+        for (j = 0; j < sectionArticles[i].length; j++) {
+          if (result[i] && result[i][j]) {
+            sectionArticles[i].eq(j).removeClass('d-none');
+          } else {
+            sectionArticles[i].eq(j).addClass('d-none');
+          }
+        }
+      }
+
+      hasInit || ($result.removeClass('d-none'), hasInit = true);
+
+
+      if (target) {
+        buttonFocus(target);
+        _tag = target.attr('data-encode');
+        if (_tag === '' || typeof _tag !== 'string') {
+          setUrlQuery();
+        } else {
+          setUrlQuery('?tag=' + _tag);
+        }
+      } else {
+        buttonFocus(searchButtonsByTag(tag));
+      }
+    }
+
+    var query = queryString(), _tag = query.tag;
+    init(); tagSelect(_tag);
+    $tags.on('click', 'button', function() {
+      tagSelect($(this).data('encode'), $(this));
+    });
+
+  });
+})();
+</script>
+
+
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet -->
+</div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Giljae Joo (주길재)"><meta itemprop="url" content="/"><meta itemprop="description" content="I am an amazing person."><div class="footer__author-links"><div class="author-links">
+  <ul class="menu menu--nowrap menu--inline"><li title="Send me an Email.">
+      <a class="button button--circle mail-button" itemprop="email" href="mailto:giljae@gmail.com" target="_blank">
+        <i class="fas fa-envelope"></i>
+      </a><li title="Follow me on Facebook.">
+        <a class="button button--circle facebook-button" itemprop="sameAs" href="https://www.facebook.com/giljae" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M767.428571 6.857143l0 150.857143-89.714286 0q-49.142857 0-66.285714 20.571429t-17.142857 61.714286l0 108 167.428571 0-22.285714 169.142857-145.142857 0 0 433.714286-174.857143 0 0-433.714286-145.714286 0 0-169.142857 145.714286 0 0-124.571429q0-106.285714 59.428571-164.857143t158.285714-58.571429q84 0 130.285714 6.857143z" />
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Twitter.">
+        <a class="button button--circle twitter-button" itemprop="sameAs" href="https://twitter.com/giljae" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1024.032 194.432c-37.664 16.704-78.176 28-120.672 33.088 43.36-26.016 76.672-67.168 92.384-116.224-40.608 24.064-85.568 41.568-133.408 50.976-38.336-40.832-92.928-66.336-153.344-66.336-116.032 0-210.08 94.048-210.08 210.08 0 16.48 1.856 32.512 5.44 47.872-174.592-8.768-329.408-92.416-433.024-219.52-18.08 31.04-28.448 67.104-28.448 105.632 0 72.896 37.088 137.184 93.472 174.88-34.432-1.088-66.816-10.528-95.168-26.272-0.032 0.864-0.032 1.76-0.032 2.656 0 101.792 72.416 186.688 168.512 205.984-17.632 4.8-36.192 7.36-55.36 7.36-13.536 0-26.688-1.312-39.52-3.776 26.72 83.456 104.32 144.192 196.256 145.888-71.904 56.352-162.496 89.92-260.928 89.92-16.96 0-33.664-0.992-50.112-2.944 92.96 59.616 203.392 94.4 322.048 94.4 386.432 0 597.728-320.128 597.728-597.76 0-9.12-0.192-18.176-0.608-27.168 41.056-29.632 76.672-66.624 104.832-108.736z" />
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Medium.">
+        <a class="button button--circle medium-button" itemprop="sameAs" href="https://medium.com/giljae" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M834.7 279.8l61.3-58.9V208H683.7L532.4 586.4 360.3 208H137.7v12.9l71.6 86.6c7 6.4 10.6 15.8 9.7 25.2V673c2.2 12.3-1.7 24.8-10.3 33.7L128 805v12.7h228.6v-12.9l-80.6-98a39.99 39.99 0 0 1-11.1-33.7V378.7l200.7 439.2h23.3l172.6-439.2v349.9c0 9.2 0 11.1-6 17.2l-62.1 60.3V819h301.2v-12.9l-59.9-58.9c-5.2-4-7.9-10.7-6.8-17.2V297a18.1 18.1 0 0 1 6.8-17.2z"></path>
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Linkedin.">
+        <a class="button button--circle linkedin-button" itemprop="sameAs" href="https://www.linkedin.com/in/giljae" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M260.096 155.648c0 27.307008-9.899008 50.516992-29.696 69.632-19.796992 19.115008-45.396992 28.672-76.8 28.672-30.036992 0-54.612992-9.556992-73.728-28.672-19.115008-19.115008-28.672-42.324992-28.672-69.632 0-28.672 9.556992-52.224 28.672-70.656 19.115008-18.432 44.372992-27.648 75.776-27.648 31.403008 0 56.32 9.216 74.752 27.648 18.432 18.432 28.331008 41.984 29.696 70.656 0 0 0 0 0 0m-202.752 808.96c0 0 0-632.832 0-632.832 0 0 196.608 0 196.608 0 0 0 0 632.832 0 632.832 0 0-196.608 0-196.608 0 0 0 0 0 0 0m313.344-430.08c0-58.708992-1.364992-126.292992-4.096-202.752 0 0 169.984 0 169.984 0 0 0 10.24 88.064 10.24 88.064 0 0 4.096 0 4.096 0 40.96-68.267008 105.812992-102.4 194.56-102.4 68.267008 0 123.220992 22.868992 164.864 68.608 41.643008 45.739008 62.464 113.664 62.464 203.776 0 0 0 374.784 0 374.784 0 0-196.608 0-196.608 0 0 0 0-350.208 0-350.208 0-91.476992-33.451008-137.216-100.352-137.216-47.787008 0-81.236992 24.576-100.352 73.728-4.096 8.192-6.144 24.576-6.144 49.152 0 0 0 364.544 0 364.544 0 0-198.656 0-198.656 0 0 0 0-430.08 0-430.08 0 0 0 0 0 0" />
+</svg>
+</div>
+        </a>
+      </li><li title="Follow me on Github.">
+        <a class="button button--circle github-button" itemprop="sameAs" href="https://github.com/giljae" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li></ul>
+</div>
+</div>
+    </div><div class="site-info mt-2">
+      <div>© Giljae Joo (주길재) 2021,
+        Powered by <a title="Jekyll is a simple, blog-aware, static site generator." href="http://jekyllrb.com/">Jekyll</a> & <a
+        title="TeXt is a super customizable Jekyll theme." href="https://github.com/kitian616/jekyll-TeXt-theme">TeXt Theme</a>.
+      </div>
+    </div>
+  </div>
+</footer>
+</div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"><script>
+(function () {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    // search panel
+    var search = (window.search || (window.search = {}));
+    var useDefaultSearchBox = window.useDefaultSearchBox === undefined ?
+      true : window.useDefaultSearchBox ;
+
+    var $searchModal = $('.js-page-search-modal');
+    var $searchToggle = $('.js-search-toggle');
+    var searchModal = $searchModal.modal({ onChange: handleModalChange, hideWhenWindowScroll: true });
+    var modalVisible = false;
+    search.searchModal = searchModal;
+
+    var $searchBox = null;
+    var $searchInput = null;
+    var $searchClear = null;
+
+    function getModalVisible() {
+      return modalVisible;
+    }
+    search.getModalVisible = getModalVisible;
+
+    function handleModalChange(visible) {
+      modalVisible = visible;
+      if (visible) {
+        search.onShow && search.onShow();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].focus();
+      } else {
+        search.onShow && search.onHide();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].blur();
+        setTimeout(function() {
+          useDefaultSearchBox && ($searchInput.val(''), $searchBox.removeClass('not-empty'));
+          search.clear && search.clear();
+          window.pageAsideAffix && window.pageAsideAffix.refresh();
+        }, 400);
+      }
+    }
+
+    $searchToggle.on('click', function() {
+      modalVisible ? searchModal.hide() : searchModal.show();
+    });
+    // Char Code: 83  S, 191 /
+    $(window).on('keyup', function(e) {
+      if (!modalVisible && !window.isFormElement(e.target || e.srcElement) && (e.which === 83 || e.which === 191)) {
+        modalVisible || searchModal.show();
+      }
+    });
+
+    if (useDefaultSearchBox) {
+      $searchBox = $('.js-search-box');
+      $searchInput = $searchBox.children('input');
+      $searchClear = $searchBox.children('.js-icon-clear');
+      search.getSearchInput = function() {
+        return $searchInput.get(0);
+      };
+      search.getVal = function() {
+        return $searchInput.val();
+      };
+      search.setVal = function(val) {
+        $searchInput.val(val);
+      };
+
+      $searchInput.on('focus', function() {
+        $(this).addClass('focus');
+      });
+      $searchInput.on('blur', function() {
+        $(this).removeClass('focus');
+      });
+      $searchInput.on('input', window.throttle(function() {
+        var val = $(this).val();
+        if (val === '' || typeof val !== 'string') {
+          search.clear && search.clear();
+        } else {
+          $searchBox.addClass('not-empty');
+          search.onInputNotEmpty && search.onInputNotEmpty(val);
+        }
+      }, 400));
+      $searchClear.on('click', function() {
+        $searchInput.val(''); $searchBox.removeClass('not-empty');
+        search.clear && search.clear();
+      });
+    }
+  });
+})();
+</script><div class="search search--dark">
+  <div class="main">
+    <div class="search__header">Search</div>
+    <div class="search-bar">
+      <div class="search-box js-search-box">
+        <div class="search-box__icon-search"><i class="fas fa-search"></i></div>
+        <input type="text" />
+        <div class="search-box__icon-clear js-icon-clear">
+          <a><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+      <button class="button button--theme-dark button--pill search__cancel js-search-toggle">
+        Cancel</button>
+    </div>
+    <div class="search-result js-search-result"></div>
+  </div>
+</div>
+<script>var SOURCES = window.TEXT_VARIABLES.sources;
+var PAHTS = window.TEXT_VARIABLES.paths;
+window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
+  var search = (window.search || (window.search = {}));
+  var searchData = window.TEXT_SEARCH_DATA || {};
+
+  function memorize(f) {
+    var cache = {};
+    return function () {
+      var key = Array.prototype.join.call(arguments, ',');
+      if (key in cache) return cache[key];
+      else return cache[key] = f.apply(this, arguments);
+    };
+  }
+
+  /// search
+  function searchByQuery(query) {
+    var i, j, key, keys, cur, _title, result = {};
+    keys = Object.keys(searchData);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      for (j = 0; j < searchData[key].length; j++) {
+        cur = searchData[key][j], _title = cur.title;
+        if ((result[key] === undefined || result[key] && result[key].length < 4 )
+          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          if (result[key] === undefined) {
+            result[key] = [];
+          }
+          result[key].push(cur);
+        }
+      }
+    }
+    return result;
+  }
+
+  var renderHeader = memorize(function(header) {
+    return $('<p class="search-result__header">' + header + '</p>');
+  });
+
+  var renderItem = function(index, title, url) {
+    return $('<li class="search-result__item" data-index="' + index + '"><a class="button" href="' + url + '">' + title + '</a></li>');
+  };
+
+  function render(data) {
+    if (!data) { return null; }
+    var $root = $('<ul></ul>'), i, j, key, keys, cur, itemIndex = 0;
+    keys = Object.keys(data);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      $root.append(renderHeader(key));
+      for (j = 0; j < data[key].length; j++) {
+        cur = data[key][j];
+        $root.append(renderItem(itemIndex++, cur.title, cur.url));
+      }
+    }
+    return $root;
+  }
+
+  // search box
+  var $result = $('.js-search-result'), $resultItems;
+  var lastActiveIndex, activeIndex;
+
+  function clear() {
+    $result.html(null);
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+  }
+  function onInputNotEmpty(val) {
+    $result.html(render(searchByQuery(val)));
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+    $resultItems.eq(0).addClass('active');
+  }
+
+  search.clear = clear;
+  search.onInputNotEmpty = onInputNotEmpty;
+
+  function updateResultItems() {
+    lastActiveIndex >= 0 && $resultItems.eq(lastActiveIndex).removeClass('active');
+    activeIndex >= 0 && $resultItems.eq(activeIndex).addClass('active');
+  }
+
+  function moveActiveIndex(direction) {
+    var itemsCount = $resultItems ? $resultItems.length : 0;
+    if (itemsCount > 1) {
+      lastActiveIndex = activeIndex;
+      if (direction === 'up') {
+        activeIndex = (activeIndex - 1 + itemsCount) % itemsCount;
+      } else if (direction === 'down') {
+        activeIndex = (activeIndex + 1 + itemsCount) % itemsCount;
+      }
+      updateResultItems();
+    }
+  }
+
+  // Char Code: 13  Enter, 37  ⬅, 38  ⬆, 39  ➡, 40  ⬇
+  $(window).on('keyup', function(e) {
+    var modalVisible = search.getModalVisible && search.getModalVisible();
+    if (modalVisible) {
+      if (e.which === 38) {
+        modalVisible && moveActiveIndex('up');
+      } else if (e.which === 40) {
+        modalVisible && moveActiveIndex('down');
+      } else if (e.which === 13) {
+        modalVisible && $resultItems && activeIndex >= 0 && $resultItems.eq(activeIndex).children('a')[0].click();
+      }
+    }
+  });
+
+  $result.on('mouseover', '.search-result__item > a', function() {
+    var itemIndex = $(this).parent().data('index');
+    itemIndex >= 0 && (lastActiveIndex = activeIndex, activeIndex = itemIndex, updateResultItems());
+  });
+});
+</script>
+</div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
+

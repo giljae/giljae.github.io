@@ -1,0 +1,24 @@
+<p>현재 진행중인 프로젝트는 폐쇄적이다. 다시말하면 폐쇄망 환경이다. Maven의 Central Repository는 꿈도 꾸지 못하는 환경이다. 내부 Nexus를 통해서 3rd party library를 지원해야 한다. 이런 환경에서 굳이 Maven을 사용해야 하는지에 대해서 의구심을 가지는 사람들이 있다. Ant와 Maven중 어느 것이 더 나은가?는 논쟁거리이지만, 본 글에서는 몇 가지의 차이점을 명확히 하고자 한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/111643/115677682-b3f6a700-a38b-11eb-8c74-ba704cc6801f.png" alt="image" /></p>
+
+<p>Ant는 고전이다. 빌드 프로세스로서는 훌륭하다.</p>
+<ol>
+  <li>Ant는 빌드 프로세스만 정의한다.</li>
+  <li>Ant는 생명주기를 가지지 않는다. 목표에 대한 의존 관계를 정의해야 하며, 각 목표에 대한 작업을 추가해야 한다.</li>
+  <li>Ant는 절차적이다. 진행 과정을 정확하게 정의해야 한다.</li>
+  <li>프로젝트가 대형화되면 Ant XML의 Convention을 강제화하기 어렵다.</li>
+  <li>Maven은 프로젝트 전체 정보를 정의한다.</li>
+  <li>Maven은 빌드 생명주기, 표준화된 디렉토리 레이아웃을 가진다.</li>
+  <li>Goal (target) 수행</li>
+  <li>Maven은 규칙을 가진다.</li>
+</ol>
+
+<blockquote>
+  <p>Maven은 Apache Turbine 프로젝트의 빌드를 단순화하기 위해서 탄생했다.
+Apache Turbine 프로젝트는 여러 프로젝트마다 Ant 빌드와 Jar파일들이 있었고 이런 환경들이 빌드를 복잡하게 만들었고 프로젝트가 점차 커져감에 따라 프로젝트를 관리하고 빌드하는 표준 방법이 필요하게 되었기 때문에 Maven이 세상에 나왔다.</p>
+</blockquote>
+
+<p>끝으로, Ant는 오랫동안 자바 빌드의 최고 자리를 지켜왔고 여러 곳에서 현재도 널리 쓰이고 있다. 반면에 Maven은 프로젝트 관리 플랫폼 그 이상이다. 빌드 관리 작업을 간단하게 해주고 프로젝트 사이의 공통 인터페이스를 조성하는 것을 도와준다. Maven은 빌드 도구 그 이상의 것(a set of standards, 공통 인터페이스, Life cycle, standard repository, layout..,)을 포함하고 있다.</p>
+
+<p>폐쇄망 환경에서 Library 등록이 귀찮다는 이유로 Maven을 사용하지 않는일이 없길 바란다.</p>

@@ -1,0 +1,41 @@
+<p><img src="https://user-images.githubusercontent.com/111643/115819090-1f4a8280-a439-11eb-9995-8c17c715d6ef.png" alt="image" /></p>
+
+<p>일반적으로 NGINX Level에서는 HLS,DASH Streaming을 지원해준다. 이 부분은 굳이 NGINX가 아니더라도 Tomcat container와 같은 Application Server에서는 일반적으로 지원해주고 있다. (HTTP requst range 기반으로 작동되므로…)</p>
+
+<p>하지만, Media Streaming을 위해서는 기본적인 Streamer 기능 외에 필요한 부분들이 있다. NGINX의 경우에는 이런 부분들을 3rd party 개발자분들이 module을 제작하여 Github를 통해 공개하고 있다.</p>
+
+<p>NGINX에서 가장 유명한 VOD module은 nginx-rtmp-module이지만, 본 글에서는 nginx-vod-module에 대해서 다루고자 한다.</p>
+
+<h1 id="features">Features</h1>
+<ul>
+  <li>On-the-fly repackaging of MP4 files to DASH, HDS, HLS, MSS</li>
+  <li>Working modes:</li>
+  <li>Local: serve locally accessible files (local disk/NFS mounted)</li>
+  <li>Remote: serve files accessible via HTTP using range requests</li>
+  <li>Mapped: serve files according to a specification encoded in JSON format. The JSON can pulled from a remote server, or read from a local file</li>
+  <li>Adaptive bitrate support</li>
+  <li>Playlist support — mapped mode only</li>
+  <li>Simulated live support (generating live stream from MP4 files) — mapped mode only</li>
+  <li>Fallback support for file not found in local/mapped modes (useful in multi-datacenter environments)</li>
+  <li>Video codecs: H264, H265 (DASH/HLS), VP9 (DASH)</li>
+  <li>Audio codecs: AAC, MP3 (HLS/HDS/MSS), AC-3 (DASH/HLS), E-AC-3 (DASH/HLS), OPUS (DASH)</li>
+  <li>Playback rate change — 0.5x up to 2x (requires libelcodec and libavfilter)</li>
+  <li>Support for variable segment lengths — enabling the player to select the optimal bitrate fast, without the overhead of short segments for the whole duration of the video</li>
+  <li>Clipping of MP4 files for progressive download playback</li>
+  <li>Thumbnail capture (requires libavcodec)</li>
+  <li>Decryption of CENC-encrypted MP4 files (it is possible to create such files with MP4Box)</li>
+  <li>DASH: common encryption (CENC) support</li>
+  <li>MSS: PlayReady encryption support</li>
+  <li>HLS: Generation of I-frames playlist (EXT-X-I-FRAMES-ONLY)</li>
+  <li>HLS: support for AES-128 / SAMPLE-AES encryption</li>
+</ul>
+
+<p>생각외로 많은 기능을 제공해주고 있다. 물론 제약도 존재한다.</p>
+
+<h1 id="limitations">Limitations</h1>
+<ul>
+  <li>Track selection and playback rate change are not spported in progressive download</li>
+  <li>I-frames playlist generation is not supported when encryption is enabled</li>
+  <li>Tested on Linux only</li>
+</ul>
+
