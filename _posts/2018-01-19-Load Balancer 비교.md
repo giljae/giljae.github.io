@@ -1,7 +1,5 @@
 ---
-layout: post
 title:  "Load Balancer 비교"
-comments: true
 tags: Load balancer
 ---
 
