@@ -9,7 +9,7 @@ aside:
 
 본 책에서 소개된 패턴중 일부는 시장에서 잘 사용되고 있고, 일부는 점진적으로 진화하고 있는 패턴입니다.
 
-본 글의 내용은 https://github.com/chanakaudaya/solution-architecture-patterns%EC%9D%98의 글을 한국어로 번역하였습니다.
+본 글의 내용은 [Chanaka Fernando](https://github.com/chanakaudaya/solution-architecture-patterns)의 글을 한국어로 번역하였습니다.
 
 # 벤더 중립적 아키텍처 패턴
 ## API Security pattern (API 보안 패턴)
