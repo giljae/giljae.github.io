@@ -1722,3 +1722,320 @@ $ docker-machine ssh manager1
 ( '>') /) TC (\ Core is distributed with ABSOLUTELY NO WARRANTY. (/-_--_-\) www.tinycorelinux.net 
 docker@manager1:~$
 ```
+
+## 10.3 Swarm Cluster
+머신 설정이 완료되었기에 Swarm 설정을 진행 할 수 있습니다.
+
+제일 처음에 해야 할 일은 Swarm을 초기화하는 것입니다. 우리는 manager1 머신에 SSH를 설치하고 초기화합니다. manager1에 접속한 상태에서 아래의 명령어를 입력합니다. (우리는 이미 이전에 manager1의 IP를 알아두었습니다.)
+```
+docker@manager1:~$ docker swarm init --advertise-addr 192.168.99.100
+Swarm initialized: current node (yli8mapw893qwmavhq7at3x0t) is now a manager.
+To add a worker to this swarm, run the following command:
+docker swarm join --token SWMTKN-1-0mlmww1rp83ji0tsonyzud0ny99tcymc3yyi3fx6ot7sydabtm-1iwjz0h9pxg4acro0sjm119q4 192.168.99.100:2377
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+docker@manager1:~$
+```
+
+위에 출력된 내용을 보면 다른 노드를 연결하려면 docker swarm join 명령을 사용하라고 언급되어 있습니다. 노드는 작업자(Worker) 또는 관리자(Leader)로 참여할 수 있습니다. 어느 시점 에서든 하나의 Leader만 존재하고 다른 LEAD 노드는 현재 Leader가 아웃될 경우에 백업으로 사용됩니다.
+
+아래의 명령어를 실행하여 Swarm 상태를 확인할 수 있습니다.
+```
+docker@manager1:~$ docker node ls 
+ID HOSTNAME STATUS AVAILABILITY MANAGER STATUS ENGINE VERSION 
+yli8mapw893qwmavhq7at3x0t * manager1 Ready Active Leader 19.03.5 docker@manager1:~$
+```
+
+현재까지 단일노드 manager1이 존재하며 MANAGER열에 Leader 값을 가진 것을 확인할 수 있습니다.
+
+### 10.3.1 Work Node로 Join 하기
+노드를 결합할 때 사용할 docker swarm 명령을 찾으려면 join-token <role> 명령어를 이용해야 합니다.
+
+worker에 대한 join명령을 찾으려면 아래의 명령어를 실행합니다.
+```
+docker@manager1:~$ docker swarm join-token worker
+
+To add a worker to this swarm, run the following command:
+
+ docker swarm join --token SWMTKN-1-0mlmww1rp83ji0tsonyzud0ny99tcymc3yyi3fx6ot7sydabtm-1iwjz0h9pxg4acro0sjm119q4 192.168.99.100:2377
+
+docker@manager1:~$
+```
+
+### 10.3.2 Manager Node로 Join 하기
+관리자 노드의 Join 명령어를 찾으려면 아래의 명령어를 이용해야 합니다.
+```
+docker@manager1:~$ docker swarm join-token manager
+
+To add a manager to this swarm, run the following command:
+
+ docker swarm join --token SWMTKN-1-0mlmww1rp83ji0tsonyzud0ny99tcymc3yyi3fx6ot7sydabtm-46i5tmcmfqf3h544glpsf3qq8 192.168.99.100:2377
+
+docker@manager1:~$
+```
+
+위의 두 가지 경우 모두 토큰이 제공되고 Manager 노드에 Join할 수 있음을 확인할 수 있습니다. (IP 주소가 MANAGER_IP와 동일)
+
+## 10.4 Swarm에 Worker Node 추가하기
+이제 Worker로 Join하기 위해 사용할 명령어를 알게되었고, 이를 사용하여 각 Worker에서 join 명령을 실행할 수 있습니다.
+
+위의 경우 3대의 Worker Machine이 존재합니다. (worker1/2/3)
+
+worker1에서 다음을 수행 합니다.
+
+worker1 시스템으로 접속 합니다. (e.g. docker-machine ssh worker1)
+그리고 Worker로 Join하기 위해 아래의 명령을 실행합니다.
+```
+docker@worker1:~$ docker swarm join --token SWMTKN-1-0mlmww1rp83ji0tsonyzud0ny99tcymc3yyi3fx6ot7sydabtm-1iwjz0h9pxg4acro0sjm119q4 192.168.99.100:2377
+This node joined a swarm as a worker.
+
+docker@worker1:~$
+```
+
+worker2/3에 대해서도 위와 동일하게 작업을 수행합니다.
+
+모든 Worker Node가 Swarm에 Join한 후 manager1의 SSH 콘솔에서 아래의 명령어를 사용하여 Swarm의 상태를 확인합니다. 즉, 해당 노드가 참여하는 노드를 확인합니다.
+```
+docker@manager1:~$ docker node ls
+
+ID HOSTNAME STATUS AVAILABILITY MANAGER STATUS ENGINE VERSION
+
+yli8mapw893qwmavhq7at3x0t * manager1 Ready Active Leader 19.03.5
+
+op87x0jmdhvk030rjscbcjw6r worker1 Ready Active 19.03.5
+
+856rqgebt7da4c0yppdl6fcwl worker2 Ready Active 19.03.5
+
+mlve8o2r06p1hvq8bqpwwx3ab worker3 Ready Active 19.03.5
+
+docker@manager1:~$
+
+ Active Reachable 19.03.5ig7y8bo5j8jrf9ovs9g970vvh worker3 Ready Active Reachable 19.03.5
+```
+
+4개의 Node가 존재하는데 하나는 관리자(manager1)이고 다른 노드는 모두 Worker입니다.
+
+docker info 명령을 이용하여 Swarm의 세부 정보를 확인해봅시다.
+```
+docker@manager1:~$ docker info
+
+~~~~~ 생략 ~~~~~
+
+Swarm: active
+
+ NodeID: yli8mapw893qwmavhq7at3x0t
+
+ Is Manager: true
+
+ ClusterID: a9y4jlvvx2jnk346xaplgrcfp
+
+ Managers: 1
+
+ Nodes: 4
+
+ Default Address Pool: 10.0.0.0/8
+
+ SubnetSize: 24
+
+ Data Path Port: 4789
+
+ Orchestration:
+
+ Task History Retention Limit: 5
+
+ Raft:
+
+ Snapshot Interval: 10000
+
+ Number of Old Snapshots to Retain: 0
+
+ Heartbeat Tick: 1
+
+ Election Tick: 10
+
+ Dispatcher:
+
+ Heartbeat Period: 5 seconds
+
+ CA Configuration:
+
+ Expiry Duration: 3 months
+
+ Force Rotate: 0
+
+ Autolock Managers: false
+
+ Root Rotation In Progress: false
+
+ Node Address: 192.168.99.100
+
+ Manager Addresses:
+
+ 192.168.99.100:2377
+
+~~~~~ 생략 ~~~~~
+```
+
+위의 정보를 확인해봅시다.
+* Swarm은 활성화 된 것으로 표시됩니다. 총 4개의 노드와 1개의 관리자가 있습니다.
+* manager1에서 docker info 명령을 실행중이기에 “Is Manager”가 true로 표시됩니다.
+* Raft 항목은 합의 알고리즘을 의미합니다. 자세한 내용은 여기를 확인하세요.
+
+## 10.5 서비스 만들기
+이제까지 우리는 Leader와 Worker를 연동했습니다. 이제 컨테이너를 실행할 차례입니다.
+
+우리가 할 일은 관리자에게 컨테이너를 실행하도록 지시하는 것입니다. 컨테이너를 예약하고, 노드에 명령을 보내고 배포하는 작업을 처리해줍니다.
+
+서비스를 시작하려면 아래의 순서대로 해야 합니다.
+* 실행할 Docker 이미지는 무엇입니까? (여기서는 Docker Hub에서 제공되는 nginx 이미지를 실행합니다.)
+* 80 포트로 서비스를 오픈 합니다.
+* 시작할 컨테이너 수를 지정합니다.
+* 서비스 이름을 작성합니다. (편리하게 관리하기 위함)
+
+우선 우리가 할일은 nginx 컨테이너를 시작하는 것입니다. manager1에 SSH로 접속 한 후 아래의 명령어를 실행합니다.
+```
+docker@manager1:~$ docker service create --replicas 3 -p 80:80 --name web nginx 
+g2kc4lueo1yu1k33p4okzqxt6 overall progress: 3 out of 3 
+tasks 1/3: running [==================================================>] 
+2/3: running [==================================================>] 
+3/3: running [==================================================>] 
+verify: Service converged
+```
+
+아래의 명령어로 서비스 상태를 확인합니다.
+```
+docker@manager1:~$ docker service ls ID NAME MODE REPLICAS IMAGE PORTS g2kc4lueo1yu web replicated 3/3 nginx:latest *:80->80/tcp docker@manager1:~$
+```
+
+다음의 명령어로 서비스 상태와 노드 상태를 확인합니다.
+```
+docker@manager1:~$ docker service ps web 
+ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS 
+wtvu8i8qjadv web.1 nginx:latest manager1 Running Running about a minute ago z07fi174otkf web.2 nginx:latest worker1 Running Running about a minute ago 8euc7m27n5up web.3 nginx:latest worker2 Running Running about a minute ago docker@manager1:~$
+```
+
+nginx 데몬이 시작된 것을 확인할 수 있습니다.
+```
+docker@manager1:~$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+0326a579e968 nginx:latest "nginx -g 'daemon of..." 6 minutes ago Up 6 minutes 80/tcp web.1.wtvu8i8qjadvx6fudmoo0e7zv docker@manager1:~$
+```
+
+## 10.6 서비스 이용하기
+Docker 머신 IP (manager1 또는 worker1/2/3)중 하나를 선택하여 브라우저에 URL (http://<machine-ip>\)을 입력 후 접속해 보세요.
+
+![image](https://user-images.githubusercontent.com/111643/116524922-ec116300-a912-11eb-8531-57b1fca46dc3.png)
+
+Nginx 페이지가 나오는 것을 확인할 수 있습니다.
+
+## 10.7 확장 및 축소하기
+서비스를 운영하다 보면 scale을 조정할 경우가 발생합니다. 이 부분은 docker service scale 명령어를 통해 지원됩니다. 현재 3개의 컨테이너가 실행 중입니다. manager1 노드에서 명령을 실행하여 아래와 같이 최대 5개까지 확장합니다.
+```
+docker@manager1:~$ docker service scale web=5 web scaled to 5 overall progress: 5 out of 5 tasks 1/5: running [==================================================>] 2/5: running [==================================================>] 3/5: running [==================================================>] 4/5: running [==================================================>] 5/5: running [==================================================>] verify: Service converged docker@manager1:~$
+```
+
+규모가 5개로 조정되었습니다.
+
+아래의 명령어를 통해 서비스 및 프로세스 작업의 상태를 확인합니다.
+```
+docker@manager1:~$ docker service ls 
+ID NAME MODE REPLICAS IMAGE PORTS 
+g2kc4lueo1yu web replicated 5/5 nginx:latest *:80->80/tcp 
+```
+
+## 10.8 노드 검사
+docker node inspect 명령어를 이용해 언제든지 노드를 검사할 수 있습니다.
+
+예를 들어서, 확인하려는 노드(e.g. manager1)의 SSH에 접속해 있는 경우에는 노드의 이름을 “self”로 사용 할 수 있습니다.
+```
+docker@manager1:~$ docker node inspect self
+```
+
+다른 노드를 확인하려면 노드 이름을 지정하면 됩니다.
+```
+docker@manager1:~$ docker node inspect worker1
+```
+
+## 10.9 노드 가용성 속성 변경
+manager1 노드에서 아래의 명령어를 실행하여 노드 목록과 상태를 볼 수 있습니다.
+```
+docker@manager1:~$ docker node ls 
+ID HOSTNAME STATUS AVAILABILITY MANAGER STATUS ENGINE VERSION 
+yli8mapw893qwmavhq7at3x0t * manager1 Ready Active Leader 19.03.5 op87x0jmdhvk030rjscbcjw6r worker1 Ready Active 19.03.5 856rqgebt7da4c0yppdl6fcwl worker2 Ready Active 19.03.5 mlve8o2r06p1hvq8bqpwwx3ab worker3 Ready Active 19.03.5
+```
+
+AVAILABILITY가 Active로 되어 있는것을 알수 있습니다.
+
+때로는 관리상의 이유로 노드를 중단시켜야 할 경우가 발생합니다. 이 의미는 AVAILABILITY를 Drain mode로 설정하는 것을 의미합니다. 우리는 노드 중 하나를 이용하여 테스트하도록 하겠습니다.
+
+우선 웹 서비스의 프로세스 상태와 실행중인 노드를 확인합니다.
+```
+docker@manager1:~$ docker service ps web 
+ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS 
+wtvu8i8qjadv web.1 nginx:latest manager1 Running Running 2 hours ago z07fi174otkf web.2 nginx:latest worker1 Running Running 2 hours ago 8euc7m27n5up web.3 nginx:latest worker2 Running Running 2 hours ago uk1k8ej2195j web.4 nginx:latest worker3 Running Running 10 minutes ago tzdb0xxq3nb6 web.5 nginx:latest worker3 Running Running 10 minutes ago
+```
+
+복제본(Replica)가 5개 있는 것을 확인했습니다.
+* manager1에 1개
+* worker1에 1개
+* worker2에 1개
+* worker3에 2개
+
+이제 worker1 노드에서 아래의 명령을 이용하여 상태를 확인합니다.
+```
+docker@manager1:~$ docker node ps worker1 ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS z07fi174otkf web.2 nginx:latest worker1 Running Running 2 hours ago
+```
+
+현재 Running 상태입니다. docker node inspect 명령어를 이용하여 노드의 가용성을 확인합니다.
+```
+docker@manager1:~$ docker node inspect worker1 
+~~~ 생략 ~~~ 
+"Spec": { "Labels": {}, "Role": "worker", "Availability": "active" }, 
+~~~ 생략 ~~~
+```
+
+Availability 속성이 “active”임을 알 수 있습니다.
+
+이제 가용성(Availability)을 DRAIN으로 설정해보겠습니다. 해당 명령을 실행하면 Manager는 해당 노드에서 실행중인 작업을 중지하고 ACTIVE 가용성이 있는 다른 노드에서 복제본을 시작합니다.
+
+따라서 Manager가 worker1에서 실행중인 1개의 컨테이너를 가져와서 다른 노드에 예약합니다.
+
+이제 Availability 속성을 “drain”으로 설정해서 노드를 업데이트 해봅시다.
+```
+docker@manager1:~$ docker node update --availability drain worker1 worker1
+```
+
+프로세스 상태를 살펴봅시다.
+```
+docker@manager1:~$ docker service ps web 
+ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS 
+wtvu8i8qjadv web.1 nginx:latest manager1 Running Running 2 hours ago mofh2xf7kk6z web.2 nginx:latest manager1 Running Running 45 seconds ago z07fi174otkf \_ web.2 nginx:latest worker1 Shutdown Shutdown 46 seconds ago 8euc7m27n5up web.3 nginx:latest worker2 Running Running 2 hours ago uk1k8ej2195j web.4 nginx:latest worker3 Running Running 19 minutes ago tzdb0xxq3nb6 web.5 nginx:latest worker3 Running Running 19 minutes ago
+````
+
+worker1의 컨테이너가 재조정되고 있음을 알 수 있습니다. 위에서는 manager1으로 예약되고 구동중입니다.
+
+훌륭하지 않습니까?
+
+## 10.10 서비스 제거하기
+“docker service rm” 명령을 사용하여 서비스를 제거 할 수 있습니다.
+```
+docker@manager1:~$ docker service rm web web 
+docker@manager1:~$ docker service ls 
+ID NAME MODE REPLICAS IMAGE PORTS 
+
+docker@manager1:~$ docker service inspect web 
+[] Status: Error: no such service: web, Code: 1
+```
+## 10.11 롤링 업데이트 적용하기
+업데이트 된 Docker 이미지가 있는 경우 서비스 업데이트 명령어를 이용하여 롤링 업데이트를 적용합니다.
+```
+$ docker service update --image <imagename>:<version> web
+```
+
+## 10.12 결론
+Docker Swarm은 매우 단순합니다. Kubernetes와 Swarm중 누가 승자일까요?
+
+둘 중 무엇이 적합한지 확인 후에 결정을 내리는 것이 맞지 않을까요?
+
+# 11. Docker 사용 사례
+Docker는 개발자들의 개발 환경에 많은 변화를 가져왔습니다. 평상시에 Docker와 함께 한다면 개발이 한층 더 수월해질것입니다.
