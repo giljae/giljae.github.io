@@ -360,6 +360,8 @@ Docker와 상호 작용하는 Docker Compose를 테스트해야 합니다. “do
 ### 1.6.2 샘플 코드 다운로드
 이 책의 소스 코드는 GitLab의 공개 Git 저장소에 있습니다. https://gitlab.com/giljae/learn_docker 로 이동하여 “복제 또는 다운로드” 버튼을 클릭하여 소스 코드를 로컬 시스템에 다운로드하고 압축을 해제하세요.
 
+{% include ad.html %}
+
 # 2. Docker 이해하기 및 Hello World 실행
 이제 Docker를 실습 할 차례입니다. 이 장에서는 Docker의 핵심 기능인 컨테이너에서 어플리케이션을 실행하는 방법에 대해서 배울 수 있습니다.
 
@@ -879,6 +881,8 @@ $ docker port apache
 
 이제 기본 포트(80)를 통해 웹 사이트에 접근 할 수 있습니다.
 
+{% include ad.html %}
+
 # 4. Docker Hub 알아보기
 Docker 레지스트리 작업에 대해서 알아보도록 하겠습니다.
 
@@ -969,6 +973,8 @@ $ docker search openjdk
 $ docker search java 
 $ docker search mysql
 ```
+
+{% include ad.html %}
 
 # 5. 나만의 Docker 이미지 만들기
 이 섹션에서는 이미지를 만들기 위한 첫 단계를 설명할 것입니다. Docker Hub에 존재하는 이미지 위에 소프트웨어를 추가하여 간단하게 만들어 볼 것입니다.
@@ -1148,6 +1154,8 @@ The push refers to repository [docker.io/giljae/ubuntu-git] 1bbb9d10563e: Pushed
 > 연습 :
 > 기본 이미지 위에 소프트웨어 설치하여 나만의 이미지를 만들고 Docker Hub에 Push 해봅니다.
 
+{% include ad.html %}
+
 # 6. Docker 전용 Registry
 이번 섹션에서는 로컬 Docker Registry를 호스팅 할 수 있는 방법에 대해서 알아보도록 하겠습니다. 이전 섹션에서는 Docker가 호스팅하는 공개 레지스트리인 Docker Hub에 대해서 살펴보았습니다. Docker Hub는 Docker 이미지에 대해서 공개적으로 활용하는데에 중요한 역할을 하지만 회사 내부의 팀 및 조직에서 사용하려면 Private Registry를 설정해야 합니다.
 
@@ -1264,6 +1272,8 @@ The push refers to repository [localhost:5000/alpine] 77cae8ab23bf: Pushed lates
 ```
 
 이제까지 개인 Registry를 사용하는 방법을 알아보았습니다. 이것은 클라이언트 측에서 인증을 시행하지 않는 Registry입니다. 하지만 팀/조직내에서 사용하려면 보안 Registry를 사용해야 하는 점을 명심해야 합니다.
+
+{% include ad.html %}
 
 # 7. Data Volumes
 본 섹션에서는 Docker Volumes에 대해서 알아보도록 하겠습니다. Docker Volumes는 Docker 컨테이너 내에서 데이터를 관리하는 방법입니다.
@@ -1482,6 +1492,8 @@ $ docker run -it --volumes-from container1 --name container2 busybox
 
 container1, container2에서 동일한 데이터 볼륨을 사용했고 이를 확인했습니다.더 자세한 사항은 데이터 볼륨에 대한 [공식 문서](https://docs.docker.com/storage/volumes/)를 확인 하시길 바랍니다.
 
+{% include ad.html %}
+
 # 8. 컨테이너 연결하기
 본 섹션에서는 Docker 컨테이너를 연결하는 방법에 대해서 알아볼 것입니다. 컨테이너를 연결하면 Docker 컨테이너가 상호간 통신 할 수 있습니다.
 
@@ -1586,6 +1598,8 @@ redis:6379>
 
 컨테이너와 링크를 단일 파일로 지정하여 연결하는 매커니즘을 제공하는 Docker Compose에 대해서도 확인해보시길 바랍니다.
 
+{% include ad.html %}
+
 # 9. Dockerfile 작성하기
 본 섹션에서는 Dockerfile을 통해 자체적으로 Docker 이미지를 만드는 방법에 대해서 배워보도록 하겠습니다. 컨테이너를 실행하고, 소프트웨어를 설치하고 이미지를 만들기 위해 commit을 수행하여 이미지를 만들어볼 계획입니다.
 
@@ -1663,6 +1677,8 @@ Sending build context to Docker daemon 2.048kB Step 1/3 : FROM busybox:latest --
 
 > 연습:
 > CMD 명령을 수정해봅시다. CMD [“ls”,”-al”]와 같은 다른 명령어로 수정하고 이미지를 다시 빌드하고 컨테이너를 시작해보세요.
+
+{% include ad.html %}
 
 # 10. Docker Swarm 알아보기
 컨테이너 오케스트레이션 시스템은 Building -> Shipping -> Running Container의 과정을 대규모로 실행하기 위해 필요합니다. 이것을 위해 제공되는 솔루션 목록은 아래와 같습니다.
@@ -2044,6 +2060,8 @@ $ docker service update --image <imagename>:<version> web
 Docker Swarm은 매우 단순합니다. Kubernetes와 Swarm중 누가 승자일까요?
 
 둘 중 무엇이 적합한지 확인 후에 결정을 내리는 것이 맞지 않을까요?
+
+{% include ad.html %}
 
 # 11. Docker 사용 사례
 Docker는 개발자들의 개발 환경에 많은 변화를 가져왔습니다. 평상시에 Docker와 함께 한다면 개발이 한층 더 수월해질것입니다.
