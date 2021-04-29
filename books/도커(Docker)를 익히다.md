@@ -381,3 +381,365 @@ Unable to find image 'giljae/ld_ch02:0.1' locally 0.1: Pulling from giljae/ld_ch
 ```
 Docker의 세상에 오신걸 환영 합니다.
 
+## 2.2 첫번째 컨테이너 실행 (docker run 명령어)
+터미널에서 아래의 명령어를 실행하세요.
+
+```
+$ docker pull alpine
+```
+
+pull 명령은 Docker 레지스트리에서 알파인 이미지를 가져와서 시스템에 저장합니다. 명령어를 사용하여 로컬 시스템에 저장된 모든 이미지 목록을 볼 수 있습니다. (e.g. docker images)
+
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE 
+alpine latest 965ea09ff2eb 7 weeks ago 5.55MB
+```
+
+이제 위의 이미지를 기반으로 Docker 컨테이너를 실행합니다. 이를 위해서 docker run 명령어를 사용합니다.
+
+```
+$ docker run alpine ls -l 
+total 56 drwxr-xr-x 2 root root 4096 Oct 21 13:39 bin drwxr-xr-x 5 root root 340 Dec 15 12:20 dev drwxr-xr-x 1 root root 4096 Dec 15 12:20 etc drwxr-xr-x 2 root root 4096 Oct 21 13:39 home drwxr-xr-x 5 root root 4096 Oct 21 13:39 lib drwxr-xr-x 5 root root 4096 Oct 21 13:39 media drwxr-xr-x 2 root root 4096 Oct 21 13:39 mnt drwxr-xr-x 2 root root 4096 Oct 21 13:39 opt dr-xr-xr-x 206 root root 0 Dec 15 12:20 proc drwx------ 2 root root 4096 Oct 21 13:39 root drwxr-xr-x 2 root root 4096 Oct 21 13:39 run drwxr-xr-x 2 root root 4096 Oct 21 13:39 sbin drwxr-xr-x 2 root root 4096 Oct 21 13:39 srv dr-xr-xr-x 13 root root 0 Dec 15 12:20 sys drwxrwxrwt 2 root root 4096 Oct 21 13:39 tmp drwxr-xr-x 7 root root 4096 Oct 21 13:39 usr drwxr-xr-x 11 root root 4096 Oct 21 13:39 var
+```
+
+디렉토리 목록들이 출력되지요? 어떻게 된 것일까요?
+docker run 명령을 실행하면,
+
+docker 클라이언트는 Docker Daemon에 연결됩니다,
+1. Docker Daemon은 Image(e.g. Alpine)가 로컬에 존재하는지 로컬 저장소를 확인하고 그렇지 않을 경우 Docker Store에서 Image를 다운로드 합니다. (우리는 이미 이전에 docker pull alpine으로 이미지를 다운받았기에 다운로드 하지 않습니다.)
+2. Docker Daemon은 컨테이너를 만든 다음 해당 컨테이너에서 명령을 실행합니다.
+3. Docker Daemon은 명령어에 대한 출력을 Docker 클라이언트로 스트리밍 합니다.
+4. 즉, docker run alpine과 리눅스 명령어인 ls -l 을 제공했으므로 Docker는 지정된 명령을 실행합니다.
+
+아래의 명령어를 실행해봅시다.
+
+```
+$ docker run alpine echo "Hello World!!" Hello World
+```
+
+이 경우 Docker 클라이언트는 echo 명령을 실행하고 종료됩니다. 느끼셨듯이 이 모든 것이 꽤 빨리 일어났습니다. VM을 부팅하고 명령을 실행한 다음 종료한다고 상상해보세요.
+
+이제 컨테이너가 빠르다는 이유를 느끼셨을꺼라 생각합니다.
+
+다른 명령어를 실행해봅시다.
+
+```
+$ docker run alpine /bin/sh
+```
+
+이상합니다. 아무것도 출력되지 않습니다. 그 이유는 인터프리터 쉘은 스크립트 명령을 실행한 후에 종료됩니다. 따라서 아무것도 출력하지 않고 종료하지 않으려면 아래처럼 수행해야 합니다.
+
+```
+$ docker run -it alpine /bin/sh 
+/ #
+```
+
+alpine에서 shell을 띄운 상태에서 ls -l 명령을 실행해봅시다.
+
+```
+/ # ls -l 
+total 56 drwxr-xr-x 2 root root 4096 Oct 21 13:39 bin drwxr-xr-x 5 root root 360 Dec 15 12:32 dev drwxr-xr-x 1 root root 4096 Dec 15 12:32 etc drwxr-xr-x 2 root root 4096 Oct 21 13:39 home drwxr-xr-x 5 root root 4096 Oct 21 13:39 lib drwxr-xr-x 5 root root 4096 Oct 21 13:39 media drwxr-xr-x 2 root root 4096 Oct 21 13:39 mnt drwxr-xr-x 2 root root 4096 Oct 21 13:39 opt dr-xr-xr-x 200 root root 0 Dec 15 12:32 proc drwx------ 1 root root 4096 Dec 15 12:34 root drwxr-xr-x 2 root root 4096 Oct 21 13:39 run drwxr-xr-x 2 root root 4096 Oct 21 13:39 sbin drwxr-xr-x 2 root root 4096 Oct 21 13:39 srv dr-xr-xr-x 13 root root 0 Dec 15 12:32 sys drwxrwxrwt 2 root root 4096 Oct 21 13:39 tmp drwxr-xr-x 7 root root 4096 Oct 21 13:39 usr drwxr-xr-x 11 root root 4096 Oct 21 13:39 var / #
+```
+
+리눅스 커널 버전을 알 수 있는 uname -a 도 실행해봅니다.
+
+```
+/ # uname -a 
+Linux 2e8c5e16a35f 4.9.184-linuxkit #1 SMP Tue Jul 2 22:58:16 UTC 2019 x86_64 Linux
+```
+
+자, 이제 exit 명령으로 컨테이너를 종료합니다.
+
+```
+/ # exit
+```
+
+## 2.3 컨테이너 상태 확인하기
+이제 docker ps 명령에 대해서 알아봅시다. docker ps 명령은 현재 실행중인 모든 컨테이너를 보여줍니다.
+
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+```
+
+컨테이너가 실행되고 있지 않으므로 빈 줄이 나타납니다. 옵션을 추가하여 시도해 봅시다.
+
+```
+$ docker ps -a 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 2e8c5e16a35f alpine "/bin/sh" 8 minutes ago Exited (0) 4 minutes ago elastic_diffie 339345cae78c alpine "/bin/sh" 11 minutes ago Exited (0) 11 minutes ago hungry_euler 75e80226ef47 alpine "echo 'Hello Worldcl..." 14 minutes ago Exited (0) 14 minutes ago upbeat_einstein 35b6b503cf76 alpine "ls -l" 20 minutes ago Exited (0) 20 minutes ago amazing_leakey fa32968406d4 alpine "la -l" 21 minutes ago Created happy_albattani 68fe0cfa2acd alpine "la -l" 21 minutes ago Created laughing_jackson 8cbf74f2fa89 alpine "la -l" 21 minutes ago Created heuristic_cannon
+```
+
+위에 나온 목록은 실행한 모든 컨테이너의 목록입니다. Status 열은 해당 컨테이너가 몇 분전에 종료되었는지 알려줍니다. 계속해서 명령어를 수행하는 방법은 아래와 같습니다.
+
+```
+$ docker run -it alpine /bin/sh 
+/ # ls 
+bin etc lib mnt proc run srv tmp var dev home media opt root sbin sys usr / # uname -a Linux 5a2c0b3732d3 4.9.184-linuxkit #1 SMP Tue Jul 2 22:58:16 UTC 2019 x86_64 Linux
+```
+
+run 뒤에 -it를 붙이면 인터프리터 tty에 연결됩니다. 이렇게하면 컨테이너에서 원하는 만큼 명령을 실행할 수 있습니다.
+
+docker run은 아마 가장 많이 사용하는 명령어가 될 것입니다. 더 자세한 내용은 docker run --help로 확인할 수 있습니다.
+
+## 2.4 Image 검색하기
+docker search 명령어는 Docker Hub(https://hub.docker.com)에서 이미지를 검색해주는 명령어입니다.
+
+docker는 Docker Hub를 통해 이미지를 공유하고 있습니다. 유명 오픈소스 및 리눅스 배포본을 Docker Hub를 통해 구할 수 있습니다. Docker Hub에서 우분투 이미지를 검색해보도록 합시다.
+
+```
+$ docker search ubuntu 
+NAME DESCRIPTION STARS OFFICIAL AUTOMATED ubuntu Ubuntu is a Debian-based Linux operating sys... 10270 [OK] dorowu/ubuntu-desktop-lxde-vnc Docker image to provide HTML5 VNC interface ... 370 [OK] rastasheep/ubuntu-sshd Dockerized SSH service, built on top of offi... 236 [OK] consol/ubuntu-xfce-vnc Ubuntu container with "headless" VNC session... 199 [OK] ubuntu-upstart Upstart is an event-based replacement for th... 102 [OK] neurodebian NeuroDebian provides neuroscience research s... 62 [OK] 1and1internet/ubuntu-16-nginx-php-phpmyadmin-mysql-5 ubuntu-16-nginx-php-phpmyadmin-mysql-5 50 [OK] ubuntu-debootstrap debootstrap --variant=minbase --components=m... 41 [OK] nuagebec/ubuntu Simple always updated Ubuntu docker images w... 24 [OK] i386/ubuntu Ubuntu is a Debian-based Linux operating sys... 18
+1and1internet/ubuntu-16-apache-php-5.6 ubuntu-16-apache-php-5.6
+```
+
+## 2.5 Image 가져오기
+docker pull 명령어를 사용하여 Docker Hub에서 우분투 리눅스 이미지를 가져오도록 해보겠습니다.
+
+```
+$ docker pull ubuntu:latest 
+latest: Pulling from library/ubuntu 7ddbc47eeb70: Pull complete c1bbdc448b72: Pull complete 8c3b70e39044: Pull complete 45d437916d57: Pull complete Digest: sha256:6e9f67fa63b0323e9a1e587fd71c561ba48a034504fb804fd26fd8800039835d Status: Downloaded newer image for ubuntu:latest docker.io/library/ubuntu:latest
+```
+
+사용법:
+```
+docker pull [OPTIONS] NAME[:TAG	@DIGEST]
+```
+
+위의 명령어에서 latest를 사용하면 최신 버전을 가져옵니다. ubuntu:14.04 로 하면 14.04 버전의 이미지를 가져옵니다.
+
+## 2.6 Image 목록 출력하기
+docker pull로 다운로드한 이미지 목록을 출력해보도록 하겠습니다.
+
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE ubuntu latest 775349758637 6 weeks ago 64.2MB alpine latest 965ea09ff2eb 7 weeks ago 5.55MB
+```
+
+docker images 명령은 현재 시스템에 설치된 모든 이미지를 표시합니다.
+
+각 열의 의미는 아래와 같습니다.
+
+* REPOSITORY
+  * 이미지의 저장소 입니다.
+* TAG
+  * 이미지에 대한 논리 구분자입니다. 일반적으로 version으로 활용합니다.
+* IMAGE ID
+  * 이미지의 고유한 식별자입니다.
+* CREATED
+  * 이미지가 생성 된 후 일 수입니다.
+* SIZE
+  * 이미지의 크기입니다.
+
+모든 이미지가 아닌 특정 이미지의 목록을 출력하고 싶을 경우에는 아래처럼 사용하시면 됩니다.
+
+```
+$ docker images ubuntu 
+REPOSITORY TAG IMAGE ID CREATED SIZE ubuntu latest 775349758637 6 weeks ago 64.2MB ubuntu 14.04 2c5e00d77a67 7 months ago 188MB
+```
+
+이렇게 하면 이름은 “ubuntu”와 같지만 tag가 다른 이미지들이 출력됩니다.
+
+## 2.7 컨테이너 생성하기
+docker run 명령어를 이용하여 이미지를 컨테이너로 생성하고 linux shell을 실행해보겠습니다.
+
+```
+$ docker run -it ubuntu /bin/bash 
+root@0da605b182cd:/#
+```
+
+사용법:
+
+```
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+
+docker run 명령어로 ubuntu 이미지를 컨테이너로 생성 한 후 ubuntu 이미지안의 /bin/bash를 실행했습니다. 이미지 이름 대신에 이미지 ID를 사용해도 됩니다.
+
+이제 Host OS와 완전히 격리된 ubuntu 컨테이너를 생성하였습니다. 리눅스 명령어를 입력하면서 테스트 해보시길 바랍니다.
+
+exit 명령어를 입력하면 컨테이너에서 빠져나오게 되고 이렇게 되면 컨테이너가 stop 되게 됩니다.
+
+## 2.8 컨테이너 시작하기
+방금 exit로 빠져나온 컨테이너를 다시 시작해보도록 하겠습니다.
+
+우선, 컨테이너 목록을 확인합니다.
+
+```
+$ docker ps -a 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 0da605b182cd ubuntu "/bin/bash" 7 minutes ago Exited (0) About a minute ago exciting_bhaskara 5a2c0b3732d3 alpine "/bin/sh" 58 minutes ago Exited (0) 32 minutes ago eager_easley 2e8c5e16a35f alpine "/bin/sh" About an hour ago Exited (0) About an hour ago elastic_diffie 339345cae78c alpine "/bin/sh" About an hour ago Exited (0) About an hour ago hungry_euler 75e80226ef47 alpine "echo 'Hello Worldcl..." About an hour ago Exited (0) About an hour ago upbeat_einstein 35b6b503cf76 alpine "ls -l" About an hour ago Exited (0) About an hour ago amazing_leakey fa32968406d4 alpine "la -l" About an hour ago Created happy_albattani 68fe0cfa2acd alpine "la -l" About an hour ago Created laughing_jackson 8cbf74f2fa89 alpine "la -l" About an hour ago Created heuristic_cannon
+```
+
+방금 실행한 컨테이너가 보입니다. 이제 컨테이너를 시작하도록 합니다.
+
+```
+$ docker start exciting_bhaskara 
+```
+
+docker ps 로 컨테이너가 시작되었는지 확인합니다.
+
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+0da605b182cd ubuntu "/bin/bash" 8 minutes ago Up 9 seconds exciting_bhaskara
+```
+
+ubuntu 컨테이너가 시작된 것을 확인할 수 있습니다.
+
+사용법:
+```
+docker start [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+그런데 좀 이상하지 않나요?
+
+docker start exciting_bhaskara로 시작한걸 기억하시나요? 앞에서 컨테이너를 생성할 때 아래의 명령어로 생성을 했었습니다.
+
+```
+$ docker run -it ubuntu /bin/bash
+```
+
+이렇게 하면 docker가 임의로 컨테이너 이름을 부여하게 됩니다. 그래서 “exciting_bhaskara”라는 컨테이너 이름이 부여되었고, 컨테이너 시작시 이 이름을 사용하게 된 것입니다. 좀 불편하지요? 그럼 어떻게 해야 할까요?
+
+```
+$ docker run -it --name ubuntu ubuntu /bin/bash
+```
+
+--name 옵션을 사용해서 이름을 부여해주도록 합시다. 이렇게 하면 컨테이너를 시작할때 아래처럼 할 수 있습니다.
+
+```
+$ docker start ubuntu
+```
+
+docker ps 로 컨테이너가 해당 이름으로 시작되었는지 확인합니다.
+
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+11eb0f78c677 ubuntu "/bin/bash" 3 minutes ago Up About a minute ubuntu
+```
+
+ubuntu라는 이름으로 시작된 것을 확인할 수 있습니다.
+
+## 2.9 컨테이너 재시작 하기
+운영체제 재부팅 처럼 컨테이너도 재시작을 할 수 있습니다.
+
+```
+$ docker restart ubuntu ubuntu 
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+11eb0f78c677 ubuntu "/bin/bash" 4 minutes ago Up 2 seconds ubuntu
+```
+
+사용법:
+```
+docker restart [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+## 2.10 컨테이너에 접속하기
+컨테이너를 구동하고 접속해보도록 하겠습니다.
+
+```
+$ docker attach ubuntu 
+root@11eb0f78c677:/#
+```
+위처럼 구동중인 컨테이너에 접속한 것을 확인할 수 있습니다. 컨테이너 이름 대신에 컨테이너 ID를 사용해도 됩니다.
+
+사용법:
+
+```
+docker attach [OPTIONS] CONTAINER
+```
+
+## 2.11 외부에서 컨테이너내의 명령 실행하기
+간혹 컨테이너에 접속하지 않고, 외부에서 컨테이너내의 명령을 실행할 경우가 생깁니다.
+
+```
+$ docker exec ubuntu ls -l 
+total 64 drwxr-xr-x 2 root root 4096 Oct 29 21:25 bin drwxr-xr-x 2 root root 4096 Apr 24 2018 boot drwxr-xr-x 5 root root 360 Dec 16 02:29 dev drwxr-xr-x 1 root root 4096 Dec 15 13:50 etc drwxr-xr-x 2 root root 4096 Apr 24 2018 home drwxr-xr-x 8 root root 4096 May 23 2017 lib drwxr-xr-x 2 root root 4096 Oct 29 21:25 lib64 drwxr-xr-x 2 root root 4096 Oct 29 21:25 media drwxr-xr-x 2 root root 4096 Oct 29 21:25 mnt drwxr-xr-x 2 root root 4096 Oct 29 21:25 opt dr-xr-xr-x 204 root root 0 Dec 16 02:29 proc drwx------ 1 root root 4096 Dec 15 13:50 root drwxr-xr-x 1 root root 4096 Oct 31 22:20 run drwxr-xr-x 1 root root 4096 Oct 31 22:20 sbin drwxr-xr-x 2 root root 4096 Oct 29 21:25 srv dr-xr-xr-x 13 root root 0 Dec 16 02:29 sys drwxrwxrwt 2 root root 4096 Oct 29 21:25 tmp drwxr-xr-x 1 root root 4096 Oct 29 21:25 usr drwxr-xr-x 1 root root 4096 Oct 29 21:25 var
+```
+
+위의 명령어는 실행중인 컨테이너내의 명령을 실행한 결과입니다.
+
+사용법:
+
+```
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+```
+
+## 2.12 컨테이너 실행 정지 하기
+컨테이너를 정지하는 방법에 대해서 알아보도록 합니다. 우선, 현재 구동중인 컨테이너 목록을 출력합니다.
+
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+11eb0f78c677 ubuntu "/bin/bash" 13 hours ago Up 6 minutes ubuntu
+```
+
+구동중인 컨테이너를 확인하고 아래의 명령으로 정지시킵니다.
+
+```
+$ docker stop ubuntu ubuntu
+```
+컨테이너 이름 대신에 컨테이너 ID를 사용해도 됩니다.
+
+사용법:
+
+```
+docker stop [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+ubuntu 컨테이너를 정지 했으니, docker ps로 확인합니다.
+
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+```
+
+현재 구동중인 컨테이너가 없습니다.
+
+## 2.13 컨테이너 삭제하기
+이미 생성된 컨테이너를 삭제하도록 하겠습니다.
+
+```
+$ docker rm ubuntu ubuntu
+```
+
+사용법:
+```
+docker rm [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+컨테이너 이름 대신에 컨테이너 ID를 사용해도 됩니다.
+
+컨테이너가 삭제되었는지 확인해봅니다.
+
+```
+$ docker ps -a 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+5a2c0b3732d3 alpine "/bin/sh" 14 hours ago Exited (0) 14 hours ago eager_easley 2e8c5e16a35f alpine "/bin/sh" 14 hours ago Exited (0) 14 hours ago elastic_diffie 339345cae78c alpine "/bin/sh" 14 hours ago Exited (0) 14 hours ago hungry_euler 75e80226ef47 alpine "echo 'Hello Worldcl..." 14 hours ago Exited (0) 14 hours ago upbeat_einstein 35b6b503cf76 alpine "ls -l" 14 hours ago Exited (0) 14 hours ago amazing_leakey fa32968406d4 alpine "la -l" 14 hours ago Created happy_albattani 68fe0cfa2acd alpine "la -l" 14 hours ago Created laughing_jackson 8cbf74f2fa89 alpine "la -l" 14 hours ago Created heuristic_cannon
+```
+
+ubuntu 컨테이너가 삭제된 것을 확인할 수 있습니다.
+
+## 2.14 Image 삭제하기
+하나 이상의 이미지를 삭제해보도록 하겠습니다. 이 명령어는 호스트 노드에서 하나 이상의 이미지를 제거하고 태그를 해제합니다. 이미지에 여러개의 태그가 존재하는 경우, 태그와 함께 아규먼트로 사용하면 태그만 삭제되고 태그가 유일할 경우 이미지와 태그 모두 삭제됩니다.
+
+사용법:
+```
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+```
+ubuntu 이미지를 삭제하도록 하겠습니다. tag를 입력하지 않았기에 latest가 자동으로 붙습니다.
+```
+$ docker rmi ubuntu 
+Untagged: ubuntu:latest Untagged: ubuntu@sha256:6e9f67fa63b0323e9a1e587fd71c561ba48a034504fb804fd26fd8800039835d Deleted: sha256:775349758637aff77bf85e2ff0597e86e3e859183ef0baba8b3e8fc8d3cba51c Deleted: sha256:4fc26b0b0c6903db3b4fe96856034a1bd9411ed963a96c1bc8f03f18ee92ac2a Deleted: sha256:b53837dafdd21f67e607ae642ce49d326b0c30b39734b6710c682a50a9f932bf Deleted: sha256:565879c6effe6a013e0b2e492f182b40049f1c083fc582ef61e49a98dca23f7e Deleted: sha256:cc967c529ced563b7746b663d98248bc571afdb3c012019d7f54d6c092793b8b
+```
+
+이미지가 삭제되었는지 확인합니다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE alpine latest 965ea09ff2eb 7 weeks ago 5.55MB
+```
+
+ubuntu 이미지가 삭제된 것을 확인할 수 있습니다.
+
