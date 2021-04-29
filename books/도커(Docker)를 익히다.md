@@ -99,8 +99,6 @@ Docker는 컨테이너를 효율적으로 생성, 배포 및 실행 할 수 있�
 
 이러한 이점으로 인해 컨테이너(e.g. Docker)가 널리 채택되었습니다. Google, Facebook, Netflix 및 Salesforce와 같은 회사는 컨테이너를 활용하여 대규모 엔지니어링 팀의 생산성을 높이고 컴퓨팅 리소스의 활용도를 향상 시킵니다.
 
-{% include ad.html %}
-
 ## 1.3 Docker란 무엇인가?
 ![image](https://user-images.githubusercontent.com/111643/116505230-55827900-a8f5-11eb-999a-adbed0bbd44f.png)
 
@@ -218,8 +216,6 @@ Docker 네트워킹은 모든 격리된 컨테이너가 통신하는 통로입�
 4. None: 모든 네트워킹을 비활성화 합니다.
 5. macvlan: 물리적 주소처럼 보이도록 하기위해 mac 주소를 컨테이너에 할당합니다. 네트워크 트래픽은 컨테이너간 mac 주소를 통해 라우팅 됩니다. 이 네트워크는 VM 설정을 마이그레이션 하는 동안 컨테이너를 물리적 장치처럼 보이게 하려는 경우에 사용됩니다.
 
-{% include ad.html %}
-
 ## 1.4 컨테이너가 세계를 평정한 이유
 구글 및 Salesforce와 같은 기업은 거의 10년동안 컨테이너를 활용해 왔습니다. 개발자 또는 관리자인 경우 컨테이너가 기술적인 관점에서 작업을 보다 쉽게 만드는데 도움이 된다고 알고 있습니다. 하지만 컨테이너는 비즈니스 관점에서도 유용합니다.
 
@@ -307,6 +303,81 @@ DevOps는 주로 문화에 관한 것이고 대규모 릴리즈 및 소규모 �
 
 더 나아가서 CALMS라고 하는 DevOps(문화, 자동화, Lean, 메트릭 및 공유)를 구현하기 위한 강력한 프레임워크가 있습니다. Docker는 이러한 모든 곳에서 작동합니다. 자동화는 컨테이너 실행의 중심이며, 분산 된 앱은 간단한 원칙에 기반을 두고 있고, 프로덕션 앱의 메트릭과 배포 프로세스의 메트릭을 쉽게 볼 수 있으며 Docker Hub는 공유로써의 역할을 담당합니다.
 
-{% include ad.html %}
+## 1.5 이 책의 목적은?
+지금까지 설명한 시나리오는 현재 IT 산업에서 일어나는 모든 활동을 다루고 있습니다. Docker가 이 모든 것의 열쇠라는 것을 얘기했습니다. Docker로 이런 종류의 문제를 해결하도록 하려는 것이 이 책의 목적입니다.
 
+이 책은 Docker 사용 방법을 가르치는 것이므로 Docker 자체가 어떻게 작동하는지에 대해서는 자세히 설명하지 않습니다. 내부를 자세히 원한다면 다른책을 보셔야 합니다.
+
+이 책의 샘플은 모두 크로스 플랫폼이므로 Arm 프로세서를 포함하여 Windows, Mac 또는 Linux를 사용하여 작업할 수 있습니다.
+
+### 1.5.1 이 책의 사용법
+이 책은 1 시간에 각 장을 볼 수 있고 약 한달안에 책 전체를 읽을 수 있도록 제작되었습니다. 매일 1 시간씩 섹션 읽고 샘플 코드를 통해 연습을 하는 시간을 고려 했습니다.
+
+#### 실습
+각 섹션은 실습으로 끝납니다. 이 책의 소스 코드는 모두 GitLab에 있습니다. 실습 환경을 설정할때에 복제하여 이용해야 합니다.
+
+#### References
+이 책에 언급된 내용에 대해서 더 자세히 알고싶으시면 docs.docker.com 을 보시면 됩니다. 여기에는 Docker Engine 설정 부터 Dockerfile 및 Docker Compose의 문법, Docker Swarm 미 Docker의 엔터프라이즈 제품에 대해서 언급하고 있습니다.
+
+## 1.6 실습 환경 만들기
+이제 시작합니다. 이 책과 함께 봐야 할 것은 Docker와 샘플 코드 입니다.
+
+### 1.6.1 도커 설치
+Docker Community Edition은 개발 용도로 적합합니다. 최신 버전의 Windows 10 또는 Mac OS X에서 Docker를 사용하기 위한 가장 좋은 선택은 Docker Desktop 입니다. 이전 버전은 Docker Toolbox를 사용할 수 있습니다. Docker는 주요 Linux 배포판을 위한 설치 패키지도 제공합니다. 가장 적합한 옵션을 사용하여 Docker를 설치하세요.
+
+#### Mac OS X에 Docker Desktop 설치
+Mac용 Docker Desktop을 사용하려면 OSX Sierra 이상 버전의 OSX가 설치되어 있어야 합니다. 메뉴 막대의 왼쪽 상단에 있는 Apple 아이콘을 클릭하고 “이 Mac에 관하여”를 선택하여 버전을 확인하세요.
+https://www.docker.com/products/docker-desktop 으로 이동하여 안정 버전을 다운로드 합니다.
+다운로드하여 설치 프로그램을 실행하고 모든 기본값을 그대로 사용합니다. Docker Desktop이 실행중이면 상단 바 시계 근처의 Mac 메뉴 막대에 Docker 로고 아이콘이 표시됩니다.
+
+#### Windows 10에서 Docker Desktop 설치
+Docker Desktop을 사용하려면 Windows 10 Professional 또는 Enterprise가 필요하기에 Windows 업데이트가 최신 상태인지 확인해야 합니다.
+https://www.docker.com/products/docker-desktop 으로 이동하여 안정 버전을 다운로드 합니다. 다운로드 된 설치 프로그램을 실행하고 모든 기본값을 그대로 사용합니다. Docker Desktop이 실행 중이면 Windows 바 시계 근처의 작업 표시줄에 Docker 로고 아이콘이 표시됩니다.
+
+#### Docker Toolbox 설치
+이전 버전의 Windows 또는 OS X를 사용하는 경우 Docker Toolbox를 사용할 수 있습니다. https://docs.docker.com/toolbox 로 이동하여 설치 방법대로 수행합니다. VirtualBox와 같은 Virtual Machine 소프트웨어를 먼저 설정해야 합니다. (Docker Desktop은 별도의 VM 관리자가 필요없습니다.)
+
+#### Docker 설정 확인
+Docker 플랫폼을 구성하는 여러 구성 요소가 있지만 이 책에서는 Docker가 실행 중이고 Docker Compose가 설치되어 있는지만 확인하면 됩니다.
+
+먼저 터미널창을 오픈 한 다음에 “docker version” 커맨드로 확인합니다.
+
+```
+$docker version 
+Client: Docker Engine - Community Version: 19.03.5 API version: 1.40 Go version: go1.12.12 Git commit: 633a0ea Built: Wed Nov 13 07:22:34 2019 OS/Arch: darwin/amd64 Experimental: false Server: Docker Engine - Community Engine: Version: 19.03.5 API version: 1.40 (minimum version 1.12) Go version: go1.12.12 Git commit: 633a0ea Built: Wed Nov 13 07:29:19 2019 OS/Arch: linux/amd64 Experimental: true containerd: Version: v1.2.10 GitCommit: b34a5c8af56e510852c35414db4c1f4fa6172339 runc: Version: 1.0.0-rc8+dev GitCommit: 3e425f80a8c931f88e6d94a8c831b9d5aa481657 docker-init: Version: 0.18.0 GitCommit: fec3683
+```
+
+클라이언트와 서버의 Version 번호를 볼 수 있으면 Docker가 제대로 작동합니다. 아직 클라이언트와 서버가 무엇인지 모르셔도 됩니다. 차차 배우게 될 예정입니다.
+
+```
+$docker-compose version 
+docker-compose version 1.24.1, build 4667896b docker-py version: 3.7.3 CPython version: 3.6.8 OpenSSL version: OpenSSL 1.1.0j 20 Nov 2018
+```
+
+Docker와 상호 작용하는 Docker Compose를 테스트해야 합니다. “docker-compose version” 으로 확인합니다.
+
+### 1.6.2 샘플 코드 다운로드
+이 책의 소스 코드는 GitLab의 공개 Git 저장소에 있습니다. https://gitlab.com/giljae/learn_docker 로 이동하여 “복제 또는 다운로드” 버튼을 클릭하여 소스 코드를 로컬 시스템에 다운로드하고 압축을 해제하세요.
+
+# 2. Docker 이해하기 및 Hello World 실행
+이제 Docker를 실습 할 차례입니다. 이 장에서는 Docker의 핵심 기능인 컨테이너에서 어플리케이션을 실행하는 방법에 대해서 배울 수 있습니다.
+
+## 2.1 컨테이너에서 Hello World 실행하기
+새로운 프로그래밍 언어를 배울때에는 항상 “Hello World”를 출력합니다. 이것과 동일한 방식으로 Docker를 시작해 봅시다.
+
+Docker가 이미 설치되어 동작중이므로 터미널 창을 엽니다. Mac에서는 “iTerm or Terminal”, Linux에서는 “Bash Shell”, Windows에서는 “PowerShell”을 권장합니다.
+
+Docker에 명령을 보내어 간단한 “Hello, World” 텍스트를 출력하는 컨테이너를 실행하라는 명령을 내립니다.
+
+```
+$docker container run giljae/ld_ch02:0.1
+```
+
+위의 명령어를 실행하면 아래의 결과가 나옵니다.
+
+```
+$docker container run giljae/ld_ch02:0.1 
+Unable to find image 'giljae/ld_ch02:0.1' locally 0.1: Pulling from giljae/ld_ch02 e7c96db7181b: Pull complete 3c9c179c43cf: Pull complete 5204d567b517: Pull complete Digest: sha256:3e21bb71d4c6fa841dc78c80a096da45874b0631f543b411bf6a6520c480eb22 Status: Downloaded newer image for giljae/ld_ch02:0.1 --------------------- Hello, Chapter 2! --------------------- My name is: 70fef9286bd6 --------------------- Im running on: Linux 4.9.184-linuxkit x86_64 --------------------- My address is: inet addr:172.17.0.2 Bcast:172.17.255.255 Mask:255.255.0.0
+```
+Docker의 세상에 오신걸 환영 합니다.
 
