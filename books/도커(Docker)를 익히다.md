@@ -876,3 +876,271 @@ $ docker port apache
 ```
 
 이제 기본 포트(80)를 통해 웹 사이트에 접근 할 수 있습니다.
+
+# 4. Docker Hub 알아보기
+Docker 레지스트리 작업에 대해서 알아보도록 하겠습니다.
+
+Docker 툴셋은 아래처럼 구성되어 있습니다.
+
+1. Docker 데몬
+2. Docker 클라이언트
+3. Docker 허브
+
+Docker Architecture는 아래처럼 구성 됩니다.
+
+![image](https://user-images.githubusercontent.com/111643/116510187-79e35300-a8ff-11eb-8c55-1a28ffd3545b.png)
+
+위의 그림에서 레지스트리 부분에 초점을 맞추겠습니다. 레지스트리는 허브라고도 합니다. 따라서 이 문서에서는 두 용어를 서로 바꿔서 사용할 수 있습니다.
+
+Docker는 공용 Docker 이미지 목록을 찾을 수 있는 Docker Registry(Hub)라는 공용 저장소를 호스팅합니다. 많은 개발자들이 이미지를 준비해 주었기에 상당히 편리합니다. 이미지를 가져와서 컨테이너를 시작하기만 하면 되기 때문입니다.
+
+개발자에게 미치는 영향은 엄청납니다. 로컬에서 필요한 애플리케이션을 다운로드/설정하는 시간이 크게 줄어 듭니다. 예를 들어서 MySQL을 사용해야 한다고 가정 합시다. 사용 가능한 방법 중 하나는 공식 MySQL 사이트에서 설치 프로그램을 다운로드 하는 것입니다. 그리고 설치 가이드에 따라 설치하고 설정을 합니다. 이 프로세스는 시간이 오래 걸리고 오류가 발생할 여지가 존재합니다.
+
+반면, 컨테이너는 Docker와 같은 툴체인을 사용하여 쉽게 빠르게 작업을 할 수 있습니다. 이를 위해서는 아래의 단계를 수행해야 합니다.
+
+1. Docker Hub 방문: https://hub.docker.com
+2. 허브에 가입하면 로컬에서 생성한 Docker 이미지를 허브에 Push할 수 있습니다. 이는 본인 뿐만아니라 다른 누군가에게도 도움이 됩니다.
+3. 위의 사이트에 등록된 Docker 이미지 목록을 확인해보세요.
+
+## 4.1 Docker 이미지 검색
+Docker Hub 계정에 로그인했다고 가정합니다. (사실 검색은 계정이 없어도 동작합니다.)
+
+아래의 검색 상자에서 이미지를 검색해보세요.
+
+![image](https://user-images.githubusercontent.com/111643/116510240-91224080-a8ff-11eb-9ca8-cfdc40dbbde1.png)
+
+예를 들어서 Java를 입력하고 엔터를 누르면 이미지 결과 목록이 출력됩니다.
+
+![image](https://user-images.githubusercontent.com/111643/116510256-997a7b80-a8ff-11eb-89eb-609ec6249295.png)
+
+별표와 다운로드 횟수를 확인하세요. 이것은 해당 이미지의 인기에 대해서 알려 줍니다.
+
+해당 리포지토리를 클릭하면 다양한 이미지(e.g. 태그별) 및 해당 이미지를 기반으로 컨테이너를 실행하기 위한 설명이 적혀있는 페이지가 나타납니다.
+
+![image](https://user-images.githubusercontent.com/111643/116510277-a26b4d00-a8ff-11eb-9fb1-7f3a35ab64a2.png)
+
+위 이미지에서 최신 태그를 살펴봅니다.
+
+![image](https://user-images.githubusercontent.com/111643/116510302-aa2af180-a8ff-11eb-96b4-62783a24eeaf.png)
+
+사이트에서 여러 항목을 클릭하면서 익숙해지도록 합시다.
+
+## 4.2 이미지 pull
+이제 이미지와 태그에 익숙해 졌다고 생각합니다.
+
+아래와 같이 docker pull 명령을 통해 Java 이미지를 가져 올 수 있습니다.
+```
+$ docker pull openjdk
+```
+
+또는
+```
+$ docker pull openjdk:latest
+```
+
+```
+$ docker stop apache apache 
+```
+
+## 4.3 이미지 목록 보기
+docker images 명령으로 로컬에 보유한 이미지 목록을 확인할 수 있습니다.
+```
+$ docker images
+```
+
+## 4.4 컨테이너 시작
+로컬 이미지가 존재하기에 아래의 명령을 통해 컨테이너를 시작할 수 있습니다.
+```
+$ docker run <imagename>:<tag>
+```
+
+## 4.5 이미지 검색
+앞에서 우리는 Docker Hub 웹 인터페이스를 통해 Docker 이미지를 검색하는 방법을 살펴 보았습니다. docker 명령 줄을 통해서도 그렇게 할 수 있습니다.
+```
+$ docker search <검색하고자하는 이미지명>
+```
+
+예를 들어서
+```
+$ docker search httpd 
+$ docker search openjdk 
+$ docker search java 
+$ docker search mysql
+```
+
+# 5. 나만의 Docker 이미지 만들기
+이 섹션에서는 이미지를 만들기 위한 첫 단계를 설명할 것입니다. Docker Hub에 존재하는 이미지 위에 소프트웨어를 추가하여 간단하게 만들어 볼 것입니다.
+
+이미지를 만든 후에는 이미지를 Docker Hub로 Push합니다. Docker Hub에 아직 등록하지 않은 경우에는 링크(https://hub.docker.com/signup)에서 등록하세요.
+
+## 5.1 나만의 데이터 관리
+컨테이너와 이미지의 주요 차이점을 이해하는 것이 중요합니다.
+
+> “이미지는 불변이고 컨테이너는 임시입니다.”
+
+boot2docker 유틸리티를 시작한 다음 이전에 다운로드한 기본 ubuntu 이미지 작업을 시작하겠습니다. 먼저 우분투 최신 이미지가 있는지 확인합니다.
+
+아래의 명령을 실행하세요.
+```
+$ docker images
+```
+
+docker 이미지 목록중 ubuntu:latest가 있는지 확인 합니다. 없다면 아래의 명령을 실행합니다.
+```
+$ docker pull ubuntu:latest
+```
+
+다음 명령을 이용하여 ubuntu:latest 이미지를 기반으로 컨테이너를 시작합니다.
+```
+$ docker run -it --name mycontainer1 --rm ubuntu:latest 
+root@061998964b65:/#
+```
+
+이제 다음 명령을 실행하여 인기있는 Git 소프트웨어를 컨테이너 인스턴스에 설치합니다.
+```
+root@061998964b65:/# apt-get update 
+Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB] Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB] Get:3 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [761 kB] Get:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB] Get:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB] Get:6 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB] Get:7 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [6781 B] Get:8 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [19.2 kB] Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [795 kB] Get:10 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB] Get:11 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB] Get:12 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB] Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [32.7 kB] Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1057 kB] Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [10.5 kB] Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1322 kB] Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [2496 B] Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4244 B] Fetched 17.4 MB in 10s (1823 kB/s) Reading package lists... Done
+```
+
+업데이트가 완료되었으면 아래의 명령을 통해 git을 설치합니다.
+```
+root@061998964b65:/# apt-get install git
+```
+
+계속 진행할꺼냐는 메시지가 나옵니다. Y로 계속 진행하세요.
+
+Git 설치가 완료되면 잘 설치되었는지 확인합니다.
+
+```
+root@061998964b65:/# git --version 
+git version 2.17.1
+```
+
+이제 exit를 입력하여 컨테이너를 종료합니다. 컨테이너를 시작하는 동안 --rm 플래그를 사용했기에 컨테이너는 종료시 제거됩니다.
+
+다시 동일한 우분투 컨테이너의 다른 인스턴스를 시작합니다.
+```
+$ docker run -it --name mycontainer1 --rm ubuntu:late
+```
+
+프롬프트에서 git을 입력해봅니다. git을 찾을 수 없다는 메시지가 나올 것입니다.
+```
+$ docker run -it --name mycontainer1 --rm ubuntu:latest 
+root@f86c7d2dab7c:/# git 
+bash: git: command not found
+```
+
+어떻게 된 것이죠? 분명 우리는 우분투에 Git을 설치하고 그것이 존재할 줄 알았습니다.
+
+위에서 설명했듯이 이런 방식으로 시작된 각 컨테이너 인스턴스는 독립적이며 Git이 설치되지 않은 마스터 이미지(e.g. ubuntu:latest)에 따라 달라지게 됩니다.
+
+## 5.2 이미지 commit
+Git이 설치된 우분투 버전을 사용하려면 이미지를 commit해야 합니다. 이것이 의미하는 것은 우분투 이미지를 기반으로 컨테이너를 시작한다는 것입니다. 그리고 git과 같은 소프트웨어를 추가합니다. 이것은 컨테이너 상태를 수정했음을 의미합니다. 따라서 컨테이너의 현재 상태를 이미지로 저장해야 git이 반영된 컨테이너를 시작할 수 있습니다.
+
+이전 섹션에서 사용한 컨테이너를 exit로 종료하고 아래의 단계를 수행합니다.
+
+이번에는 --rm flag없이 우분트 기반의 컨테이너를 시작합니다.
+
+```
+$ docker run -it --name mycontainer1 ubuntu:latest 
+root@767b7e13efa8:/#
+```
+
+아래 명령을 통해 패키지를 업데이트하고 Git을 설치합니다.
+```
+root@767b7e13efa8:/# apt-get update 
+root@767b7e13efa8:/# apt-get install git
+```
+
+설치가 완료되면 아래의 명령을 통해 Git이 설치되어 있는지 확인합니다.
+```
+root@767b7e13efa8:/# git --version 
+git version 2.17.1
+```
+
+exit를 입력하여 컨테이너를 종료합니다.
+
+아래의 명령어를 입력하여 mycontainer1을 확인합니다.
+```
+$ docker ps -all 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+767b7e13efa8 ubuntu:latest "/bin/bash" 4 minutes ago Exited (0) 45 seconds ago mycontainer1
+```
+
+mycontainer1은 현재 종료 상태입니다.
+
+docker commit 명령을 통해 컨테이너 이미지를 커밋합니다.
+
+사용법:
+```
+docker commit [ContainerID] [Repository [:Tag]]
+```
+
+이 경우 mycontainer1에 이름을 부여했기에 컨테이너 아이디 대신 사용할 수 있습니다. 해당 컨테이너에 이름을 부여하지 않은 경우에는 docker ps -all 명령에 표시된 컨테이너 ID를 사용해야 합니다.
+
+Repository의 이름이 중요합니다. 마지막에는 Docker Hub로 Push할 계획이기에 권장되는 저장소 이름의 형식은 아래와 같습니다.
+```
+<dockerhub_username>/<repository_name>
+```
+
+이번 예제의 경우 repository_name은 ubuntu-git으로 할 예정이기에 <dockerhub_username>의 값을 자신의 사용자 이름으로 대체해야 합니다.
+
+태그를 제공하지 않으면 “latest”로 표시됩니다. 저의 경우 dockerhub_username이 giljae이기에 아래와 같이 commit합니다.
+```
+$ docker commit mycontainer1 giljae/ubuntu-git 
+sha256:bf60f2de446a91f1a8345f6131c75603994dd53f7146f965fa7fed3a9c370ca0
+```
+
+이렇게 하면 이미지 ID가 다시 생성됩니다. 이제 Docker 이미지 목록을 확인해봅시다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE 
+giljae/ubuntu-git latest bf60f2de446a 27 seconds ago 186MB httpd latest 2ae34abc2ed0 2 weeks ago 165MB ubuntu latest 775349758637 6 weeks ago 64.2MB alpine latest 965ea09ff2eb 7 weeks ago 5.55MB
+```
+
+목록 맨 위에 방금 commit한 이미지가 존재하는 것을 확인할 수 있습니다.
+
+이는 리포지토리 giljae/ubuntu-git이 생성되었음을 의미합니다.
+
+## 5.3 이미지에서 컨테이너 시작
+이제 새로 생성된 docker 이미지(e.g. yourusername/ubuntu-git)에서 컨테이너를 시작할 수 있습니다.
+```
+$ docker run -it --name myc1 giljae/ubuntu-git 
+root@179c15350d05:/#
+```
+
+위의 명령은 새로 생성한 이미지를 기반으로 컨테이너를 시작합니다. 그리고 git --version 명령어로 Git이 설치되어 있는지 확인해봅시다.
+```
+root@179c15350d05:/# git --version 
+git version 2.17.1
+```
+
+Git이 설치 되어 있는 것을 확인할 수 있습니다.
+
+## 5.4 Docker Hub로 이미지 Push 하기
+Docker Hub로 새롭게 생성한 이미지를 Push하려면 아래의 단계를 거쳐야 합니다.
+
+1. Docker Hub에서 계정을 만들어야 합니다.
+2. docker login에 성공하면 Login Succeeded 메시지가 표시됩니다.
+```
+$ docker login 
+Authenticating with existing credentials... Login Succeeded
+```
+
+아래의 명령어를 이용하여 이미지를 Docker Hub로 Push 합니다.
+
+관련 파일을 업로드하는데 시간이 조금 걸립니다. Docker는 기본 이미지(e.g. ubuntu)가 존재하는지 여부를 감지하기에 업로드 해야하는 레이어만 똑똑하게 선택합니다. 프로세스는 다음과 같이 실행됩니다.
+```
+$ docker push giljae/ubuntu-git 
+The push refers to repository [docker.io/giljae/ubuntu-git] 1bbb9d10563e: Pushed e0b3afb09dc3: Mounted from library/ubuntu 6c01b5a53aac: Mounted from library/ubuntu 2c6ac8e5063e: Mounted from library/ubuntu cc967c529ced: Mounted from library/ubuntu latest: digest: sha256:9a42aa82ee7b562ff51abb125a007266068042fc8f02b61e1aab16e3844930f9 size: 1364
+```
+
+새로 만든 이미지가 Push 되었습니다. Docker Hub 웹사이트에서 저장소를 확인해봅시다.
+
+![image](https://user-images.githubusercontent.com/111643/116510925-ab105300-a900-11eb-851f-e148da070b97.png)
+
+잘 올라간것을 확인할 수 있습니다. docker search 명령을 통해 리포지토리를 검색해봅시다.
+
+> 연습 :
+> 기본 이미지 위에 소프트웨어 설치하여 나만의 이미지를 만들고 Docker Hub에 Push 해봅니다.
+
