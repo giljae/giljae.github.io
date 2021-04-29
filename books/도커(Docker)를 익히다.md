@@ -1,6 +1,8 @@
 ---
 layout: article
 titles: 도커(Docker)를 익히다.
+sidebar:
+  nav: layouts
 ---
 # 소개말
 안녕하세요. "도커(Docker)를 익히다."에 참여해주셔서 감사합니다.
