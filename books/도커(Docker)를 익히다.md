@@ -188,6 +188,7 @@ Docker 시스템의 핵심입니다. Docker Engine은 클라이언트-서버 아
 #### Docker 클라이언트
 Docker 사용자는 클라이언트를 통해 Docker와 상호 작용할 수 있습니다. docker 명령이 실행될 때 클라이언트는 이를 dockerd 데몬으로 보내어 실행합니다.
 Docker API는 Docker 명령에서 사용됩니다. Docker 클라이언트는 둘 이상의 데몬과 통신 할 수 있습니다.
+{% include ad.html %}
 
 #### Docker 레지스트리
 Docker 이미지가 저장된 위치입니다. docker pull 또는 docker run 명령을 실행하면 필요한 Docker 이미지가 구성된 레지스트리에서 가져옵니다.
@@ -666,6 +667,7 @@ total 64 drwxr-xr-x 2 root root 4096 Oct 29 21:25 bin drwxr-xr-x 2 root root 409
 ```
 docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
 ```
+{% include ad.html %}
 
 ## 2.12 컨테이너 실행 정지 하기
 컨테이너를 정지하는 방법에 대해서 알아보도록 합니다. 우선, 현재 구동중인 컨테이너 목록을 출력합니다.
@@ -1102,6 +1104,8 @@ giljae/ubuntu-git latest bf60f2de446a 27 seconds ago 186MB httpd latest 2ae34abc
 
 이는 리포지토리 giljae/ubuntu-git이 생성되었음을 의미합니다.
 
+{% include ad.html %}
+
 ## 5.3 이미지에서 컨테이너 시작
 이제 새로 생성된 docker 이미지(e.g. yourusername/ubuntu-git)에서 컨테이너를 시작할 수 있습니다.
 ```
@@ -1359,6 +1363,8 @@ container1을 제거했지만 데이터 볼륨이 존재함을 보여줍니다. 
 $ docker rm --help 
 Usage: docker rm [OPTIONS] CONTAINER [CONTAINER...] Remove one or more containers Options: -f, --force Force the removal of a running container (uses SIGKILL) -l, --link Remove the specified link -v, --volumes Remove the volumes associated with the container
 ```
+
+{% include ad.html %}
 
 > 연습:
 > 동일한 /data 볼륨으로 다른 컨테이너를 시작하면 어떻게 될까요? 파일이 여전히 존재할까요? 아니면 각 컨테이너에 고유한 파일 시스템이 있을까요? 확인해보세요.
@@ -1748,6 +1754,8 @@ yli8mapw893qwmavhq7at3x0t * manager1 Ready Active Leader 19.03.5 docker@manager1
 
 현재까지 단일노드 manager1이 존재하며 MANAGER열에 Leader 값을 가진 것을 확인할 수 있습니다.
 
+{% include ad.html %}
+
 ### 10.3.1 Work Node로 Join 하기
 노드를 결합할 때 사용할 docker swarm 명령을 찾으려면 join-token <role> 명령어를 이용해야 합니다.
 
@@ -2080,3 +2088,5 @@ VM과 비교할 때 Docker 컨테이너가 훨씬 가볍다는 것을 우리는 
 * [도커 cheat sheet](https://github.com/wsargent/docker-cheat-sheet)
 * [도커 사용법](https://github.com/botchagalupe/DockerDo)
 * [도커 공식 블로그](https://www.docker.com/blog/)
+
+{% include ad.html %}
