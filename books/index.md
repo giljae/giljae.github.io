@@ -1,7 +1,8 @@
 ---
 layout: blank
 title: Books
-toc: true
+aside:
+  toc: true
 ---
 # Software
 * [도커(Docker)를 익히다.](/books/도커(Docker)를 익히다)
