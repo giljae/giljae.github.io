@@ -36,9 +36,6 @@ Hi, My name is Giljae Joo. I'm interested in software architecture, design and d
 * [LinkedIn](https://www.linkedin.com/in/giljae)
 * [Instagram](https://instagram.com/giljae)
 
-# Books
-* [도커(Docker)를 익히다.](https://docker.books.giljae.com/)
-
 # Side Projects
 * [Cre8ism.org](https://cre8ism.org)
 
