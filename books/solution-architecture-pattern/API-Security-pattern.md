@@ -1,6 +1,6 @@
 ---
 layout: article
-title: API Security pattern (API 보안 패턴).md
+title: API Security pattern (API 보안 패턴)
 aside:
   toc: true
 ---
