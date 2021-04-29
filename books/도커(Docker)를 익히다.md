@@ -1144,3 +1144,335 @@ The push refers to repository [docker.io/giljae/ubuntu-git] 1bbb9d10563e: Pushed
 > 연습 :
 > 기본 이미지 위에 소프트웨어 설치하여 나만의 이미지를 만들고 Docker Hub에 Push 해봅니다.
 
+# 6. Docker 전용 Registry
+이번 섹션에서는 로컬 Docker Registry를 호스팅 할 수 있는 방법에 대해서 알아보도록 하겠습니다. 이전 섹션에서는 Docker가 호스팅하는 공개 레지스트리인 Docker Hub에 대해서 살펴보았습니다. Docker Hub는 Docker 이미지에 대해서 공개적으로 활용하는데에 중요한 역할을 하지만 회사 내부의 팀 및 조직에서 사용하려면 Private Registry를 설정해야 합니다.
+
+## 6.1 Registry 이미지를 다운 받기
+Docker Hub에서 Registry를 검색합니다.
+
+```
+$ docker search registry 
+NAME DESCRIPTION STARS OFFICIAL AUTOMATED registry The Docker Registry 2.0 implementation for s... 2795 [OK] distribution/registry WARNING: NOT the registry official image!!! ... 58 [OK] stefanscherer/registry-windows Containerized docker registry for Windows Se... 27 budry/registry-arm Docker registry build for Raspberry PI 2 and... 18 deis/registry Docker image registry for the Deis open sour... 12 sixeyed/registry Docker Registry 2.6.0 running on Windows - N... 9 anoxis/registry-cli You can list and delete tags from your priva... 8 [OK] vmware/registry 6 jc21/registry-ui A nice web interface for managing your Docke... 5 allingeek/registry A specialization of registry:2 configured fo... 4 [OK] pallet/registry-swift Add swift storage support to the official do... 4 [OK] goharbor/registry-photon 2 ibmcom/registry Docker Image for IBM Cloud private-CE (Commu... 1 webhippie/registry Docker images for Registry 1 [OK] metadata/registry Metadata Registry is a tool which helps you ... 1 [OK] conjurinc/registry-oauth-server Docker registry authn/authz server backed by... 1 upmcenterprises/registry-creds 0 ghmlee/registrybot registrybot 0 [OK] lorieri/registry-ceph Ceph Rados Gateway (and any other S3 compati... 0 kontena/registry Kontena Registry 0 dwpdigital/registry-image-resource Concourse resource type 0 gisjedi/registry-proxy Reverse proxy of registry mirror image gisje... 0 concourse/registry-image-resource 0 convox/registry 0 zoined/registry Private Docker registry based on registry:2 0
+```
+
+우리는 registry를 가져올 것입니다. 아래의 명령어로 registry를 가져옵니다.
+```
+$ docker pull registry 
+Using default tag: latest latest: Pulling from library/registry c87736221ed0: Pull complete 1cc8e0bb44df: Pull complete 54d33bcb37f5: Pull complete e8afc091c171: Pull complete b4541f6d3db6: Pull complete Digest: sha256:8004747f1e8cd820a148fb7499d71a76d45ff66bac6a29129bfdbfdc0154d146 Status: Downloaded newer image for registry:latest docker.io/library/registry:latest
+```
+
+docker images 명령어로 확인합니다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE giljae/ubuntu-git latest bf60f2de446a 28 minutes ago 186MB httpd latest 2ae34abc2ed0 2 weeks ago 165MB ubuntu latest 775349758637 6 weeks ago 64.2MB alpine latest 965ea09ff2eb 7 weeks ago 5.55MB registry latest f32a97de94e1 9 months ago 25.8MB
+```
+
+설치 된것을 확인할 수 있습니다.
+
+## 6.2 로컬 Registry 실행 하기
+Registry Docker 이미지는 컨테이너의 포트 5000에서 시작하도록 구성되어 있습니다. 따라서 호스트 포트도 5000으로 매핑합니다.
+
+다음 명령어를 통해 Registry를 시작할 수 있습니다.
+```
+$ docker run -d -p 5000:5000 --name local_registry registry 
+079525e3ca9d182376a829c27127fb23dcc80d19448ee38e62c7f31504851bd3
+```
+
+성공적으로 실행되면 console에 컨테이너 ID가 출력됩니다.
+
+Registry 이미지를 기반으로 local_registry라는 컨테이너를 생성했습니다. 컨테이너가 분리 모드로 시작되고 포트도 5000:5000 으로 매핑했습니다.
+
+docker ps 명령어로 “local_registry” 컨테이너가 시작되었는지 확인해봅시다.
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 079525e3ca9d registry "/entrypoint.sh /etc..." 2 minutes ago Up 2 minutes 0.0.0.0:5000->5000/tcp local_registry
+```
+
+## 6.3 로컬 Registry로 Push 하기
+이제 몇 개의 이미지를 가지고 로컬 Registry로 Push 해보도록 하겠습니다.
+
+### 6.3.1 busybox 및 alpine 리눅스 이미지 가져오기
+아래와 같이 두 이미지에 대해 pull 명령을 실행합니다.
+
+#### busybox
+```
+$ docker pull busybox 
+Using default tag: latest latest: Pulling from library/busybox 322973677ef5: Pull complete Digest: sha256:1828edd60c5efd34b2bf5dd3282ec0cc04d47b2ff9caa0b6d4f07a21d1c08084 Status: Downloaded newer image for busybox:latest docker.io/library/busybox:latest
+```
+
+#### alpine 리눅스
+```
+$ docker pull alpine 
+Using default tag: latest latest: Pulling from library/alpine Digest: sha256:c19173c5ada610a5989151111163d28a67368362762534d8a8121ce95cf2bd5a Status: Image is up to date for alpine:latest docker.io/library/alpine:latest
+```
+
+이미지가 다운로드되면 docker images 명령어로 목록에 존재하는지 확인하세요.
+
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE giljae/ubuntu-git latest bf60f2de446a 39 minutes ago 186MB busybox latest b534869c81f0 12 days ago 1.22MB httpd latest 2ae34abc2ed0 2 weeks ago 165MB ubuntu latest 775349758637 6 weeks ago 64.2MB alpine latest 965ea09ff2eb 7 weeks ago 5.55MB registry latest f32a97de94e1 9 months ago 25.8MB
+```
+
+이제 로컬 Registry에서 alpine 리눅스를 가져와봅시다.
+
+```
+$ docker pull localhost:5000/alpine 
+Using default tag: latest Error response from daemon: manifest for localhost:5000/alpine:latest not found: manifest unknown: manifest unknown
+```
+
+로컬 Registry에 아무런 작업을 하지 않았기 때문에 alpine 리눅스를 가져 오려고 하면 이미지를 찾을 수 가 없다고 나옵니다. 우리는 이미 5000 포트에서 Registry 컨테이너를 시작했기 때문에 아래와 같이 작업을 해야 합니다.
+
+특정 Registry에서 이미지를 가져오는 형식은 다음과 같습니다.
+```
+[REGISTRY_HOSTNAME : REGISTRY_PORT] / IMAGENAME
+```
+
+Docker Hub의 경우 [REGISTRY_HOSTNAME : REGISTRY_PORT] 옵션을 지정하지 않았습니다. 그러나 로컬 Registry의 경우 Docker 클라이언트가 볼 수 있도록 지정해야 합니다.
+
+### 6.3.2 busybox 및 alpine 리눅스를 로컬 Registry에 Push 하기
+이제 다운로드 한 두 개의 이미지(busybox 및 alpine)를 로컬 Registry에 Push합니다. Docker Hub에서 직접 다운로드 한 두개의 이미지입니다.
+
+우리는 이 이미지를 수정하지 않았습니다. 그러나 앞에서 설명한 것처럼 수정해서 로컬 Registry로 Push 할 수도 있습니다.
+
+이미지를 로컬 Registry로 Push하는 단계는 다음과 같이 수행됩니다.
+
+첫 번째 단계는 이미지 또는 컨테이너를 가져와야 합니다. 이미 가져온 alpine 리눅스 이미지로 작업을 하도록 하겠습니다.
+
+아래의 명령을 실행하여 alpine:latest 이미지에 Push할 로컬 Registry의 Tag를 지정하세요.
+```
+$ docker tag alpine:latest 
+localhost:5000/alpine:latest
+```
+
+docker images 명령을 실행하면 alpine 및 localhost:5000/alpine 이미지가 모두 표시됩니다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE 
+giljae/ubuntu-git latest bf60f2de446a 26 hours ago 186MB busybox latest b534869c81f0 13 days ago 1.22MB httpd latest 2ae34abc2ed0 2 weeks ago 165MB ubuntu latest 775349758637 6 weeks ago 64.2MB alpine latest 965ea09ff2eb 8 weeks ago 5.55MB localhost:5000/alpine latest 965ea09ff2eb 8 weeks ago 5.55MB registry latest f32a97de94e1 9 months ago 25.8MB
+```
+
+Tag가 지정된 이미지 또는 컨테이너를 로컬 레지스트리에 Push 합니다.
+
+이것은 앞에서 배운 docker push 명령어를 이용합니다. Tag가 지정된 localhost:5000/alpine 이미지만 사용하면 됩니다. 아래의 명령을 실행합니다.
+```
+$ docker push localhost:5000/alpine:latest 
+The push refers to repository [localhost:5000/alpine] 77cae8ab23bf: Pushed latest: digest: sha256:e4355b66995c96b4b468159fc5c7e3540fcef961189ca13fee877798649f531a size: 528
+```
+
+이제까지 개인 Registry를 사용하는 방법을 알아보았습니다. 이것은 클라이언트 측에서 인증을 시행하지 않는 Registry입니다. 하지만 팀/조직내에서 사용하려면 보안 Registry를 사용해야 하는 점을 명심해야 합니다.
+
+# 7. Data Volumes
+본 섹션에서는 Docker Volumes에 대해서 알아보도록 하겠습니다. Docker Volumes는 Docker 컨테이너 내에서 데이터를 관리하는 방법입니다.
+
+지금까지는 다양한 이미지에서 컨테이너를 생성했습니다. 컨테이너는 임시적이고 컨테이너가 제거되면 사라집니다. 컨테이너 내부에서 실행되는 애플리케이션에서 사용한 데이터가 유지되려면 어떻게 해야 할까요? 예를 들어서 데이터를 생성하는 애플리케이션이 있고 파일을 작성하거나 데이터베이스에 저장하는 작업이 존재할 때, 컨테이너가 제거되어 나중에 다시 컨테이너를 시작하더라도 해당 데이터가 여전히 존재하게 하려면 어떻게 해야 할까요?
+
+다시 말해서, 컨테이너 수명주기를 데이터와 분리하는 작업이 필요합니다. 생성 된 데이터가 컨테이너 수명주기에 의해 손상되거나 재사용이 안되는 현상을 Volumes을 통해 해결할 계획입니다.
+
+Docker 공식 문서에서 언급하는 데이터를 관리 할 수 있는 방법은 두가지가 있습니다.
+* Data Volumes
+* Data volume containers
+
+위의 두 경우에 대한 예를 살펴보도록 하겠습니다.
+
+데이터 볼륨에 대해 명심해야 할 사항
+* 데이터 볼륨은 컨테이너를 위해 특별히 설계된 디렉토리입니다.
+* 컨테이너가 생성되면 초기화 됩니다. 기본적으로 컨테이너가 중지되어도 삭제되지 않습니다. 볼륨을 참조하는 컨테이너가 없으면 Garbage 수집도 되지 않습니다.
+* 데이터 볼륨은 독립적으로 업데이트 됩니다. 컨테이너 간 데이터 볼륨 공유도 가능 합니다. 읽기 전용 모드로 mount 할 수도 있습니다.
+
+## 7.1 데이터 볼륨 마운트
+컨테이너에 데이터 볼륨을 마운트하는 가장 기본적인 작업부터 해보도록 하겠습니다.
+
+busybox 이미지를 이용하여 작업을 합니다.
+
+컨테이너의 볼륨을 마운트하는 옵션으로 -v [/VolumeName]을 사용합니다. 아래와 같이 컨테이너를 시작하도록 합시다.
+```
+$ docker run -it -v /data --name container1 busybox
+```
+
+container1이 시작되고 프롬프트가 표시됩니다. 프롬프트에서 아래와 같이 ls 명령을 실행합니다.
+```
+/ # ls 
+bin data dev etc home proc root sys tmp usr var
+```
+
+data라는 이름의 볼륨이 표시됩니다. touch 명령어를 이용하여 file.txt 라는 파일을 생성합니다.
+```
+/ # cd data 
+/data # touch file.txt 
+/data # ls file.txt
+```
+
+지금까지 한 일은 컨테이너에 볼륨 /data를 마운트하였고, 해당 디렉토리(/data)내에 파일을 생성했습니다.
+
+이제 exit를 입력하고 터미널로 돌아가 컨테이너를 종료합니다.
+```
+/data # exit 
+$
+```
+
+docker ps -a 를 이용하여 container1이 종료 상태인지 확인합니다.
+```
+$ docker ps -a	grep container1 
+7882dab8ba00 busybox "sh" 5 minutes ago Exited (0) About a minute ago container1
+```
+
+이제 컨테이너를 시작할 때 docker가 수행하는 작업을 살펴보도록 하겠습니다.
+```
+$ docker inspect container1
+```
+
+JSON 포맷으로 제공되고 Mounts 속성을 찾아서 살펴 봅니다. 아래는 Mounts 속성 정보입니다.
+```
+"Mounts": [ { "Type": "volume", "Name": "bf564523eed84a97674ac033f87404c5ba3c9c25221d582bdf5e00480e05370d", "Source": "/var/lib/docker/volumes/bf564523eed84a97674ac033f87404c5ba3c9c25221d582bdf5e00480e05370d/_data", "Destination": "/data", "Driver": "local", "Mode": "", "RW": true, "Propagation": "" } ],
+```
+
+볼륨(/data)을 마운트 할때 /var/lib/… 폴더를 생성 했음을 의미합니다. 이곳에 볼륨에서 만든 모든 파일이 저장됩니다. 이전에 우리는 file.txt 파일을 만들었습니다.
+
+또한 RW 모드가 true로 설정되어 있습니다. (e.g. 읽기 및 쓰기)
+
+컨테이너(container1)를 다시 시작하고 file.txt가 있는지 확인해봅시다.
+```
+$ docker restart container1 container1 
+$ docker attach container1 
+/ # ls 
+bin data dev etc home proc root sys tmp usr var 
+/ # cd data /data # ls file.txt
+```
+
+위에서 실행한 단계는 아래와 같습니다.
+1. 컨테이너(container1)를 다시 시작했습니다.
+2. 실행중인 컨테이너(container1)에 연결 했습니다.
+3. ls를 실행하여 볼륨(/data)가 존재하는지 확인했습니다.
+4. /data 디렉토리로 이동하여 file.txt가 있는지 확인했습니다.
+
+데이터 볼륨을 유지하는 방법에 대해서 알게 되었습니다. 이제 컨테이너를 종료하데 컨테이너를 제거해보도록 합시다.
+```
+/data # exit 
+$ docker rm container1 container1 
+$ docker volume ls 
+DRIVER VOLUME NAME 
+local 6f7b3519d129a3333d50eda99e9dcc07f502930838b166b096c7031f376a1dd3
+```
+
+container1을 제거했지만 데이터 볼륨이 존재함을 보여줍니다. 이것은 ghost volume입니다. 아래의 도움말을 보면 컨테이너를 제거할때 볼륨도 제거하는 -v 옵션이 존재합니다.
+```
+$ docker rm --help 
+Usage: docker rm [OPTIONS] CONTAINER [CONTAINER...] Remove one or more containers Options: -f, --force Force the removal of a running container (uses SIGKILL) -l, --link Remove the specified link -v, --volumes Remove the volumes associated with the container
+```
+
+> 연습:
+> 동일한 /data 볼륨으로 다른 컨테이너를 시작하면 어떻게 될까요? 파일이 여전히 존재할까요? 아니면 각 컨테이너에 고유한 파일 시스템이 있을까요? 확인해보세요.
+
+## 7.2 호스트 Volume을 데이터 Volume으로 마운트
+컨테이너에 볼륨을 마운트하는 방법을 위에서 살펴보았습니다. 다음 단계는 볼륨 마운트와 동일한 방식의 프로세스를 살펴 보는 것입니다.
+
+Docker 컨테이너에 기존 호스트 폴더를 마운트합니다. 이것은 흥미로운 개념입니다. 외부 폴더에 존재하는 파일을 수정하고 컨테이너와 다른 컨테이너간 볼륨을 공유할 경우에 매우 유용합니다.
+
+저는 Docker for Mac을 사용하고 있기에, 이를 기반으로 설명할 예정입니다.
+
+메뉴바의 Docker 아이콘을 클릭하여 Preferences를 들어가면 아래의 화면을 볼 수 있습니다.
+
+![image](https://user-images.githubusercontent.com/111643/116512114-7d2c0e00-a902-11eb-96de-9c4378852e5f.png)
+
+Docker 컨테이너를 시작하는 동안 호스트 볼륨을 마운트하려면 volume -v 옵션을 사용해야 합니다.
+```
+-v host_folder : container_volumename
+```
+
+호스트 볼륨으로 사용할 폴더를 생성합니다.
+```
+$ mkdir container_volume 
+$ cd container_volume 
+grouq:container_volume 
+$ pwd /Users/giljae/container_volume
+```
+
+그리고 busybox 컨테이너를 시작하도록 하겠습니다.
+```
+$ docker run -it --name container1 -v /Users/giljae/container_volume:/datavol busybox 
+/ #
+```
+
+위의 명령어는 호스트 폴더 /Users/giljae/container_volume 을 컨테이너(container1) 내부에 마운트 될 볼륨 /datavol에 매핑한 것입니다.
+
+ls 명령어를 실행하여 /datavol이 마운트되어 있는지 확인합니다.
+```
+/ # ls 
+bin dev home root tmp var datavol etc proc sys usr
+```
+
+/datavol로 이동해서 폴더 내용을 확인합니다.
+```
+/ # cd datavol 
+/datavol # ls 
+/datavol #
+```
+
+폴더내에 파일이 존재하지 않습니다. 호스트 폴더에서 파일을 하나 생성해보도록 합시다.
+```
+$ cd container_volume/ 
+$ touch file.txt 
+$ ls file.txt 
+$
+```
+
+컨테이너(container1)에 매핑된 /datavol 폴더에 생성한 파일이 존재하는지 확인합니다.
+```
+/datavol # ls file.txt 
+/datavol #
+```
+
+호스트 폴더에서 생성한 file.txt가 존재하는 것을 확인할 수 있습니다.
+
+> 연습:
+> 1. 호스트 폴더 (/Users/<username>/container_volume)에 직접 파일을 추가 한 다음 실행중인 컨테이너에서 파일이 보이는지 확인하세요.
+> 2. 컨테이너의 shell에서 /datavol 폴더로 이동한 다음 파일을 추가하세요. 그리고 호스트 폴더에서 추가한 파일이 보이는지 확인하세요.
+> 3. 데이터 볼륨으로 마운트 된 호스트 폴더를 어떻게 사용할지 고민해보세요.
+
+참고:
+* 데이터 볼륨으로 마운트 된 호스트 폴더를 활용하는 방법 중 하나는 예를 들어서 프로젝트를 수행중이고 컨테이너에서 Apache Web Server를 실행한다고 가정합니다.
+* 컨테이너를 시작하고 웹 서버가 사용할 수 있는 호스트 폴더를 마운트할 수 있습니다. 이 경우 호스트 컴퓨터에서 해당 폴더의 파일들을 변경하면 Docker 컨테이너에 바로 반영이 됩니다.
+
+## 7.3 데이터 볼륨 컨테이너
+이제 데이터 볼륨 컨테이너를 만들어보도록 합시다. 컨테이너간에 데이터를 공유하거나 혹은 임시 컨테이너의 데이터를 사용하려는 케이스가 존재할 때, 이는 매우 유용합니다. 아래의 단계를 살펴봅시다.
+1. 우선 데이터 볼륨 컨테이너를 생성합니다.
+2. 다른 컨테이너를 생성하고 1단계에서 생성된 컨테이너에서 볼륨을 마운트합니다.
+
+실제 실행해볼까요?
+
+먼저 컨테이너(container1)를 만들고 볼륨을 마운트합니다.
+```
+$ docker run -it -v /data --name container1 busybox
+```
+
+/data 폴더로 들어가서 두개의 더미 파일을 생성합니다.
+```
+/ # cd data 
+/data # touch file1.txt 
+/data # touch file2.txt
+```
+
+이제 다른 터미널을 열어서 docker ps로 실행중인 컨테이너를 확인합니다.
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+8037b0447dba busybox "sh" 3 minutes ago Up 3 minutes container1 
+```
+
+실행중인 container1에서 명령어를 실행하여 /data 폴더의 파일을 확인합니다.
+```
+$ docker exec container1 ls /data file1.txt file2.txt
+```
+
+같은 컨테이너에서 /data 볼륨을 확인했습니다. 이제 다른 컨테이너(container2)를 생성하면서 container1의 /data 볼륨을 마운트 합니다.
+```
+$ docker run -it --volumes-from container1 --name container2 busybox
+```
+
+이제 ls 명령어를 실행하여 /data 폴더내의 파일을 확인합니다.
+```
+/ # ls /data file1.txt file2.txt
+```
+
+container1, container2에서 동일한 데이터 볼륨을 사용했고 이를 확인했습니다.더 자세한 사항은 데이터 볼륨에 대한 [공식 문서](https://docs.docker.com/storage/volumes/)를 확인 하시길 바랍니다.
+
