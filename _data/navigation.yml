@@ -63,7 +63,7 @@ header:
       zh-Hant : *EN
       zh-TW   : *EN
       zh-HK   : *EN
-      ko      : &KO       책
+      ko      : &KO       책/번역글
       ko-KR   : *KO
       fr      : *EN
       fr-BE   : *EN
