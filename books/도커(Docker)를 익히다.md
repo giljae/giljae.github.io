@@ -1,10 +1,8 @@
 ---
 layout: article
 title: 도커(Docker)를 익히다.
-aside:
-  toc: true
 sidebar:
-  nav: test
+  toc: true
 ---
 # 인사말
 안녕하세요. "도커(Docker)를 익히다."에 참여해주셔서 감사합니다.
