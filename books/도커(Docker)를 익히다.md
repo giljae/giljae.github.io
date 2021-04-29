@@ -1668,3 +1668,57 @@ Sending build context to Docker daemon 2.048kB Step 1/3 : FROM busybox:latest --
 
 일반적으로는 Kubernetes를 많이 사용중이지만, 학습을 위해 Docker Swarm을 기준으로 설명합니다. Kubernetes는 “Kubernetes를 익히다.”에서 언급할 계획입니다.
 
+## 10.1 컨테이너 오케스트레이션이 필요한 이유
+수백 개의 컨테이너를 실행해야 하는 상황을 생각해봅시다. 이를 잘 관리하기위해서는 관리를 위한 기능이 필요합니다.
+* 컨테이너의 상태 체크
+* 특정 Docker 이미지에 대해 고정된 컨테이너에서 시작
+* 부하에 따라 컨테이너를 늘리거나 줄이는 기능
+* 모든 컨테이너에서 애플리케이션 업데이트 수행
+* 기타 등등
+
+Docker Swarm을 사용하여 어떻게 해결 할 수 있는지 알아보도록 하겠습니다.
+
+전제 조건
+* 기본 Docker 명령에 익숙 해야 합니다.
+* Docker Toolbox가 시스템에 설치되어 있어야 합니다.
+* Virtualbox가 시스템에 설치되어 있어야 합니다.
+
+## 10.2 Docker 머신 생성하기
+Docker Swarm에서 노드 역할을 하는 Docker 시스템 환경을 만들 예정입니다. 여기서는 6개의 Docker 머신을 만들려고 합니다. 여기서 하나는 Manager(Leader)로 동작하고 다른 것들은 Worker Node가 됩니다. 표준 명령어를 사용하여 아래와 같이 manager1이라는 Docker 머신을 만듭니다.
+```
+$ docker-machine create --driver virtualbox manager1 
+Running pre-create checks... (manager1) Default Boot2Docker ISO is out-of-date, downloading the latest release... (manager1) Latest release for github.com/boot2docker/boot2docker is v19.03.5 (manager1) Downloading /Users/giljae/.docker/machine/cache/boot2docker.iso from https://github.com/boot2docker/boot2docker/releases/download/v19.03.5/boot2docker.iso... (manager1) 0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100% Creating machine... (manager1) Copying /Users/giljae/.docker/machine/cache/boot2docker.iso to /Users/giljae/.docker/machine/machines/manager1/boot2docker.iso... (manager1) Creating VirtualBox VM... (manager1) Creating SSH key... (manager1) Starting the VM... (manager1) Check network to re-create if needed... (manager1) Found a new host-only adapter: "vboxnet0" (manager1) Waiting for an IP... Waiting for machine to be running, this may take a few minutes... Detecting operating system of created instance... Waiting for SSH to be available... Detecting the provisioner... Provisioning with boot2docker... Copying certs to the local machine directory... Copying certs to the remote machine... Setting Docker configuration on the remote daemon... Checking connection to Docker... Docker is up and running! To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env manager1
+```
+
+Worker 노드도 만들도록 하겠습니다. worker1부터 worker3까지 생성합니다.
+```
+$ docker-machine create --driver virtualbox worker1 
+$ docker-machine create --driver virtualbox worker2 
+$ docker-machine create --driver virtualbox worker3
+```
+생성 후에 “docker-machine ls” 명령어로 상태를 확인합니다.
+```
+$ docker-machine ls 
+NAME ACTIVE DRIVER STATE URL SWARM DOCKER ERRORS 
+manager1 - virtualbox Running tcp://192.168.99.100:2376 v19.03.5 worker1 - virtualbox Running tcp://192.168.99.101:2376 v19.03.5 worker2 - virtualbox Running tcp://192.168.99.102:2376 v19.03.5 worker3 - virtualbox Running tcp://192.168.99.103:2376 v19.03.5
+```
+모두 생성된 것을 확인할 수 있습니다.
+
+manager1의 IP 주소를 알아보도록 합시다. manager1의 IP 주소를 알아내는 방법은 아래와 같습니다.
+```
+$ docker-machine ip manager1 192.168.99.100
+```
+
+Docker 머신에 SSH로 접속을 할 계획입니다. SSH를 통해 해당 시스템에서 docker 명령을 실행해야 하기 때문에 SSH 사용에 익숙해져야 합니다.
+
+사용법:
+```
+docker-machine ssh <머신 이름>
+```
+
+manager1 docker에 접속해보도록 합시다.
+```
+$ docker-machine ssh manager1 
+( '>') /) TC (\ Core is distributed with ABSOLUTELY NO WARRANTY. (/-_--_-\) www.tinycorelinux.net 
+docker@manager1:~$
+```
