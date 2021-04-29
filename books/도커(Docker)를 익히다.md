@@ -743,3 +743,136 @@ REPOSITORY TAG IMAGE ID CREATED SIZE alpine latest 965ea09ff2eb 7 weeks ago 5.55
 
 ubuntu 이미지가 삭제된 것을 확인할 수 있습니다.
 
+# 3. Docker Image 및 컨테이너 추가 정보
+이번 장에서는 이미지, 컨테이너 실행, 컨테이너 네트워킹 등을 처리하는 방법에 대해서 알아보도록 합시다.
+
+## 3.1 Apache 웹 서버 실행
+이제 조금 더 자세히 Docker내에서 실행되는 애플리케이션을 어떻게 구상하는지 알아보도록 하겠습니다.
+
+우리는 Apache Web Server를 실행해야 합니다. 이렇게 하려면 누군가에 의해 이미 생성된 Docker 이미지가 있어야겠죠?
+
+따라서 첫 번째로 아래를 수행합니다.
+```
+$ docker search httpd
+```
+
+위의 명령어에 대한 결과는 아래와 같습니다.
+```
+$ docker search httpd 
+NAME DESCRIPTION STARS OFFICIAL AUTOMATED httpd The Apache HTTP Server Project 2771 [OK] centos/httpd-24-centos7 Platform for running Apache httpd 2.4 or bui... 27 centos/httpd 26 [OK] armhf/httpd The Apache HTTP Server Project 8 salim1983hoop/httpd24 Dockerfile running apache config 2 [OK] dariko/httpd-rproxy-ldap Apache httpd reverse proxy with LDAP authent... 1 [OK] solsson/httpd-openidc mod_auth_openidc on official httpd image, ve... 1 [OK] lead4good/httpd-fpm httpd server which connects via fcgi proxy h... 1 [OK] interlutions/httpd httpd docker image with debian-based config ... 0 [OK] dockerpinata/httpd 0 itsziget/httpd24 Extended HTTPD Docker image based on the off... 0 [OK] manasip/httpd 0 manageiq/httpd_configmap_generator Httpd Configmap Generator 0 [OK] appertly/httpd Customized Apache HTTPD that uses a PHP-FPM ... 0 [OK] izdock/httpd Production ready Apache HTTPD Web Server + m... 0 trollin/httpd 0 amd64/httpd The Apache HTTP Server Project 0 publici/httpd httpd:latest 0 [OK] e2eteam/httpd 0 manageiq/httpd Container with httpd, built on CentOS for Ma... 0 [OK] buzzardev/httpd Based on the official httpd image 0 [OK] hypoport/httpd-cgi httpd-cgi 0 [OK] alvistack/httpd Docker Image Packaging for Apache 0 [OK] ppc64le/httpd The Apache HTTP Server Project 0 tugboatqa/httpd The Apache HTTP Server Project 0
+```
+
+httpd를 검색하니 많은 이미지 목록이 출력됩니다. 이 중에서 우리는 공식 이미지를 설치할 계획입니다.
+
+어떻게 해야 할까요? 위에서 배운 명령어 중 docker pull을 사용합니다.
+```
+$ docker pull httpd 
+Using default tag: latest latest: Pulling from library/httpd 000eee12ec04: Pull complete 32b8712d1f38: Pull complete f1ca037d6393: Pull complete c4bd3401259f: Pull complete 51c60bde4d46: Pull complete Digest: sha256:ac6594daaa934c4c6ba66c562e96f2fb12f871415a9b7117724c52687080d35d Status: Downloaded newer image for httpd:latest docker.io/library/httpd:latest
+```
+
+httpd 이미지가 다운로드 되었습니다. docker images를 이용해서 확인합니다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE httpd latest 2ae34abc2ed0 2 weeks ago 165MB alpine latest 965ea09ff2eb 7 weeks ago 5.55MB
+```
+
+httpd 이미지에 대한 자세한 내용은 공식 문서를 확인하시면 됩니다. 각 이미지에 대한 설명 페이지를 살펴보는 것은 중요합니다. 해당 페이지에 이미지 실행 방법 및 기타 구성 사항에 대해서 상세하게 작성되어 있습니다.
+
+공식 이미지에서 제공하는 Apache 웹 서버를 컨테이너에서 실행하려면 다음을 수행해야 합니다.
+
+아래의 명령어에는 -d 옵션을 사용하고 있습니다. (e.g -d 옵션은 컨테이너를 분리 모드로 실행)
+
+그리고 --name 옵션으로 컨테이너 이름을 지정했습니다.
+```
+$ docker run -d --name apache httpd 
+c55c64b2c763bf4d0e3670301a2afb2903479f7aa42ff84d01cb82fefd700fe7
+```
+
+이렇게 되면 httpd 이미지를 기반으로 기본 Apache Web Server가 시작됩니다. 컨테이너를 분리 모드로 시작했기 때문에 컨테이너 ID를 다시 얻습니다.
+
+docker ps 명령어로 httpd가 구동되었는지 확인합니다.
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+c55c64b2c763 httpd "httpd-foreground" 45 seconds ago Up 44 seconds 80/tcp apache
+```
+
+실행 상태입니다. NAMES에는 구동하기전 지정한 apache가 있습니다.
+
+### 3.1.1 docker ps시 ports 정보 확인 하기
+docker ps 명령어에 대한 출력결과를 보면 PORTS가 존재하는 것을 확인할 수 있습니다. 해당 값은 80/tcp 입니다. 이는 포트 80이 컨테이너에 의해 노출되고 있음을 의미합니다. (일반적으로 Apache 웹 서버의 기본 포트는 80입니다.)
+
+### 3.1.2 웹 사이트에 접속하기
+curl 또는 로컬 컴퓨터의 브라우저를 이용해 사이트를 확인해 보도록 하겠습니다. 확인을 하려면 IP주소를 알아야 합니다. IP 주소는 무엇일까요?
+
+Docker for Mac 또는 Docker for Windows를 실행중인 경우에는 localhost 입니다.
+
+브라우저를 띄우고 http://localhost 로 접속합니다.
+
+이상합니다.! 페이지가 나타나지 않습니다. 우리의 예상은 아파치 홈페이지가 브라우저에 나타날 것으로 예상했지만 실제로는 그렇지 않습니다.
+
+Apache Web Server가 실행되는 기본 포트는 80이지만 해당 포트가 호스트측에 노출되지 않아 웹 사이트에 접근할 수 없기 때문입니다.
+
+80 포트는 컨테이너에 의해 노출되지만 호스트에는 노출되지 않습니다. 다시 말해서, 80 포트는 컨테이너에 의해 노출된 개인 포트이지만 공개 호스트에 매핑된 포트가 없다는 의미입니다.
+
+이것에 대한 해결책은 무엇일까요? 아래의 명령어를 이용합니다.
+```
+$ docker port apache 
+```
+
+결과는 예상대로입니다. 호스트의 공개 포트에 대한 매핑 정보가 없습니다.
+
+무언가를 해야 할 것 같습니다.!
+
+### 3.1.3 랜덤 포트 매핑
+가장 먼저 컨테이너를 중지하고 제거합니다. 그리고 동일한 컨테이너 이름(e.g. apache)을 사용할 수 있도록 합니다.
+```
+$ docker stop apache apache 
+$ docker rm apache apache 
+```
+
+이제 -P를 사용하여 httpd 컨테이너를 시작하도록 하겠습니다. -P 옵션의 기능은 “노출된 모든 포트를 임의 포트에 게시"하는 것입니다. 따라서 80 포트는 임의 포트에 매핑되게 될 것입니다. 그리고 매핑된 포트는 공용 포트가 됩니다.
+
+아래의 명령을 실행합니다.
+```
+$ docker run -d --name apache -P httpd 
+959a35ffb02d613cb52e45765ca8c140f6c043deeed6a6398524055f950876cd
+```
+
+port 명령을 이용해 정보를 확인합니다.
+```
+$ docker port apache 
+80/tcp -> 0.0.0.0:32768
+```
+
+80 포트가 32768 포트로 매핑된 것을 확인할 수 있습니다. 따라서 아래의 URL로 브라우저에서 확인이 가능합니다.
+
+![image](https://user-images.githubusercontent.com/111643/116509895-05a8af80-a8ff-11eb-8e44-ef637b0bfe42.png)
+
+Apache 웹서버가 잘 작동하는 것을 확인할 수 있습니다.
+
+### 3.1.4 특정 포트 매핑
+32768 포트 이외의 포트를 매핑하려면 어떻게 해야 할까요? -p(소문자) 옵션을 이용해 이를 수행할 수 있습니다.
+
+이 아규먼트의 형식은 아래와 같습니다.
+```
+-p HostPort : ContainerPort e.g) -p 80:80 or -p 8080:80
+```
+
+첫 번째 아규먼트는 호스트 포트이며 80을 지정하고 있습니다. 두 번째 포트는 Apache 웹서버가 표시하는 것입니다. (e.g. 80)
+
+다시 확인해 봅시다.
+```
+$ docker stop apache apache 
+$ docker rm apache apache 
+$ docker run -d --name apache -p 80:80 
+httpd e47b69395f7570f8bfd431151f5530301a659a0af00f8219e11b10e44e836130
+```
+
+docker port 명령으로 매핑된 포트 정보를 확인합니다.
+```
+$ docker port apache 
+80/tcp -> 0.0.0.0:80
+```
+
+이제 기본 포트(80)를 통해 웹 사이트에 접근 할 수 있습니다.
