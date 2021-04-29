@@ -1,6 +1,8 @@
 ---
 layout: article
-titles: 도커(Docker)를 익히다.
+title: 도커(Docker)를 익히다.
+aside:
+  toc: true
 sidebar:
   nav: layouts
 ---
