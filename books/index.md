@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: blank
 title: Books
 ---
 ## 개발 관련
