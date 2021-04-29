@@ -1476,3 +1476,195 @@ $ docker run -it --volumes-from container1 --name container2 busybox
 
 container1, container2에서 동일한 데이터 볼륨을 사용했고 이를 확인했습니다.더 자세한 사항은 데이터 볼륨에 대한 [공식 문서](https://docs.docker.com/storage/volumes/)를 확인 하시길 바랍니다.
 
+# 8. 컨테이너 연결하기
+본 섹션에서는 Docker 컨테이너를 연결하는 방법에 대해서 알아볼 것입니다. 컨테이너를 연결하면 Docker 컨테이너가 상호간 통신 할 수 있습니다.
+
+샘플 웹 애플리케이션을 생각해봅시다. 웹서버와 데이터베이스 서버가 있을 수 있습니다. Docker 컨테이너간 연결하는 방법에 대해서 아래의 이야기를 할 것입니다.
+
+데이터베이스 서버를 실행할 Docker 컨테이너를 생성합니다.
+
+1단계에서 생성한 컨테이너에 대한 link flag를 기반으로 두 번째 컨테이너(웹 서버)를 생성합니다. 이렇게하면 링크 이름을 통해 데이터베이스 서버와 통신이 가능합니다.
+
+이미 앞에서 소개한 네트워킹 포트를 사용하지 않고 컨테이너를 서로 연결하는 방법을 본 섹션에서 배울 예정입니다. Docker Compose가 권장되는 방법이지만, 이번장에서는 link flag에 대해서만 언급하도록 하겠습니다.
+
+아래의 명령어를 통해 Redis 이미지를 가져옵니다.
+```
+$ docker pull redis 
+Using default tag: latest latest: Pulling from library/redis 000eee12ec04: Already exists 5cc53381c195: Pull complete 48bb7bcb5fbf: Pull complete ef8a890bb1c2: Pull complete 32ada9c6fb0d: Pull complete 76e034b0f296: Pull complete Digest: sha256:1eedfc017b0cd3e232878ce38bd9328518219802a8ef37fe34f58dcf591688ef Status: Downloaded newer image for redis:latest docker.io/library/redis:latest
+```
+
+그리고 redis 컨테이너(redis1)를 시작합니다.
+```
+$ docker run -d --name redis1 redis 
+e7352a25969b91009a058cbe20574405c1128a131a420db930c19ccbaa52bd2e
+```
+
+docker ps 명령어로 redis 컨테이너가 생성되었는지 확인합니다.
+```
+$ docker ps 
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+e7352a25969b redis "docker-entrypoint.s..." 41 seconds ago Up 41 seconds 6379/tcp redis1
+```
+
+포트 6379에서 시작된 것을 확인할 수 있습니다.
+
+이제 busybox 컨테이너를 시작하도록 합니다.
+```
+$ docker run -it --link redis1:redis --name redisclient1 busybox 
+```
+
+새로운 flag가 보입니다. --link 입니다.
+```
+--link <source_container_name>:<container_alias_name>
+```
+
+우리는 <source_container_name>을 redis1으로 입력했습니다. 그 이유는 이전에 시작한 redis 컨테이너의 이름입니다. <container_alias_name>은 redis로 부여했습니다.
+
+위에서 시작한 redisclient1 컨테이너의 /etc/hosts 파일을 확인해볼까요?
+```
+/ # cat /etc/hosts 
+127.0.0.1 localhost ::1 localhost ip6-localhost ip6-loopback fe00::0 ip6-localnet ff00::0 ip6-mcastprefix ff02::1 ip6-allnodes ff02::2 ip6-allrouters 172.17.0.2 redis e7352a25969b redis1 172.17.0.3 191153dd128d
+```
+
+위의 파일을 보시면 컨테이너 redis1이 redis 이름과 연결되어 있습니다.
+
+이제 호스트 이름, alias로 핑을 수행해봅시다.
+```
+/ # ping redis 
+PING redis (172.17.0.2): 56 data bytes 64 bytes from 172.17.0.2: seq=0 ttl=64 time=0.151 ms 64 bytes from 172.17.0.2: seq=1 ttl=64 time=0.131 ms 64 bytes from 172.17.0.2: seq=2 ttl=64 time=0.133 ms
+```
+
+ping이 잘되는 것을 확인할 수 있습니다. 서로간 통신이 연결된 것입니다.
+
+환경 변수도 살펴볼까요?
+```
+/ # env 
+REDIS_PORT=tcp://172.17.0.2:6379 REDIS_PORT_6379_TCP_ADDR=172.17.0.2 HOSTNAME=57855759487f REDIS_NAME=/redisclient1/redis SHLVL=1 REDIS_PORT_6379_TCP_PORT=6379 HOME=/root REDIS_PORT_6379_TCP_PROTO=tcp REDIS_ENV_REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-5.0.7.tar.gz REDIS_ENV_REDIS_VERSION=5.0.7 REDIS_PORT_6379_TCP=tcp://172.17.0.2:6379 TERM=xterm PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin REDIS_ENV_REDIS_DOWNLOAD_SHA=61db74eabf6801f057fd24b590232f2f337d422280fd19486eca03be87d3a82b REDIS_ENV_GOSU_VERSION=1.11 PWD=/
+```
+
+다양한 환경 변수가 자동 생성되어 있는 것을 확인할 수 있습니다.
+
+redis1 컨테이너를 종료하고 터미널로 돌아갑니다.
+
+자 다시, redis 이미지를 기반으로 컨테이너를 시작합니다.
+```
+$ docker run -it --link redis1:redis --name client1 redis sh
+```
+
+그리고 redis 클라이언트(redis-cli)를 실행하여 다른 컨테이너에서 실행되고 있는 다른 redis 서버에 연결합니다.
+```
+# redis-cli -h redis redis:6379>
+```
+
+연결 된 것을 확인할 수 있습니다. 표준 redis 명령을 실행해봅니다.
+```
+redis:6379> PING PONG 
+redis:6379> set myvar DOCKER OK 
+redis:6379> get myvar "DOCKER" 
+redis:6379>
+```
+
+정상적으로 작동합니다. 이제 해당 컨테이너를 종료하고 다른 클라이언트(client2)를 시작합니다.
+```
+$ docker run -it --link redis1:redis --name client2 redis sh
+```
+
+몇 가지 명령을 실행하여 연결이 잘 되었는지 확인합니다. get myvar 명령을 이용하여 다른 컨테이너에서 생성한 데이터를 가져옵니다.
+```
+# redis-cli -h redis 
+redis:6379> get myvar "DOCKER" 
+redis:6379>
+```
+
+지금까지 각 컨테이너를 서로 연결하는 방법을 배워보았습니다.
+
+컨테이너와 링크를 단일 파일로 지정하여 연결하는 매커니즘을 제공하는 Docker Compose에 대해서도 확인해보시길 바랍니다.
+
+# 9. Dockerfile 작성하기
+본 섹션에서는 Dockerfile을 통해 자체적으로 Docker 이미지를 만드는 방법에 대해서 배워보도록 하겠습니다. 컨테이너를 실행하고, 소프트웨어를 설치하고 이미지를 만들기 위해 commit을 수행하여 이미지를 만들어볼 계획입니다.
+
+Dockerfile은 이미지를 작성하는 방법에 대한 지침을 작성한 텍스트 파일입니다. Dockerfile에서 지원하는 문법의 일부를 이번 섹션에서 배우게 될 것입니다.
+
+이미지를 만드는 방법에 대해서 기술합니다.
+1. Dockerfile을 작성합니다.
+2. docker build 명령을 이용하여 1단계에서 만든 Dockerfile을 기반으로 Docker 이미지를 만듭니다.
+
+![image](https://user-images.githubusercontent.com/111643/116513072-ff690200-a903-11eb-9ccb-7e8d96894e1a.png)
+
+기본 명령
+* FROM - 빌드 프로세스를 사용하고 시작할 기본 이미지를 정의합니다.
+* RUN - 이미지에서 명령을 실행하려면 명령과 인수가 필요합니다.
+* CMD - RUN 명령과 유사한 기능이지만 컨테이너가 인스턴스화 된 후에 실행됩니다.
+* ENTRYPOINT - 컨테이너가 생성 될 때 이미지의 기본 어플리케이션을 대상으로 합니다.
+* ADD - 파일을 소스에서 컨테이너 내부로 복사합니다.
+* ENV - 환경 변수를 설정합니다.
+
+로컬 홈디렉토리에 docker_image라는 폴더를 생성합니다.
+```
+$ mkdir docker_image
+```
+
+cd 명령을 통해 해당 디렉토리로 이동합니다.
+```
+$ cd docker_image
+```
+
+vi 혹은 사용하는 편집기를 열어서 Dockerfile을 만듭니다.
+```
+FROM busybox:latest MAINTAINER Giljae Joo
+```
+
+Docker 이미지는 서로 위에 쌓여진 Layer일 뿐이기에 기본 이미지부터 시작하는 것이 좋습니다. FROM은 기본 이미지를 설정하는 명령어입니다. MAINTAINER는 생성된 이미지의 작성자를 알려줍니다. FROM 명령어에서 다른 기본 이미지(e.g. ubuntu:latest)도 사용할 수 있습니다.
+
+파일을 저장하고 터미널로 돌아갑니다. /image 디렉토리에서 아래의 명령을 실행합니다.
+```
+$ docker build -t myimage:latest . 
+Sending build context to Docker daemon 2.048kB Step 1/2 : FROM busybox:latest ---> b534869c81f0 Step 2/2 : MAINTAINER Giljae Joo ---> Running in e52ae914f0d1 Removing intermediate container e52ae914f0d1 ---> c3825f344149 Successfully built c3825f344149 Successfully tagged myimage:latest
+```
+
+docker build 명령을 실행했습니다. 이 명령은 Docker 이미지를 빌드할때 사용됩니다.
+
+-t 옵션은 Docker 이미지 태그입니다. 이미지 이름과 태그를 지정할 수 있습니다.
+
+“.”은 Dockerfile의 위치를 지정합니다. Docker 빌드를 실행하는 디렉토리내에 Dockerfile이 존재하기에 현재 디렉토리를 의미하는 “.”으로 지정했습니다.
+
+docker images 명령을 실행하여 myimage 이미지가 존재하는지 확인해봅시다.
+```
+$ docker images 
+REPOSITORY TAG IMAGE ID CREATED SIZE 
+myimage latest c3825f344149 About a minute ago 1.22MB giljae/ubuntu-git latest bf60f2de446a 3 days ago 186MB busybox latest b534869c81f0 2 weeks ago 1.22MB httpd latest 2ae34abc2ed0 3 weeks ago 165MB redis latest dcf9ec9265e0 3 weeks ago 98.2MB ubuntu latest 775349758637 7 weeks ago 64.2MB alpine latest 965ea09ff2eb 8 weeks ago 5.55MB localhost:5000/alpine latest 965ea09ff2eb 8 weeks ago 5.55MB registry latest f32a97de94e1 9 months ago 25.8MB
+```
+
+docker run 명령을 이용하여 컨테이너를 시작합니다.
+```
+$ docker run -it myimage
+```
+
+exit로 쉘을 빠져나와서 Dockerfile을 수정하도록 합시다. 에디터로 Dockerfile을 열고 CMD 명령어 라인을 추가합니다. 
+```
+FROM busybox:latest 
+MAINTAINER Giljae Joo 
+CMD ["date"]
+```
+
+다시 빌드하고 컨테이너를 시작합니다.
+```
+$ docker build -t myimage:latest . 
+Sending build context to Docker daemon 2.048kB Step 1/3 : FROM busybox:latest ---> b534869c81f0 Step 2/3 : MAINTAINER Giljae Joo ---> Using cache ---> c3825f344149 Step 3/3 : CMD ["date"] ---> Running in 45db681e73af Removing intermediate container 45db681e73af ---> cfd5ea2fd982 Successfully built cfd5ea2fd982 Successfully tagged myimage:latest grouq:docker_image giljae$ docker run -it myimage Fri Dec 20 04:20:08 UTC 2019 grouq:docker_image giljae$
+```
+
+쉘에 접속하면 날짜가 출력되는 것을 확인할 수 있습니다.
+
+> 연습:
+> CMD 명령을 수정해봅시다. CMD [“ls”,”-al”]와 같은 다른 명령어로 수정하고 이미지를 다시 빌드하고 컨테이너를 시작해보세요.
+
+# 10. Docker Swarm 알아보기
+컨테이너 오케스트레이션 시스템은 Building -> Shipping -> Running Container의 과정을 대규모로 실행하기 위해 필요합니다. 이것을 위해 제공되는 솔루션 목록은 아래와 같습니다.
+* [Kubernetes](http://kubernetes.io/)
+* [Docker Swarm](https://docs.docker.com/engine/swarm)
+* [Apache Mesos](http://mesos.apache.org/)
+
+본 섹션에서는 컨테이너 오케스트레이션중 Docker Swarm에 대해서 언급합니다.
+
+일반적으로는 Kubernetes를 많이 사용중이지만, 학습을 위해 Docker Swarm을 기준으로 설명합니다. Kubernetes는 “Kubernetes를 익히다.”에서 언급할 계획입니다.
+
