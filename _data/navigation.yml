@@ -101,7 +101,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       ""Buy me a coffee!""
+      en      : &EN       "\"Buy me a coffee!\""
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -113,9 +113,9 @@ header:
       zh-Hant : *EN
       zh-TW   : *EN
       zh-HK   : *EN
-      ko      : &KO       ""Buy me a coffee!""
+      ko      : &KO       "\"Buy me a coffee!\""
       ko-KR   : *KO
-      fr      : &FR       ""Buy me a coffee!""
+      fr      : &FR       "\"Buy me a coffee!\""
       fr-BE   : *FR
       fr-CA   : *FR
       fr-CH   : *FR
