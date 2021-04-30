@@ -3,7 +3,7 @@ layout: blank
 title: Books
 ---
 # 저서
-* [도커(Docker)를 익히다.](/books/도커(Docker)를 익히다)
+* [도커(Docker)를 익히다.](/books/learn-docker)
 
 # 한국어 번역글
 ## 아키텍처 패턴
