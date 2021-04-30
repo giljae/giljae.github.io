@@ -12,9 +12,6 @@ type: article
   {%- include article/top/custom.html -%}
 
   <div class="article__content" itemprop="articleBody">{{ content }}</div>
-
-  <!-- Buy me a coffee -->
-  <center><a href="https://www.buymeacoffee.com/giljae" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a></center>
   
   {%- if _sharing -%}
     <section class="article__sharing d-print-none">{%- include sharing.html -%}</section>
@@ -22,6 +19,8 @@ type: article
   
   <div class="d-print-none">
     {%- include article-footer.html -%}
+    <!-- Buy me a coffee -->
+    <center><a href="https://www.buymeacoffee.com/giljae" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a></center>
     {%- include article-section-navigator.html -%}
   </div>
 
