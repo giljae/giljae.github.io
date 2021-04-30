@@ -27,6 +27,8 @@ key: page-about
 ---
 Hi, My name is Giljae Joo. I'm interested in software architecture, design and distributed systems. I came to be programmer, architect, and a father in that order. I love photography, walking around strange new places, hiking and musics. Lately I've been more focused on art and community than on being patient with expensive hardware and software. If you want to contact to [me](mailto:giljae@gmail.com).
 
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="giljae" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can now buy me a coffee." data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
 # Sites
 * [Blog](https://giljae.com)
 * [Medium](https://giljae.medium.com)
