@@ -5,6 +5,8 @@ tags: API, Connectivity, Pattern
 aside:
   toc: true
 ---
+원문: https://github.com/chanakaudaya/solution-architecture-patterns/blob/master/vendor-neutral/API-led-Connectivity-Pattern.md
+
 기업은 소비자와 관련이 있는 시장과 함께 장기적으로 성장해야 합니다. 성공적인 장기 비즈니스를 구축하려면 주변의 변화에 대해 대응할 수 있는 계획과 전략이 필요합니다. 디지털 트랜스포메이션은 기본적으로 모든 기업이 채택해야 하는 현재 트렌드입니다. 하지만 디지털 트랜스포메이션을 전문으로 하는 컨설턴트를 고용하고 엄청난 많은 금액을 지불해야 한다는 의미는 아닙니다. 다만 비즈니스 확장에 대한 기본 요구 사항부터 천천히 디지털 트랜스포메이션을 할 수 있도록 준비해야 합니다.
 
 디지털 트랜스포메이션의 기본 요구 사항은 기존 시스템, 애플리케이션 및 데이터를 통합하는 것입니다. 본 글에서는 "API기반의 연결 또는 통합"개념을 기반으로 WSO2 제품을 사용하는 것을 예로써 설명합니다.
