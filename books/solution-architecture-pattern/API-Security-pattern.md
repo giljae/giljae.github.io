@@ -5,6 +5,8 @@ tags: API, Security, Pattern
 aside:
   toc: true
 ---
+원문: https://github.com/chanakaudaya/solution-architecture-patterns/blob/master/vendor-neutral/API-Security-Pattern.md
+
 API는 외부 및 내부에 중요한 비즈니스 정보를 공유하는 인터페이스입니다. 이런 정보에 대한 접근을 보호하는 것은 엔터프라이즈 소프트웨어 설계에서 매우 중요합니다.
 
 ![image](https://user-images.githubusercontent.com/111643/116585683-99a46680-a953-11eb-8a76-a537b2418cb9.png)
