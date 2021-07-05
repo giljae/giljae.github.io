@@ -25,7 +25,8 @@ titles:
   # @end locale config
 key: page-about
 ---
-Hi, My name is Giljae Joo. I'm interested in software architecture, design and distributed systems. I came to be programmer, architect, and a father in that order. I love photography, walking around strange new places, hiking and musics. Lately I've been more focused on art and community than on being patient with expensive hardware and software. If you want to contact to [me](mailto:giljae@gmail.com).
+안녕하세요. SK주식회사C&C에 다니고 있는 주길재(Giljae Joo)입니다. <br/>
+도움이 될 수 있는 글과 팁을 공유할 목적으로 블로그를 운영중이며, 주 관심사는 기술/트렌드 및 비즈니스입니다.
 
 # Sites
 * [Blog](https://giljae.com)
