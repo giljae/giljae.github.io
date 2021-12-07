@@ -1,3 +1,11 @@
+---
+layout: article
+title: Girush 설명서
+aside:
+  toc: true
+  heavy: true
+---
+
 # gorush
 
 A push notification micro server using [Gin](https://github.com/gin-gonic/gin) framework written in Go (Golang) and see the [demo app](https://github.com/appleboy/flutter-gorush).
