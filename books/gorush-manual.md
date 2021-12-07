@@ -1,13 +1,11 @@
 ---
 layout: article
-title: Girush 설명서
+title: Gorush 설명서
 aside:
   toc: true
   heavy: true
 ---
-
-# gorush
-
+# Gorush?
 A push notification micro server using [Gin](https://github.com/gin-gonic/gin) framework written in Go (Golang) and see the [demo app](https://github.com/appleboy/flutter-gorush).
 
 [![GoDoc](https://godoc.org/github.com/appleboy/gorush?status.svg)](https://godoc.org/github.com/appleboy/gorush)
@@ -19,64 +17,14 @@ A push notification micro server using [Gin](https://github.com/gin-gonic/gin) f
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8ab14c9f-44fd-4d9a-8bba-f73f76d253b1/deploy-status)](https://app.netlify.com/sites/gorush/deploys)
 [![Financial Contributors on Open Collective](https://opencollective.com/gorush/all/badge.svg?label=financial+contributors)](https://opencollective.com/gorush)
 
-## Contents
-
-- [gorush](#gorush)
-  - [Contents](#contents)
-  - [Support Platform](#support-platform)
-  - [Features](#features)
-  - [Memory Usage](#memory-usage)
-  - [Basic Usage](#basic-usage)
-    - [Download a binary](#download-a-binary)
-    - [Install from source](#install-from-source)
-      - [Prerequisite Tools](#prerequisite-tools)
-      - [Fetch from GitHub](#fetch-from-github)
-    - [Command Usage](#command-usage)
-    - [Send Android notification](#send-android-notification)
-    - [Send Huawei (HMS) notification](#send-huawei-hms-notification)
-    - [Send iOS notification](#send-ios-notification)
-    - [Send Android or iOS notifications using Firebase](#send-android-or-ios-notifications-using-firebase)
-  - [Run gorush web server](#run-gorush-web-server)
-  - [Web API](#web-api)
-    - [GET /api/stat/go](#get-apistatgo)
-    - [GET /api/stat/app](#get-apistatapp)
-    - [GET /sys/stats](#get-sysstats)
-    - [GET /metrics](#get-metrics)
-    - [POST /api/push](#post-apipush)
-    - [Request body](#request-body)
-    - [iOS alert payload](#ios-alert-payload)
-    - [iOS sound payload](#ios-sound-payload)
-    - [Android notification payload](#android-notification-payload)
-    - [Huawei notification](#huawei-notification)
-    - [iOS Example](#ios-example)
-    - [Android Example](#android-example)
-    - [Huawei Example](#huawei-example)
-    - [Response body](#response-body)
-  - [Run gRPC service](#run-grpc-service)
-  - [Run gorush in Docker](#run-gorush-in-docker)
-  - [Run gorush in Kubernetes](#run-gorush-in-kubernetes)
-    - [Quick Start](#quick-start)
-    - [Create the Service Controller for AWS ELB](#create-the-service-controller-for-aws-elb)
-    - [Ingress Controller for AWS ALB](#ingress-controller-for-aws-alb)
-    - [Clean up the gorush:](#clean-up-the-gorush)
-  - [Run gorush in AWS Lambda](#run-gorush-in-aws-lambda)
-    - [Build gorush binary](#build-gorush-binary)
-    - [Deploy gorush application](#deploy-gorush-application)
-    - [Without an AWS account](#without-an-aws-account)
-  - [Stargazers over time](#stargazers-over-time)
-  - [License](#license)
-
-<a href="https://www.buymeacoffee.com/appleboy" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-## Support Platform
-
+# 지원 플랫폼
 - [APNS](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html)
 - [FCM](https://firebase.google.com/)
 - [HMS](https://developer.huawei.com/consumer/en/hms/)
 
 [A live demo on Netlify](https://gorush.netlify.com/).
 
-## Features
+# 기능
 
 - Support [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging) using [go-fcm](https://github.com/appleboy/go-fcm) library for Android.
 - Support [HTTP/2](https://http2.github.io/) Apple Push Notification Service using [apns2](https://github.com/sideshow/apns2) library.
@@ -204,11 +152,10 @@ stat:
     path: "badger.db"
 ```
 
-## Memory Usage
+# 메모리 사용량
+평균 메모리 사용량: **28Mb**
 
-Memory average usage: **28Mb** (the total bytes of memory obtained from the OS.)
-
-![memory usage](screenshot/memory.png)
+![image](https://user-images.githubusercontent.com/111643/144946997-f5bf1350-6900-4746-a568-4b7687d8908c.png)
 
 Test Command (We use [bat](https://github.com/astaxie/bat) as default cli tool.):
 
@@ -216,9 +163,8 @@ Test Command (We use [bat](https://github.com/astaxie/bat) as default cli tool.)
 for i in {1..9999999}; do bat -b.N=1000 -b.C=100 POST localhost:8088/api/push notifications:=@notification.json; sleep 1;  done
 ```
 
-## Basic Usage
-
-How to send push notification using `gorush` command? (Android or iOS)
+# 기본 사용법
+Android 또는 iOS에서 'gorush' 명령어를 사용하여 푸시를 보내는 방법에 대해서 알아보자
 
 ### Download a binary
 
