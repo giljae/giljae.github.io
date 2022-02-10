@@ -17,8 +17,14 @@ layout: none
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="giljae" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can now buy me a coffee." data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
   </head>
   <body>
+    <div class="root" data-is-touch="false">
+      {{ content }}
+    </div>
     <script>
       {%- include scripts/common.js -%}
     </script>
+    <!-- facebook -->
+    <div id="fb-root"></div>
+      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v10.0&appId=560017937364254&autoLogAppEvents=1" nonce="CtcoveJ3"></script>
   </body>
 </html>
