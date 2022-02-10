@@ -23,8 +23,6 @@ baseurl : # does not include hostname
 title   : Giljae Joo (주길재)
 description: > # this means to ignore newlines until "Language & timezone"
   내일을 사랑하오, 사람들에게 도움이 되자!
-
-
 ## => Language and Timezone
 ##############################
 lang: ko # the language of your site, default as "en"
@@ -102,7 +100,7 @@ paginate_path: /page:num # don't change this unless for special need
 
 ## => Sources
 ##############################
-sources: # (default), unpkg
+sources: # bootcdn (default), unpkg
 
 
 ## => Sharing
@@ -121,8 +119,8 @@ comments:
   provider: # false (default), "disqus", "gitalk", "valine", "custom"
 
   ## Disqus
-  disqus:
-    shortname: # the Disqus shortname for the site
+  #disqus:
+    #shortname: bloggiljaecom # the Disqus shortname for the site
 
   ## Gitalk
   # please refer to https://github.com/gitalk/gitalk for more info.
