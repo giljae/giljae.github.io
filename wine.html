@@ -18,7 +18,7 @@
       
       var input = document.querySelector('input[type="file"]')
       var data = new FormData()
-      data.append('https://wine-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/7effab5c-7851-4883-a1e5-2c14a8995cca/classify/iterations/Iteration3/image?Prediction-Key=fb47226f51c747d693c1e9661df7f4d4&Content-Type=application/octet-stream', input.files[0])
+      data.append('file', input.files[0])
 
       fetch('https://wine-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/7effab5c-7851-4883-a1e5-2c14a8995cca/classify/iterations/Iteration3/image?Prediction-Key=fb47226f51c747d693c1e9661df7f4d4&Content-Type=application/octet-stream', {
         method: 'POST',
