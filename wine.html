@@ -1,15 +1,28 @@
 <html>
   <head>
     <title>맥주 라벨 인지 테스트</title>
-    <meta http-equiv="Content-Type" content="application/octet-stream">
-    <meta http-equiv="Prediction-Key" content="fb47226f51c747d693c1e9661df7f4d4">
   <body>
     <label for="avatar">본 페이지는 와인 라벨 인지를 위해 선행적으로 맥주 라벨로 학습한 결과를 보여준다.</label> </br/>
     <label for="avatar">현재까지 학습한 맥주 라벨은 "하이네켄", "테라", "클라우드", "버드와이저" 이며, 이외의 맥주라벨은 인지하지 못한다.</label> </br><p>
     <label for="avatar">맥주 라벨 이미지 업로드:</label>
-    <form action="https://wine-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/7effab5c-7851-4883-a1e5-2c14a8995cca/classify/iterations/Iteration3/image" method="post" enctype="multipart/form-data">
-      <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
-      <input type="submit">
-    </form>
+
+    <!-- Input Form Elements HTML 5 -->
+    <input id="fileupload" type="file" name="fileupload" /> 
+    <button id="upload-button" onclick="uploadFile()"> Upload file </button>
+
+    <!-- File Upload Logic JavaScript -->
+    <script>
+      async function uploadFile() {
+        //creating form data object and append file into that form data
+        let formData = new FormData(); 
+        formData.append("file", fileupload.files[0]);
+        //network request using POST method of fetch
+        await fetch('https://wine-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/7effab5c-7851-4883-a1e5-2c14a8995cca/classify/iterations/Iteration3/image', { 
+          method: "POST", 
+          body: formData
+        }); 
+        alert('You have successfully upload the file!');
+      }
+    </script>
   </body>
 </html>
