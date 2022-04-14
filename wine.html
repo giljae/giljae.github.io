@@ -3,7 +3,12 @@
     <title>맥주 라벨 인지 테스트</title>
     <meta charset="utf-8">
   <body>
-    <label for="avatar">맥주 라벨 이미지 업로드(학습된 브랜드: 하이네켄, 테라, 클라우드, 버드와이저):</label>
-    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+    <label for="avatar">본 페이지는 와인 라벨 인지를 위해 선행적으로 맥주 라벨로 학습한 결과를 보여준다.</label>
+    <label for="avatar">현재까지 학습한 맥주 라벨은 "하이네켄", "테라", "클라우드", "버드와이저" 이며, 이외의 맥주라벨은 인지하지 못한다.</label>
+    <label for="avatar">맥주 라벨 이미지 업로드:</label>
+    <form action="http://localhost/upload.php" method="post" enctype="multipart/form-data">
+      <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+      <input type="submit">
+    </form>
   </body>
 </html>
