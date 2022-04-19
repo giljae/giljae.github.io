@@ -36,7 +36,7 @@
         var outputDiv = document.getElementById('responseData');
         var responseData = "";
         for(i=0;i<json.predictions.length;i++) {
-            responseData += "<br/>" + "맥주 브랜드 : " + json.predictions[i].tagName + " / " + "정확도 : " + json.predictions[i].probability*100; + " % <br/>";
+            responseData += "<br/>" + "와인 브랜드 : " + json.predictions[i].tagName + " / " + "정확도 : " + json.predictions[i].probability*100; + " % <br/>";
         }
 
         outputDiv.innerHTML = responseData;
