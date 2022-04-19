@@ -21,11 +21,11 @@
         var data = new FormData()
         data.append('file', input.files[0])
 
-        fetch('https://winelabeltest-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/9d254d5b-3c61-46c8-bfc5-c9f4b3a8f190/classify/iterations/Iteration2/image', {
+        fetch('https://winelabeltest-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/9d254d5b-3c61-46c8-bfc5-c9f4b3a8f190/classify/iterations/Iteration3/image', {
           method: 'POST',
           headers: {
             "Accept":"application/json",
-            "Prediction-Key":"fb47226f51c747d693c1e9661df7f4d4"
+            "Prediction-Key":"21bdfa68368e447bbd1ce2f6c36b487b"
           },        
           body: data
         }).then((response) => response.json())
