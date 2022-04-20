@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Wine Label Recognition Test Page</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="css/flexslider.min.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/line-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/elegant-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/theme-1.css" rel="stylesheet" type="text/css" media="all"/>
+        <link href="css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+        <!--[if gte IE 9]>
+        	<link rel="stylesheet" type="text/css" href="css/ie9.css" />
+		<![endif]-->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700%7CRaleway:700' rel='stylesheet' type='text/css'>
+        <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <link href="http://fonts.googleapis.com/css?family=Cardo:400,400italic" rel="stylesheet" type="text/css">
+        <link href="css/font-cardo.css" rel="stylesheet" type="text/css">
+		<style>
+			header {
+				height: 100% !important;
+			}
+		</style>
+    </head>
+
+    <body style="background-color:#000000;">
+    	<div class="loader">
+    		<div class="spinner">
+			  <div class="double-bounce1"></div>
+			  <div class="double-bounce2"></div>
+			</div>
+    	</div>
+			
+		<div class="nav-container">
+			<nav class="centered-logo top-bar">
+				<div class="container">
+					<div class="mobile-toggle">
+						<i class="icon icon_menu"></i>
+					</div>
+				</div>
+				<div class="bottom-border"></div>
+			</nav>
+		</div>
+		
+		<div class="main-container">
+			<!-- <header class="fullscreen-element no-pad centered-text"> -->
+			<header class="fullscreen-element no-pad centered-text">
+				<div class="background-image-holder parallax-background overlay">
+					<img class="background-image" alt="Background Image" src="img/main_image.jpg">
+				</div>
+				
+				<div class="container align-vertical">
+					<div class="row">
+						<div class="col-md-7 col-sm-8">	
+							<h1 class="text-white">와인 라벨 학습 결과를 테스트하는 공간</h1>
+							<h2 class="text-white">학습된 와인 브랜드</h2>
+							<ol class="text-white">
+								<li>루이막스샤블리</li>
+								<li>루이미쉘쁘띠샤</li>
+								<li>루이자도부르고뉴샤도네</li>
+								<li>조르쥬되뵈프보</li>
+								<li>샤또오르비옹2009</li>
+							</ol>
+							<br/>
+							<h2 class="text-white">체크 사항</h2>
+							<ol class="text-white">
+								<li>와인 라벨과 관련 없는 이미지의 경우 Negative로 분리하고 재학습 진행 필요</li>
+								<li>학습 되지 않은 와인 이미지를 테스트할 경우, 학습된 이미지내에서 정확도가 표현되며 라벨이 비슷한 RGB, 위치를 지니고 있으면 전혀 다른 와인명이 나올 수 있음 (학습한 결과내에서 매칭하기 때문)</li>
+								<li>따라서, 취급하는 모든 와인에 대해서 학습이 필요</li>
+							</ol>
+							<br/>
+							<h2 class="text-white">이미지 업로드</h2>
+							<p class="text-white">와인 라벨 이미지 업로드: (테스트할 와인 라벨 이미지를 로컬PC에 준비 -> 아래 버튼을 클릭하여 이미지 업로드)</p>							
+							<input type="file" accept="image/*" onchange="loadFile(event)">
+    						<img id="output"/><p/>
+    						<p class="text-white" id="responseData"/>
+							<br/><p/>
+						</div>
+					</div>
+				</div>
+			</header>
+		</div>
+
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script src="js/jquery.min.js"></script>
+        <script src="js/jquery.plugin.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.flexslider-min.js"></script>
+        <script src="js/smooth-scroll.min.js"></script>
+        <script src="js/skrollr.min.js"></script>
+        <script src="js/spectragram.min.js"></script>
+        <script src="js/scrollReveal.min.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/twitterFetcher_v10_min.js"></script>
+        <script src="js/lightbox.min.js"></script>
+        <script src="js/jquery.countdown.min.js"></script>
+        <script src="js/scripts.js"></script>
+		<script>
+			var loadFile = function(event) {
+			  var output = document.getElementById('output');
+			  output.src = URL.createObjectURL(event.target.files[0]);
+			  output.onload = function() {
+				URL.revokeObjectURL(output.src) // free memory
+			  }
+	  
+			  var input = document.querySelector('input[type="file"]')
+			  var data = new FormData()
+			  data.append('file', input.files[0])
+	  
+			  fetch('https://winelabeltest-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/9d254d5b-3c61-46c8-bfc5-c9f4b3a8f190/classify/iterations/Iteration7/image', {
+				method: 'POST',
+				headers: {
+				  "Accept":"application/json",
+				  "Prediction-Key":"21bdfa68368e447bbd1ce2f6c36b487b"
+				},        
+				body: data
+			  }).then((response) => response.json())
+			  .then((json) => insertData(json));
+			};
+	  
+			function insertData(json) {
+			  var outputDiv = document.getElementById('responseData');
+			  var responseData = "";
+			  for(i=0;i<json.predictions.length;i++) {
+				  responseData += "<br/>" + "와인 브랜드 : " + json.predictions[i].tagName + " / " + "정확도 : " + json.predictions[i].probability*100; + " % <br/>";
+			  }
+			  responseData += "<p/><br/><p/>";
+			  outputDiv.innerHTML = responseData;
+			}
+		  </script>
+    </body>
+</html>
+				
