@@ -42,5 +42,13 @@ key: page-about
 # 기고
 * [Micro/Mini/Macro Services](https://gsretail.tistory.com/1) - GSRetail Engineering 블로그
 
+# 저서
+* [도커(Docker)를 익히다.](/books/learn-docker)
+
+# 한국어 번역글
+## 아키텍처 패턴
+* [API Security pattern (API 보안 패턴)](/books/solution-architecture-pattern/API-Security-pattern)
+* [API-led Connectivity pattern (API 주도 연결 패턴)](/books/solution-architecture-pattern/api-led-connectivity-pattern)
+
 # Travels
 <iframe id="travels" class="center" src="https://www.google.com/maps/d/embed?mid=1T6WlE-nzPg7dQbnXANVCBzNOUgHRLzcl&z=2&ll=35,12&maptype=roadmap" frameborder="0" style="border:0" width="1000" height="520"></iframe>
