@@ -39,5 +39,8 @@ key: page-about
 * [LinkedIn](https://www.linkedin.com/in/giljae)
 * [Instagram](https://instagram.com/giljae)
 
+# 기고
+* [Micro/Mini/Macro Services](https://gsretail.tistory.com/1) - GSRetail Engineering 블로그
+
 # Travels
 <iframe id="travels" class="center" src="https://www.google.com/maps/d/embed?mid=1T6WlE-nzPg7dQbnXANVCBzNOUgHRLzcl&z=2&ll=35,12&maptype=roadmap" frameborder="0" style="border:0" width="1000" height="520"></iframe>
