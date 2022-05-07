@@ -48,31 +48,6 @@ header:
       fr-LU   : *FR
       # @end locale config
     url: /archive
- 
-  - titles:
-      # @start locale config
-      en      : &EN       Books
-      en-GB   : *EN
-      en-US   : *EN
-      en-CA   : *EN
-      en-AU   : *EN
-      zh-Hans : *EN
-      zh      : *EN
-      zh-CN   : *EN
-      zh-SG   : *EN
-      zh-Hant : *EN
-      zh-TW   : *EN
-      zh-HK   : *EN
-      ko      : &KO       책/번역글
-      ko-KR   : *KO
-      fr      : *EN
-      fr-BE   : *EN
-      fr-CA   : *EN
-      fr-CH   : *EN
-      fr-FR   : *EN
-      fr-LU   : *EN
-      # @end locale config
-    url: /books
 
   - titles:
       # @start locale config
