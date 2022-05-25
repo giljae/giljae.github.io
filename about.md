@@ -39,6 +39,9 @@ key: page-about
 * [LinkedIn](https://www.linkedin.com/in/giljae)
 * [Instagram](https://instagram.com/giljae)
 
+# 세미나 및 강의
+* [Okky 5월 세미나 - 실전 MSA 경험 공유](https://okky.kr/article/1229709)
+
 # 기고
 * [Micro/Mini/Macro Services](https://gsretail.tistory.com/1) - GSRetail Engineering 블로그
 
