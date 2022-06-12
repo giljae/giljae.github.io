@@ -41,6 +41,9 @@ key: page-about
 
 # 세미나 및 강의
 * [Okky 5월 세미나 - 실전 MSA 경험 공유](https://okky.kr/article/1229709)
+  * [세미나 녹화 영상](https://www.youtube.com/watch?v=itF0zhFJSFM)
+  * [발표 자료](https://drive.google.com/file/d/1ENknLTqg7199Xu0EIVPCsq_1dSGGlpfN/view?usp=sharing)
+  * [사전 질의 응답](https://drive.google.com/file/d/1WkyI8yHVNkICpIq0MC5sFPgAvdM387VS/view?usp=sharing)
 
 # 기고
 * [Micro/Mini/Macro Services](https://gsretail.tistory.com/1) - GSRetail Engineering 블로그
