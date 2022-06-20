@@ -28,13 +28,15 @@ key: page-about
 안녕하세요. GS리테일에 다니고 있는 주길재(Giljae Joo)입니다. <br/>
 도움이 될 수 있는 글과 팁을 공유할 목적으로 블로그를 운영중이며, 주 관심사는 기술/트렌드 및 비즈니스입니다. <br/>
 
-문의 사항은 giljae@gmail.com 으로 연락해주세요.
+세미나/강의 요청 및 문의 사항은 아래를 통해 연락주세요.
+
+* [Email](mailto:giljae@gmail.com)
+* [Facebook](https://facebook.com/giljae)
+* [Twitter](https://twitter.com/giljae)
 
 # Sites
 * [Blog](https://giljae.com)
 * [Medium](https://giljae.medium.com)
-* [Facebook](https://facebook.com/giljae)
-* [Twitter](https://twitter.com/giljae)
 * [Github](https://github.com/giljae)
 * [LinkedIn](https://www.linkedin.com/in/giljae)
 * [Instagram](https://instagram.com/giljae)
