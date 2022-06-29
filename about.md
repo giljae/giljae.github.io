@@ -42,6 +42,7 @@ key: page-about
 * [Instagram](https://instagram.com/giljae)
 
 # 세미나 및 강의
+* 06/29/2022 NICE홀딩스 임직원 대상 - MSA 세미나
 * [Okky 5월 세미나 - 실전 MSA 경험 공유](https://okky.kr/article/1229709)
   * [세미나 녹화 영상](https://www.youtube.com/watch?v=itF0zhFJSFM)
   * [발표 자료](https://drive.google.com/file/d/1ENknLTqg7199Xu0EIVPCsq_1dSGGlpfN/view?usp=sharing)
