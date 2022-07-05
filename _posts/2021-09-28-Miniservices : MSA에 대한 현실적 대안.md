@@ -1,5 +1,5 @@
 ---
-title:  "Miniservices : 마이크로서비스에 대한 현실적 대안"
+title:  "Miniservices : MSA에 대한 현실적 대안"
 tags: MSA, Miniservices
 ---
 ![image](https://user-images.githubusercontent.com/111643/135029343-7b505170-0828-4bc0-96f4-a842bbfc30ea.png)
