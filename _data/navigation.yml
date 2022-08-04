@@ -113,7 +113,7 @@ header:
       zh-Hant : &ZH_HANT  
       zh-TW   : *ZH_HANT
       zh-HK   : *ZH_HANT
-      ko      : &KO       구독
+      ko      : &KO       콘텐츠 구독하기
       ko-KR   : *KO
       fr      : &FR       
       fr-BE   : *FR
