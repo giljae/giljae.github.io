@@ -1,3 +1,8 @@
+---
+title: "Restful vs gRPC vs GraphQL"
+tags: REST, gRPC, GraphQL
+---
+
 얼마전 프로젝트 진행 시, RESTful의 엔드포인트에 대해서 문제가 생겼었다. 구현상에 문제는 없지만 Addressability를 보장해야 하는 DX관점에서의 문제였다. 
 
 지금이야 REST로 API를 만들어서 제공하지만, 상황에 따라 gRPC 혹은 GraphQL을 사용해야 할 경우도 생기기에 각 표준에 대해서 정리하고자 한다.
