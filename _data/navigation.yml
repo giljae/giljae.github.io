@@ -113,7 +113,7 @@ header:
       zh-Hant : &ZH_HANT  
       zh-TW   : *ZH_HANT
       zh-HK   : *ZH_HANT
-      ko      : &KO       콘텐츠 구독하기
+      ko      : &KO       RSS
       ko-KR   : *KO
       fr      : &FR       
       fr-BE   : *FR
@@ -122,4 +122,4 @@ header:
       fr-FR   : *FR
       fr-LU   : *FR
       # @end locale config
-    url:
+    url: https://giljae.com/feed.xml
