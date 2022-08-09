@@ -101,7 +101,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       Content Subscription
+      en      : &EN       RSS
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
