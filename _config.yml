@@ -174,16 +174,6 @@ analytics:
     tracking_id : G-G39RH86T9S # Google Analytics id for the site
     anonymize_ip: false # Anonymize IP tracking for Analytics
 
-## => Jekyll Admin
-jekyll_admin:
-  hidden_links:
-    - posts
-    - pages
-    - staticfiles
-    - datafiles
-    - configuration
-  homepage: "pages"
-
 ## => Build
 ##############################
 markdown    : kramdown
@@ -231,4 +221,3 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-toc
-  - jekyll-admin
