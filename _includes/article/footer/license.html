@@ -4,6 +4,7 @@
 {%- if include.license -%}
 
   {%-assign _license_name = '<a itemprop="license" rel="license" href="[URL]">[NAME]</a>' | replace: "[URL]", include.license.url | replace: "[NAME]", include.license.name -%}
+<!--
   <div class="license">
     <p>{{ _license_announce | replace: "[LICENSE]", _license_name }}
       <a rel="license" href="{{ include.license.url }}">
@@ -11,4 +12,5 @@
       </a>
     </p>
   </div>
+-->
 {%- endif -%}
