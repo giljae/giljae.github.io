@@ -43,9 +43,9 @@ key: page-about
 
 # 세미나 및 강의
 * [09/30/2022 F5 Korea, 데브멘토 주최 - 스타트업, 개발자의 생산성 향상을 위한 MSA의 모든 것](http://www.itonair.tv/class/developermeetup/?wcs_timestamp=1664546400)
-  * https://zdnet.co.kr/view/?no=20220923114519
-  * https://www.etnews.com/20220923000093
-  * https://www.datanews.co.kr/news/article.html?no=123760
+  * [Zdnet 소개 기사](https://zdnet.co.kr/view/?no=20220923114519)
+  * [전자신문 소개 기사](https://www.etnews.com/20220923000093)
+  * [데이터뉴스 소개 기사](https://www.datanews.co.kr/news/article.html?no=123760)
 * 06/29/2022 NICE홀딩스 임직원 대상 - MSA 경험 공유
 * 05/28/2022 숭실대 정보과학대학원 - 데이터의 활용 강의
 * [Okky 5월 세미나 - 실전 MSA 경험 공유](https://okky.kr/article/1229709)
