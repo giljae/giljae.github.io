@@ -116,8 +116,8 @@ sharing:
 ## => Comments
 ##############################
 comments:
-  provider: "facebook" # false (default), "disqus", "gitalk", "valine", "custom"
-  facebook:
+  provider: facebook # false (default), "disqus", "gitalk", "valine", "custom"
+  facebook: #
     appid: 1428846334197802
     num_posts: # 5
     colorscheme: # "light, black"
