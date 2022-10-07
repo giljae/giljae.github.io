@@ -21,15 +21,15 @@ type: article
     <section class="article__sharing d-print-none">{%- include sharing.html -%}</section>
   {%- endif -%}
   
+  <!-- fb comments -->
+    <div class="fb-comments" data-href="{{ site.url | append: page.url }}" data-width="100%" data-numposts="5"></div>
+  <!-- fb comments -->
+  
   <div class="d-print-none">
     {%- include article-footer.html -%}
     {%- include article-section-navigator.html -%}
   </div>
 </div>
-
-<!-- fb comments -->
-<div class="fb-comments" data-href="{{ site.url | append: page.url }}" data-width="100%" data-numposts="5"></div>
-<!-- fb comments -->
 
 <script>
   {%- include scripts/article.js -%}
