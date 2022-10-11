@@ -221,3 +221,4 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-toc
+  - jekyll-linkpreview
