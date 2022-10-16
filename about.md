@@ -54,6 +54,7 @@ key: page-about
   * [사전 질의 응답](https://drive.google.com/file/d/1WkyI8yHVNkICpIq0MC5sFPgAvdM387VS/view?usp=sharing)
 
 # 기고
+* [좋은 팀 구성 및 개발 문화 조성의 중요성](https://yozm.wishket.com/magazine/detail/1738/) - 요즘IT
 * [Micro/Mini/Macro Services](https://gsretail.tistory.com/1) - GSRetail Engineering 블로그
 
 # 저서
