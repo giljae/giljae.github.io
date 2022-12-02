@@ -42,6 +42,7 @@ key: page-about
 * [Instagram](https://instagram.com/giljae)
 
 # 세미나 및 강의
+* 11/30/2022 NHN - 마이크로 서비스, 모놀리식 어떤 아키텍처를 선택해야 할까요?
 * [09/30/2022 F5 Korea, 데브멘토 주최 - 스타트업, 개발자의 생산성 향상을 위한 MSA의 모든 것](http://www.itonair.tv/class/developermeetup/?wcs_timestamp=1664546400)
   * [Zdnet 소개 기사](https://zdnet.co.kr/view/?no=20220923114519)
   * [전자신문 소개 기사](https://www.etnews.com/20220923000093)
