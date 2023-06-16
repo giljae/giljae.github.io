@@ -42,6 +42,9 @@ key: page-about
 * [Instagram](https://instagram.com/giljae)
 
 # 세미나/강의 및 뉴스
+* 05/03/2023 AWS Summit Seoul 2023 - 클라우드를 통한 온/오프라인 비즈니스의 통합, GS리테일의 현대화
+  * [녹화 영상](https://kr-resources.awscloud.com/aws-summit-seoul-2023-day-1-track-5?fbclid=IwAR0jnA_8E0Puq089_tB5H3w93wiasWNOIAkEoBiHDgYWN1656QIVCmGxXE4_aem_th_AcVNqVYInsHHHpqzvnpGTakmfaCTe3Bjc6g1b3nOFTdMfvyRfmfzqJLg9ngvgxdCbcA)
+  * [발표 자료](https://kr-resources.awscloud.com/aws-summit-seoul-2023-day-1-track-5/on-demand-d1t5s1?fbclid=IwAR0jnA_8E0Puq089_tB5H3w93wiasWNOIAkEoBiHDgYWN1656QIVCmGxXE4_aem_th_AcVNqVYInsHHHpqzvnpGTakmfaCTe3Bjc6g1b3nOFTdMfvyRfmfzqJLg9ngvgxdCbcA%3Fembedded&hideHeader=1&hideBanner=0&hideFooter=1&hidePriNav=1&hideSecNav=1&linkBreakOut=0&ufwViewer=1)
 * [05/03/2023 AWS Summit Seoul 2023 - 클라우드를 통한 온/오프라인 비즈니스의 통합, GS리테일의 현대화](https://kr-resources.awscloud.com/aws-summit-seoul-2023-day-1-track-5?fbclid=IwAR0jnA_8E0Puq089_tB5H3w93wiasWNOIAkEoBiHDgYWN1656QIVCmGxXE4_aem_th_AcVNqVYInsHHHpqzvnpGTakmfaCTe3Bjc6g1b3nOFTdMfvyRfmfzqJLg9ngvgxdCbcA)
 * [05/22/2023 한국경제 - 주길재 GS리테일 팀장 "원소주 흥행 뒤엔 클라우드 있었다"](https://www.hankyung.com/it/article/2023052205051)
 * 11/30/2022 NHN - 마이크로 서비스, 모놀리식 어떤 아키텍처를 선택해야 할까요?
