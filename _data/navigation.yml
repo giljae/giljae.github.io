@@ -76,7 +76,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       Wiki
+      en      : &EN       Books
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -88,7 +88,7 @@ header:
       zh-Hant : &ZH_HANT  
       zh-TW   : *ZH_HANT
       zh-HK   : *ZH_HANT
-      ko      : &KO       위키
+      ko      : &KO       Books
       ko-KR   : *KO
       fr      : &FR       
       fr-BE   : *FR
@@ -97,7 +97,7 @@ header:
       fr-FR   : *FR
       fr-LU   : *FR
       # @end locale config
-    url: https://github.com/giljae/giljae.github.io/wiki
+    url: https://giljae.com/books
 
   - titles:
       # @start locale config
