@@ -60,6 +60,7 @@ key: page-about
   * [사전 질의 응답](https://drive.google.com/file/d/1WkyI8yHVNkICpIq0MC5sFPgAvdM387VS/view?usp=sharing)
 
 # 기고
+* [구글 생성형 AI 탑재한 메모 앱 'NotebookLM' 리뷰](https://yozm.wishket.com/magazine/detail/2370/) - 요즘IT
 * [로우코드, 노코드 열풍 속 개발자 일자리 괜찮을까?](https://yozm.wishket.com/magazine/detail/2030/) - 요즘IT
 * [코드 재사용성을 결정하기 전 고려해야 할 것들](https://yozm.wishket.com/magazine/detail/1930/) - 요즘IT
 * [모놀리식 vs 마이크로 서비스, 어떤 아키텍처를 선택할까?](https://yozm.wishket.com/magazine/detail/1813/) - 요즘IT
