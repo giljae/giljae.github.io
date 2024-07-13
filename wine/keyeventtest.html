@@ -10,7 +10,8 @@ var maxlines= 24;
 
 function init()
 {
-    document.testform.t.value+= '';
+    document.getElementById('test').value+= '';
+    // document.testform.t.value+= '';
     lines= 0;
 
     if (document.addEventListener)
@@ -38,7 +39,7 @@ function init()
 
 function showmesg(t)
 {
-   var old= document.testform.t.value;
+   var old= document.getElementById('test').value;
    if (lines >= maxlines)
    {
    	var i= old.indexOf('\n');
@@ -48,7 +49,7 @@ function showmesg(t)
    else
    	lines++;
 
-   document.testform.t.value= old + t + '\n';
+   document.getElementById('test').value= old + t + '\n';
 }
 
 function keyval(n)
@@ -64,41 +65,41 @@ function keymesg(w,e)
 {
     var row= 0;
     var head= [w, '        '];
-    if (document.testform.classic.checked)
-    {
-	showmesg(head[row] +
-            ' keyCode=' + keyval(e.keyCode) +
-	    ' which=' + keyval(e.which) +
-            ' charCode=' + keyval(e.charCode));
-	row= 1;
-    }
-    if (document.testform.modifiers.checked)
-    {
-	showmesg(head[row] +
-            ' shiftKey='+pad(5,e.shiftKey) +
-	    ' ctrlKey='+pad(5,e.ctrlKey) +
-	    ' altKey='+pad(5,e.altKey) +
-	    ' metaKey='+pad(5,e.metaKey));
-	row= 1;
-    }
-    if (document.testform.dom3.checked)
-    {
+ //    if (document.testform.classic.checked)
+ //    {
+	// showmesg(head[row] +
+ //            ' keyCode=' + keyval(e.keyCode) +
+	//     ' which=' + keyval(e.which) +
+ //            ' charCode=' + keyval(e.charCode));
+	// row= 1;
+ //    }
+ //    if (document.testform.modifiers.checked)
+ //    {
+	// showmesg(head[row] +
+ //            ' shiftKey='+pad(5,e.shiftKey) +
+	//     ' ctrlKey='+pad(5,e.ctrlKey) +
+	//     ' altKey='+pad(5,e.altKey) +
+	//     ' metaKey='+pad(5,e.metaKey));
+	// row= 1;
+ //    }
+    // if (document.testform.dom3.checked)
+    // {
 	showmesg(head[row] +
 	    ' key='+e.key +
 	    ' char='+e.char +
 	    ' location='+e.location +
 	    ' repeat='+e.repeat);
 	row= 1;
-    }
-    if (document.testform.olddom3.checked)
-    {
-	showmesg(head[row] +
-	    ' keyIdentifier='+ pad(8,e.keyIdentifier)+
-	    ' keyLocation='+e.keyLocation);
-	row= 1;
-    }
-    if (row == 0)
-	showmesg(head[row]);
+ //    }
+ //    if (document.testform.olddom3.checked)
+ //    {
+	// showmesg(head[row] +
+	//     ' keyIdentifier='+ pad(8,e.keyIdentifier)+
+	//     ' keyLocation='+e.keyLocation);
+	// row= 1;
+ //    }
+ //    if (row == 0)
+	// showmesg(head[row]);
 }
 
 function pad(n,s)
@@ -122,34 +123,12 @@ function keydown(e)
 {
    if (!e) e= event;
    keymesg('keydown ',e);
-   return suppressdefault(e,document.testform.keydown.checked);
+   return suppressdefault(e, true);
 }
 
-function keyup(e)
-{
-   if (!e) e= event;
-   keymesg('keyup   ',e);
-   return suppressdefault(e,document.testform.keyup.checked);
-}
-
-function keypress(e)
-{
-   if (!e) e= event;
-   keymesg('keypress',e);
-   return suppressdefault(e,document.testform.keypress.checked);
-}
-
-function textinput(e)
-{
-   if (!e) e= event;
-   //showmesg('textInput  data=' + e.data);
-   showmesg('textInput data='+e.data);
-   return suppressdefault(e,document.testform.textinput.checked);
-}
 </script>
 </head>
 <body>
-<form name="testform">
 <h2>Javascript Key Event Test Script</h2><p>
 Type keys in the text area below to see the Javascript events triggered
 and the values returned.
@@ -168,33 +147,11 @@ document.write(navigator.userAgent);
 </script>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36
 </strong>
 </p><p>
-</p><table>
-<tbody><tr><td>Suppress default handling of:</td>
-<td><input type="checkbox" name="keydown" value="1"> keydown
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="keypress" value="1" checked=""> keypress
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="keyup" value="1"> keyup
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="textinput" value="1"> textinput
-</td></tr>
-<tr><td>Show attribute values for:</td>
-<td><input type="checkbox" name="classic" value="1" checked=""> classic
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="modifiers" value="1"> modifiers
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="dom3" value="1"> DOM 3
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="olddom3" value="1"> old DOM 3
-</td></tr>
-</tbody></table>
+</p>
 <!--
 <textarea name="t" rows="25" cols="90"></textarea>
 -->
-<input type="tel" name="t">	
-<br>
-<input type="reset" onclick="document.testform.t.value=&#39;&#39;;lines=0;return false">
-</form>
+<input type="tel" name="t" id="test">	
 <script language="JavaScript">
 init();
 </script>
