@@ -71,7 +71,4 @@ key: page-about
 * [도커(Docker)를 익히다.](/books/learn-docker)
 
 # 업무 외 하는 일
-* 관심 있는 오픈 소스 프로젝트에 미미한 영어 실력이지만 번역 기여를 하고 있습니다. 한국어가 없으면 국력이 약한거 같아요^^;
-
-# Travels
-<iframe id="travels" class="center" src="https://www.google.com/maps/d/embed?mid=1T6WlE-nzPg7dQbnXANVCBzNOUgHRLzcl&z=2&ll=35,12&maptype=roadmap" frameborder="0" style="border:0" width="1000" height="520"></iframe>
+* [오픈 소스 번역 기여](https://hosted.weblate.org/user/giljae/)
