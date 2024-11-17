@@ -43,7 +43,7 @@ key: page-about
 
 # 커뮤니티 운영
 * [클라우드 아키텍트](https://www.facebook.com/share/g/1ARd74afLi/)
-* [D(Digital)LAB](https://www.facebook.com/share/g/1NNmqqUYWu/)
+* [Digital LAB](https://www.facebook.com/share/g/1NNmqqUYWu/)
 
 # 세미나/강의 및 뉴스
 * 05/03/2023 AWS Summit Seoul 2023 - 클라우드를 통한 온/오프라인 비즈니스의 통합, GS리테일의 현대화
