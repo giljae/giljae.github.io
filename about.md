@@ -41,6 +41,10 @@ key: page-about
 * [LinkedIn](https://www.linkedin.com/in/giljae)
 * [Instagram](https://instagram.com/giljae)
 
+# 커뮤니티 운영
+* [클라우드 아키텍트](https://www.facebook.com/share/g/1ARd74afLi/)
+* [D(Digital)LAB](https://www.facebook.com/share/g/1NNmqqUYWu/)
+
 # 세미나/강의 및 뉴스
 * 05/03/2023 AWS Summit Seoul 2023 - 클라우드를 통한 온/오프라인 비즈니스의 통합, GS리테일의 현대화
   * [녹화 영상](https://kr-resources.awscloud.com/aws-summit-seoul-2023-day-1-track-5?fbclid=IwAR0jnA_8E0Puq089_tB5H3w93wiasWNOIAkEoBiHDgYWN1656QIVCmGxXE4_aem_th_AcVNqVYInsHHHpqzvnpGTakmfaCTe3Bjc6g1b3nOFTdMfvyRfmfzqJLg9ngvgxdCbcA)
